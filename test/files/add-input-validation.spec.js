@@ -14,6 +14,8 @@ const expect = chai.expect
 
 describe('add-input-validation', function () {
   it('validates correct primitive input types', function () {
+    expect(validate('Hello world')).to.be.true()
+    expect(validate([0, 1, 2, 3])).to.be.true()
     expect(validate(Buffer.from(('test')))).to.be.true()
     expect(validate(new Readable())).to.be.true()
     expect(validate(empty())).to.be.true()
@@ -47,10 +49,8 @@ describe('add-input-validation', function () {
 
   it('should throw with bad input', function () {
     const regex = /Input not supported/
-    expect(() => validate('test')).throw(regex)
     expect(() => validate(2)).throw(regex)
     expect(() => validate({ path: 3 })).throw(regex)
-    expect(() => validate({ path: 'path', content: 'test' })).throw(regex)
     expect(() => validate({ path: 'path', content: 2 })).throw(regex)
     expect(() => validate({})).throw(regex)
   })

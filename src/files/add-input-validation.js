@@ -1,13 +1,11 @@
 'use strict'
 
 const kindOf = require('kind-of')
-const isStream = require('is-stream')
 const { isSource } = require('is-pull-stream')
-const isBuffer = require('is-buffer')
 
 const validateAddInput = (input) => {
-  // Buffer|ReadableStream|PullStream|File
-  const isPrimitive = obj => isBuffer(obj) || isStream.readable(obj) || isSource(obj) || kindOf(obj) === 'file'
+  // PullStream|File|Iterator|AsyncIterator
+  const isPrimitive = (obj) => isSource(obj) || kindOf(obj) === 'file' || obj[Symbol.iterator] || obj[Symbol.asyncIterator]
 
   // An object like { content?, path? }, where content isBufferOrStream and path isString
   const isContentObject = obj => {
@@ -24,7 +22,7 @@ const validateAddInput = (input) => {
   if (isInput(input) || (Array.isArray(input) && input.every(isInput))) {
     return true
   } else {
-    throw new Error(`Input not supported. Expected Buffer|ReadableStream|PullStream|File|Array<Object> got ${kindOf(input)}. Check the documentation for more info https://github.com/ipfs/interface-js-ipfs-core/blob/master/SPEC/FILES.md#add`)
+    throw new Error(`Input not supported. Expected Buffer|ReadableStream|PullStream|File|Array<Object>| got ${kindOf(input)}. Check the documentation for more info https://github.com/ipfs/interface-js-ipfs-core/blob/master/SPEC/FILES.md#add`)
   }
 }
 
