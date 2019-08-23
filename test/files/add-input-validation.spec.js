@@ -19,6 +19,15 @@ describe('add-input-validation', function () {
     expect(validate(Buffer.from(('test')))).to.be.true()
     expect(validate(new Readable())).to.be.true()
     expect(validate(empty())).to.be.true()
+    expect(validate(async function * (){}())).to.be.true()
+    expect(validate({
+      [Symbol.asyncIterator]: () => {},
+      next: () => {}
+    })).to.be.true()
+    expect(validate({
+      [Symbol.iterator]: () => {},
+      next: () => {}
+    })).to.be.true()
 
     if (supportsFileReader) {
       const file = new self.File(['test'], 'test.txt', { type: 'text/plain' })
