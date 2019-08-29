@@ -19,7 +19,7 @@ describe('add-input-validation', function () {
     expect(validate(Buffer.from(('test')))).to.be.true()
     expect(validate(new Readable())).to.be.true()
     expect(validate(empty())).to.be.true()
-    expect(validate(async function * (){}())).to.be.true()
+    expect(validate(async function * () {}())).to.be.true()
     expect(validate({
       [Symbol.asyncIterator]: () => {},
       next: () => {}
@@ -39,7 +39,7 @@ describe('add-input-validation', function () {
     expect(validate([Buffer.from('test'), Buffer.from('test')])).to.be.true()
     expect(validate([new Readable(), new Readable()])).to.be.true()
     expect(validate([empty(), empty()])).to.be.true()
-    expect(validate([async function * (){}()])).to.be.true()
+    expect(validate([(async function * () {}())])).to.be.true()
     expect(validate([{
       [Symbol.asyncIterator]: () => {},
       next: () => {}
@@ -60,15 +60,15 @@ describe('add-input-validation', function () {
     expect(validate({ path: '/path', content: Buffer.from('test') })).to.be.true()
     expect(validate({ content: new Readable() })).to.be.true()
     expect(validate({ content: empty() })).to.be.true()
-    expect(validate({ content: async function * (){}() })).to.be.true()
+    expect(validate({ content: (async function * () {}()) })).to.be.true()
     expect(validate({ content: {
       [Symbol.asyncIterator]: () => {},
       next: () => {}
-    }})).to.be.true()
+    } })).to.be.true()
     expect(validate({ content: {
       [Symbol.iterator]: () => {},
       next: () => {}
-    }})).to.be.true()
+    } })).to.be.true()
 
     if (supportsFileReader) {
       expect(validate({ content: new Readable() })).to.be.true()
@@ -80,15 +80,15 @@ describe('add-input-validation', function () {
     expect(validate([{ path: '/path', content: Buffer.from('test') }])).to.be.true()
     expect(validate([{ content: new Readable() }])).to.be.true()
     expect(validate([{ content: empty() }])).to.be.true()
-    expect(validate([{ content: async function * (){}() }])).to.be.true()
+    expect(validate([{ content: (async function * () {}()) }])).to.be.true()
     expect(validate([{ content: {
       [Symbol.asyncIterator]: () => {},
       next: () => {}
-    }}])).to.be.true()
+    } }])).to.be.true()
     expect(validate([{ content: {
       [Symbol.iterator]: () => {},
       next: () => {}
-    }}])).to.be.true()
+    } }])).to.be.true()
 
     if (supportsFileReader) {
       expect(validate({ content: new Readable() })).to.be.true()
