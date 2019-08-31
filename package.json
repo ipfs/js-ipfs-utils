@@ -27,6 +27,7 @@
   "license": "MIT",
   "dependencies": {
     "buffer": "^5.2.1",
+    "err-code": "^2.0.0",
     "is-buffer": "^2.0.3",
     "is-electron": "^2.2.0",
     "is-pull-stream": "0.0.0",
@@ -36,9 +37,10 @@
   },
   "devDependencies": {
     "aegir": "^20.0.0",
+    "async-iterator-all": "^1.0.0",
     "chai": "^4.2.0",
     "dirty-chai": "^2.0.1",
-    "electron": "^5.0.7",
+    "electron": "^6.0.6",
     "electron-mocha": "^8.0.3",
     "pull-stream": "^3.6.13"
   },
