@@ -1,13 +1,11 @@
 'use strict'
 
-const kindOf = require('kind-of')
-const isStream = require('is-stream')
-const { isSource } = require('is-pull-stream')
-const isBuffer = require('is-buffer')
+const isBlob = require('is-blob')
+const errcode = require('err-code')
 
 const validateAddInput = (input) => {
-  // Buffer|ReadableStream|PullStream|File
-  const isPrimitive = obj => isBuffer(obj) || isStream.readable(obj) || isSource(obj) || kindOf(obj) === 'file'
+  // AsyncIterator|Blob|Iterator
+  const isPrimitive = (obj) => obj[Symbol.asyncIterator] || isBlob(obj) || obj[Symbol.iterator]
 
   // An object like { content?, path? }, where content isBufferOrStream and path isString
   const isContentObject = obj => {
@@ -18,13 +16,13 @@ const validateAddInput = (input) => {
     return Boolean(obj.path) && typeof obj.path === 'string'
   }
 
-  // An input atom: a buffer, stream or content object
+  // An input atom: an async iterable, an iterable, a blob or a content object
   const isInput = obj => isPrimitive(obj) || isContentObject(obj)
 
   if (isInput(input) || (Array.isArray(input) && input.every(isInput))) {
     return true
   } else {
-    throw new Error(`Input not supported. Expected Buffer|ReadableStream|PullStream|File|Array<Object> got ${kindOf(input)}. Check the documentation for more info https://github.com/ipfs/interface-js-ipfs-core/blob/master/SPEC/FILES.md#add`)
+    throw errcode(new Error(`Input not supported. Expected AsyncIterator|Blob|Iterator|{path, content}|Iterator<{path, content}>|AsyncIterator<{path, content}> got ${typeof input}. Check the documentation for more info https://github.com/ipfs/interface-js-ipfs-core/blob/master/SPEC/FILES.md#add`), 'ERR_UNSUPPORTED_INPUT')
   }
 }
 
