@@ -7,6 +7,7 @@ const normalise = require('../../src/files/normalise-input')
 const { supportsFileReader } = require('../../src/supports')
 const { Buffer } = require('buffer')
 const all = require('async-iterator-all')
+const pull = require('pull-stream')
 
 chai.use(dirtyChai)
 const expect = chai.expect
@@ -14,6 +15,7 @@ const expect = chai.expect
 const STRING = 'hello world'
 const BUFFER = Buffer.from(STRING)
 const ARRAY = Array.from(BUFFER)
+const TYPEDARRAY = Uint8Array.from(ARRAY)
 let BLOB
 
 if (supportsFileReader) {
@@ -49,27 +51,27 @@ function asyncIterableOf (thing) {
   }())
 }
 
+function pullStreamOf (thing) {
+  return pull.values([thing])
+}
+
 describe('normalise-input', function () {
-  function testInputType (content, name) {
+  function testInputType (content, name, isBytes) {
     it(name, async function () {
       await testContent(content)
     })
 
-    it(`Iterable<${name}>`, async function () {
-      await testContent(iterableOf(content))
-    })
-
-    it(`AsyncIterable<${name}>`, async function () {
-      await testContent(asyncIterableOf(content))
-    })
-
-    if (name !== 'Blob') {
-      it(`AsyncIterable<Iterable<${name}>>`, async function () {
-        await testContent(asyncIterableOf(iterableOf(content)))
+    if (isBytes) {
+      it(`Iterable<${name}>`, async function () {
+        await testContent(iterableOf(content))
       })
 
-      it(`AsyncIterable<AsyncIterable<${name}>>`, async function () {
-        await testContent(asyncIterableOf(asyncIterableOf(content)))
+      it(`AsyncIterable<${name}>`, async function () {
+        await testContent(asyncIterableOf(content))
+      })
+
+      it(`PullStream<${name}>`, async function () {
+        await testContent(pullStreamOf(content))
       })
     }
 
@@ -77,7 +79,7 @@ describe('normalise-input', function () {
       await testContent({ path: '', content })
     })
 
-    if (name !== 'Blob') {
+    if (isBytes) {
       it(`{ path: '', content: Iterable<${name}> }`, async function () {
         await testContent({ path: '', content: iterableOf(content) })
       })
@@ -85,13 +87,25 @@ describe('normalise-input', function () {
       it(`{ path: '', content: AsyncIterable<${name}> }`, async function () {
         await testContent({ path: '', content: asyncIterableOf(content) })
       })
+
+      it(`{ path: '', content: PullStream<${name}> }`, async function () {
+        await testContent({ path: '', content: pullStreamOf(content) })
+      })
     }
 
     it(`Iterable<{ path: '', content: ${name} }`, async function () {
       await testContent(iterableOf({ path: '', content }))
     })
 
-    if (name !== 'Blob') {
+    it(`AsyncIterable<{ path: '', content: ${name} }`, async function () {
+      await testContent(asyncIterableOf({ path: '', content }))
+    })
+
+    it(`PullStream<{ path: '', content: ${name} }`, async function () {
+      await testContent(pullStreamOf({ path: '', content }))
+    })
+
+    if (isBytes) {
       it(`Iterable<{ path: '', content: Iterable<${name}> }>`, async function () {
         await testContent(iterableOf({ path: '', content: iterableOf(content) }))
       })
@@ -99,13 +113,7 @@ describe('normalise-input', function () {
       it(`Iterable<{ path: '', content: AsyncIterable<${name}> }>`, async function () {
         await testContent(iterableOf({ path: '', content: asyncIterableOf(content) }))
       })
-    }
 
-    it(`AsyncIterable<{ path: '', content: ${name} }`, async function () {
-      await testContent(asyncIterableOf({ path: '', content }))
-    })
-
-    if (name !== 'Blob') {
       it(`AsyncIterable<{ path: '', content: Iterable<${name}> }>`, async function () {
         await testContent(asyncIterableOf({ path: '', content: iterableOf(content) }))
       })
@@ -113,15 +121,19 @@ describe('normalise-input', function () {
       it(`AsyncIterable<{ path: '', content: AsyncIterable<${name}> }>`, async function () {
         await testContent(asyncIterableOf({ path: '', content: asyncIterableOf(content) }))
       })
+
+      it(`PullStream<{ path: '', content: PullStream<${name}> }>`, async function () {
+        await testContent(pullStreamOf({ path: '', content: pullStreamOf(content) }))
+      })
     }
   }
 
   describe('String', () => {
-    testInputType(STRING, 'String')
+    testInputType(STRING, 'String', false)
   })
 
   describe('Buffer', () => {
-    testInputType(BUFFER, 'Buffer')
+    testInputType(BUFFER, 'Buffer', true)
   })
 
   describe('Blob', () => {
@@ -129,10 +141,14 @@ describe('normalise-input', function () {
       return
     }
 
-    testInputType(BLOB, 'Blob')
+    testInputType(BLOB, 'Blob', false)
   })
 
   describe('Iterable<Number>', () => {
-    testInputType(ARRAY, 'Iterable<Number>')
+    testInputType(ARRAY, 'Iterable<Number>', false)
+  })
+
+  describe('TypedArray', () => {
+    testInputType(TYPEDARRAY, 'TypedArray', true)
   })
 })
