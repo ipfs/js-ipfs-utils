@@ -154,8 +154,32 @@ module.exports = function normaliseInput (input) {
 
   // PullStream<?>
   if (typeof input === 'function') {
-    return (async function * () { // eslint-disable-line require-await
-      yield toFileObject(input)
+    return (async function * () {
+      const iterator = pullStreamToIterable(input)[Symbol.asyncIterator]()
+      const first = await iterator.next()
+      if (first.done) return iterator
+
+      // PullStream<Bytes>
+      if (isBytes(first.value)) {
+        yield toFileObject((async function * () { // eslint-disable-line require-await
+          yield first.value
+          yield * iterator
+        })())
+        return
+      }
+
+      // PullStream<Bloby>
+      // PullStream<String>
+      // PullStream<{ path, content }>
+      if (isFileObject(first.value) || isBloby(first.value) || typeof first.value === 'string') {
+        yield toFileObject(first.value)
+        for await (const obj of iterator) {
+          yield toFileObject(obj)
+        }
+        return
+      }
+
+      throw errCode(new Error('Unexpected input: ' + typeof input), 'ERR_UNEXPECTED_INPUT')
     })()
   }
 
