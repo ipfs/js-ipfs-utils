@@ -98,7 +98,7 @@ describe('glob-source', () => {
     expect(result[1].path).to.equal('/dir/file-3.css')
   })
 
-  it('require recusive flag for directory', async function () {
+  it('require recursive flag for directory', async function () {
     if (!isNode) {
       return this.skip()
     }
