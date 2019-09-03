@@ -7,7 +7,9 @@ const chaiAsPromised = require('chai-as-promised')
 const globSource = require('../../src/files/glob-source')
 const all = require('async-iterator-all')
 const path = require('path')
-const isNode = require('is-node')
+const {
+  isNode
+} = require('../../src/env')
 
 chai.use(dirtyChai)
 chai.use(chaiAsPromised)
