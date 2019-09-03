@@ -3,6 +3,8 @@
 const errCode = require('err-code')
 const { Buffer } = require('buffer')
 const pullStreamToIterable = require('pull-stream-to-async-iterator')
+const { isSource } = require('is-pull-stream')
+const globalThis = require('../globalthis')
 
 /*
  * Transform one of:
@@ -153,7 +155,7 @@ module.exports = function normaliseInput (input) {
   }
 
   // PullStream<?>
-  if (typeof input === 'function') {
+  if (isSource(input)) {
     return (async function * () {
       const iterator = pullStreamToIterable(input)[Symbol.asyncIterator]()
       const first = await iterator.next()
@@ -250,7 +252,7 @@ function toAsyncIterable (input) {
   }
 
   // PullStream<Bytes>
-  if (typeof input === 'function') {
+  if (isSource(input)) {
     return pullStreamToIterable(input)
   }
 
@@ -266,7 +268,7 @@ function isBytes (obj) {
 }
 
 function isBloby (obj) {
-  return typeof Blob !== 'undefined' && obj instanceof global.Blob
+  return typeof globalThis.Blob !== 'undefined' && obj instanceof globalThis.Blob
 }
 
 // An object with a path or content property
@@ -300,7 +302,7 @@ async function * streamBlob (blob) {
 async function * readBlob (blob, options) {
   options = options || {}
 
-  const reader = new global.FileReader()
+  const reader = new globalThis.FileReader()
   const chunkSize = options.chunkSize || 1024 * 1024
   let offset = options.offset || 0
 

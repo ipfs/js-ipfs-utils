@@ -8,6 +8,7 @@ const { supportsFileReader } = require('../../src/supports')
 const { Buffer } = require('buffer')
 const all = require('async-iterator-all')
 const pull = require('pull-stream')
+const globalThis = require('../../src/globalthis')
 
 chai.use(dirtyChai)
 const expect = chai.expect
@@ -19,7 +20,7 @@ const TYPEDARRAY = Uint8Array.from(ARRAY)
 let BLOB
 
 if (supportsFileReader) {
-  BLOB = new global.Blob([
+  BLOB = new globalThis.Blob([
     STRING
   ])
 }
