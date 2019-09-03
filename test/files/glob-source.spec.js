@@ -100,6 +100,21 @@ describe('glob-source', () => {
     expect(result[1].path).to.equal('/dir/file-3.css')
   })
 
+  it('multiple paths', async function () {
+    if (!isNode) {
+      return this.skip()
+    }
+
+    const result = await all(globSource(
+      path.relative(process.cwd(), path.join(__dirname, '..', 'fixtures', 'dir', 'file-1.txt')),
+      path.relative(process.cwd(), path.join(__dirname, '..', 'fixtures', 'dir', 'file-2.js'))
+    ))
+
+    expect(result.length).to.equal(2)
+    expect(result[0].path).to.equal('file-1.txt')
+    expect(result[1].path).to.equal('file-2.js')
+  })
+
   it('requires recursive flag for directory', async function () {
     if (!isNode) {
       return this.skip()
