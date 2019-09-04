@@ -105,10 +105,10 @@ describe('glob-source', () => {
       return this.skip()
     }
 
-    const result = await all(globSource(
+    const result = await all(globSource([
       path.relative(process.cwd(), path.join(__dirname, '..', 'fixtures', 'dir', 'file-1.txt')),
       path.relative(process.cwd(), path.join(__dirname, '..', 'fixtures', 'dir', 'file-2.js'))
-    ))
+    ]))
 
     expect(result.length).to.equal(2)
     expect(result[0].path).to.equal('file-1.txt')

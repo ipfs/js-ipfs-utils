@@ -4,11 +4,12 @@ const fs = require('fs-extra')
 const glob = require('it-glob')
 const Path = require('path')
 const errCode = require('err-code')
+const kindOf = require('kind-of')
 
 /**
 * Create an async iterator that yields paths that match requested file paths.
 *
-* @param {String} ...paths File system path(s) to glob from
+* @param {Iterable|AsyncIterable|String} paths File system path(s) to glob from
 * @param {Object} [options] Optional options
 * @param {Boolean} [options.recursive] Recursively glob all paths in directories
 * @param {Boolean} [options.hidden] Include .dot files in matched paths
@@ -16,9 +17,12 @@ const errCode = require('err-code')
 * @param {Boolean} [options.followSymlinks] follow symlinks
 * @yields {Object} File objects in the form `{ path: String, content: AsyncIterator<Buffer> }`
 */
-module.exports = async function * globSource (...args) {
-  const options = typeof args[args.length - 1] === 'string' ? {} : args.pop()
-  const paths = args
+module.exports = async function * globSource (paths, options) {
+  options = options || {}
+
+  if (kindOf(paths) === 'string') {
+    paths = [paths]
+  }
 
   const globSourceOptions = {
     recursive: options.recursive,
@@ -30,7 +34,7 @@ module.exports = async function * globSource (...args) {
   }
 
   // Check the input paths comply with options.recursive and convert to glob sources
-  for (const path of paths) {
+  for await (const path of paths) {
     if (typeof path !== 'string') {
       throw errCode(
         new Error(`Path must be a string`),
