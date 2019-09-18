@@ -13,6 +13,9 @@ describe('env', function () {
     if (env.isElectron) {
       return expect(env.isElectron).to.be.true()
     }
+    if (env.isElectronMain) {
+      return expect(env.isElectron).to.be.true()
+    }
     if (env.isElectronRenderer) {
       return expect(env.isElectron).to.be.true()
     }
@@ -27,12 +30,36 @@ describe('env', function () {
     }
   })
 
+  it('isElectronMain should have the correct value in each env', function () {
+    if (env.isElectron && !env.isElectronRenderer) {
+      return expect(env.isElectronMain).to.be.true()
+    }
+    if (env.isElectronMain) {
+      return expect(env.isElectronMain).to.be.true()
+    }
+    if (env.isElectronRenderer) {
+      return expect(env.isElectronMain).to.be.false()
+    }
+    if (env.isBrowser) {
+      return expect(env.isElectronMain).to.be.false()
+    }
+    if (env.isNode) {
+      return expect(env.isElectronMain).to.be.false()
+    }
+    if (env.isWebWorker) {
+      return expect(env.isElectronMain).to.be.false()
+    }
+  })
+
   it('isElectronRenderer should have the correct value in each env', function () {
     if (env.isElectron && !env.isElectronRenderer) {
       return expect(env.isElectronRenderer).to.be.false()
     }
     if (env.isElectronRenderer) {
       return expect(env.isElectronRenderer).to.be.true()
+    }
+    if (env.isElectronMain) {
+      return expect(env.isElectronRenderer).to.be.false()
     }
     if (env.isBrowser) {
       return expect(env.isElectronRenderer).to.be.false()
