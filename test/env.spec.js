@@ -10,121 +10,140 @@ const expect = chai.expect
 
 describe('env', function () {
   it('isElectron should have the correct value in each env', function () {
-    if (env.isElectronMain) {
-      return expect(env.isElectron).to.be.true()
+    switch (process.env.AEGIR_RUNNER) {
+      case 'electron-main':
+        expect(env.isElectron).to.be.true()
+        break
+      case 'electron-renderer':
+        expect(env.isElectron).to.be.true()
+        break
+      case 'node':
+        expect(env.isElectron).to.be.false()
+        break
+      case 'browser':
+        expect(env.isElectron).to.be.false()
+        break
+      case 'webworker':
+        expect(env.isElectron).to.be.false()
+        break
+      default:
+        expect.fail(`Could not detect end. Current env is ${process.env.AEGIR_RUNNER}`)
+        break
     }
-    if (env.isElectronRenderer) {
-      return expect(env.isElectron).to.be.true()
-    }
-    if (env.isBrowser) {
-      return expect(env.isElectron).to.be.false()
-    }
-    if (env.isNode) {
-      return expect(env.isElectron).to.be.false()
-    }
-    if (env.isWebWorker) {
-      return expect(env.isElectron).to.be.false()
-    }
-
-    throw new Error('Should not fail')
   })
 
   it('isElectronMain should have the correct value in each env', function () {
-    if (env.isElectronMain) {
-      return expect(env.isElectronMain).to.be.true()
+    switch (process.env.AEGIR_RUNNER) {
+      case 'electron-main':
+        expect(env.isElectronMain).to.be.true()
+        break
+      case 'electron-renderer':
+        expect(env.isElectronMain).to.be.false()
+        break
+      case 'node':
+        expect(env.isElectronMain).to.be.false()
+        break
+      case 'browser':
+        expect(env.isElectronMain).to.be.false()
+        break
+      case 'webworker':
+        expect(env.isElectronMain).to.be.false()
+        break
+      default:
+        expect.fail(`Could not detect end. Current env is ${process.env.AEGIR_RUNNER}`)
+        break
     }
-    if (env.isElectronRenderer) {
-      return expect(env.isElectronMain).to.be.false()
-    }
-    if (env.isBrowser) {
-      return expect(env.isElectronMain).to.be.false()
-    }
-    if (env.isNode) {
-      return expect(env.isElectronMain).to.be.false()
-    }
-    if (env.isWebWorker) {
-      return expect(env.isElectronMain).to.be.false()
-    }
-
-    throw new Error('Should not fail')
   })
 
   it('isElectronRenderer should have the correct value in each env', function () {
-    if (env.isElectronRenderer) {
-      return expect(env.isElectronRenderer).to.be.true()
+    switch (process.env.AEGIR_RUNNER) {
+      case 'electron-main':
+        expect(env.isElectronRenderer).to.be.false()
+        break
+      case 'electron-renderer':
+        expect(env.isElectronRenderer).to.be.true()
+        break
+      case 'node':
+        expect(env.isElectronRenderer).to.be.false()
+        break
+      case 'browser':
+        expect(env.isElectronRenderer).to.be.false()
+        break
+      case 'webworker':
+        expect(env.isElectronRenderer).to.be.false()
+        break
+      default:
+        expect.fail(`Could not detect end. Current env is ${process.env.AEGIR_RUNNER}`)
+        break
     }
-    if (env.isElectronMain) {
-      return expect(env.isElectronRenderer).to.be.false()
-    }
-    if (env.isBrowser) {
-      return expect(env.isElectronRenderer).to.be.false()
-    }
-    if (env.isNode) {
-      return expect(env.isElectronRenderer).to.be.false()
-    }
-    if (env.isWebWorker) {
-      return expect(env.isElectronRenderer).to.be.false()
-    }
-
-    throw new Error('Should not fail')
   })
 
   it('isNode should have the correct value in each env', function () {
-    if (env.isElectronMain) {
-      return expect(env.isNode).to.be.false()
+    switch (process.env.AEGIR_RUNNER) {
+      case 'electron-main':
+        expect(env.isNode).to.be.false()
+        break
+      case 'electron-renderer':
+        expect(env.isNode).to.be.false()
+        break
+      case 'node':
+        expect(env.isNode).to.be.true()
+        break
+      case 'browser':
+        expect(env.isNode).to.be.false()
+        break
+      case 'webworker':
+        expect(env.isNode).to.be.false()
+        break
+      default:
+        expect.fail(`Could not detect end. Current env is ${process.env.AEGIR_RUNNER}`)
+        break
     }
-    if (env.isElectronRenderer) {
-      return expect(env.isNode).to.be.false()
-    }
-    if (env.isBrowser) {
-      return expect(env.isNode).to.be.false()
-    }
-    if (env.isNode) {
-      return expect(env.isNode).to.be.true()
-    }
-    if (env.isWebWorker) {
-      return expect(env.isNode).to.be.false()
-    }
-
-    throw new Error('Should not fail')
   })
 
   it('isBrowser should have the correct value in each env', function () {
-    if (env.isElectronMain) {
-      return expect(env.isBrowser).to.be.false()
+    switch (process.env.AEGIR_RUNNER) {
+      case 'electron-main':
+        expect(env.isBrowser).to.be.false()
+        break
+      case 'electron-renderer':
+        expect(env.isBrowser).to.be.false()
+        break
+      case 'node':
+        expect(env.isBrowser).to.be.false()
+        break
+      case 'browser':
+        expect(env.isBrowser).to.be.true()
+        break
+      case 'webworker':
+        expect(env.isBrowser).to.be.false()
+        break
+      default:
+        expect.fail(`Could not detect end. Current env is ${process.env.AEGIR_RUNNER}`)
+        break
     }
-    if (env.isElectronRenderer) {
-      return expect(env.isBrowser).to.be.false()
-    }
-    if (env.isBrowser) {
-      return expect(env.isBrowser).to.be.true()
-    }
-    if (env.isNode) {
-      return expect(env.isBrowser).to.be.false()
-    }
-    if (env.isWebWorker) {
-      return expect(env.isBrowser).to.be.false()
-    }
-    throw new Error('Should not fail')
   })
 
   it('isWebWorker should have the correct value in each env', function () {
-    if (env.isElectronMain) {
-      return expect(env.isWebWorker).to.be.false()
+    switch (process.env.AEGIR_RUNNER) {
+      case 'electron-main':
+        expect(env.isWebWorker).to.be.false()
+        break
+      case 'electron-renderer':
+        expect(env.isWebWorker).to.be.false()
+        break
+      case 'node':
+        expect(env.isWebWorker).to.be.false()
+        break
+      case 'browser':
+        expect(env.isWebWorker).to.be.false()
+        break
+      case 'webworker':
+        expect(env.isWebWorker).to.be.true()
+        break
+      default:
+        expect.fail(`Could not detect end. Current env is ${process.env.AEGIR_RUNNER}`)
+        break
     }
-    if (env.isElectronRenderer) {
-      return expect(env.isWebWorker).to.be.false()
-    }
-    if (env.isBrowser) {
-      return expect(env.isWebWorker).to.be.false()
-    }
-    if (env.isNode) {
-      return expect(env.isWebWorker).to.be.false()
-    }
-    if (env.isWebWorker) {
-      return expect(env.isWebWorker).to.be.true()
-    }
-
-    throw new Error('Should not fail')
   })
 })
