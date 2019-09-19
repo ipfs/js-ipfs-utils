@@ -50,7 +50,7 @@ describe('env', function () {
         expect(env.isElectronMain).to.be.false()
         break
       default:
-        expect.fail(`Could not detect end. Current env is ${process.env.AEGIR_RUNNER}`)
+        expect.fail(`Could not detect env. Current env is ${process.env.AEGIR_RUNNER}`)
         break
     }
   })
