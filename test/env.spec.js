@@ -142,7 +142,7 @@ describe('env', function () {
         expect(env.isWebWorker).to.be.true()
         break
       default:
-        expect.fail(`Could not detect end. Current env is ${process.env.AEGIR_RUNNER}`)
+        expect.fail(`Could not detect env. Current env is ${process.env.AEGIR_RUNNER}`)
         break
     }
   })
