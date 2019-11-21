@@ -15,6 +15,10 @@ const kindOf = require('kind-of')
 * @param {Boolean} [options.hidden] Include .dot files in matched paths
 * @param {Array<String>} [options.ignore] Glob paths to ignore
 * @param {Boolean} [options.followSymlinks] follow symlinks
+* @param {Boolean} [options.preserveMode] preserve mode
+* @param {Boolean} [options.preserveMtime] preserve mtime
+* @param {Boolean} [options.mode] mode to use - if preserveMode is true this will be ignored
+* @param {Boolean} [options.mtime] mtime to use - if preserveMtime is true this will be ignored
 * @yields {Object} File objects in the form `{ path: String, content: AsyncIterator<Buffer> }`
 */
 module.exports = async function * globSource (paths, options) {
@@ -47,13 +51,37 @@ module.exports = async function * globSource (paths, options) {
     const stat = await fs.stat(absolutePath)
     const prefix = Path.dirname(absolutePath)
 
-    for await (const entry of toGlobSource({ path, type: stat.isDirectory() ? 'dir' : 'file', prefix }, globSourceOptions)) {
-      yield entry
+    let mode = options.mode
+
+    if (options.preserveMode) {
+      mode = stat.mode
+    }
+
+    let mtime = options.mtime
+
+    if (options.preserveMtime) {
+      mtime = parseInt(stat.mtimeMs / 1000)
+    }
+
+    for await (const entry of toGlobSource({
+      path,
+      type: stat.isDirectory() ? 'dir' : 'file',
+      prefix,
+      mode,
+      mtime,
+      preserveMode: options.preserveMode,
+      preserveMtime: options.preserveMtime
+    }, globSourceOptions)) {
+      yield {
+        ...entry,
+        mode,
+        mtime
+      }
     }
   }
 }
 
-async function * toGlobSource ({ path, type, prefix }, options) {
+async function * toGlobSource ({ path, type, prefix, mode, mtime, preserveMode, preserveMtime }, options) {
   options = options || {}
 
   const baseName = Path.basename(path)
@@ -61,7 +89,9 @@ async function * toGlobSource ({ path, type, prefix }, options) {
   if (type === 'file') {
     yield {
       path: baseName.replace(prefix, ''),
-      content: fs.createReadStream(Path.isAbsolute(path) ? path : Path.join(process.cwd(), path))
+      content: fs.createReadStream(Path.isAbsolute(path) ? path : Path.join(process.cwd(), path)),
+      mode,
+      mtime
     }
 
     return
@@ -77,15 +107,29 @@ async function * toGlobSource ({ path, type, prefix }, options) {
 
   const globOptions = Object.assign({}, options.glob, {
     cwd: path,
-    nodir: true,
+    nodir: false,
     realpath: false,
     absolute: true
   })
 
   for await (const p of glob(path, '**/*', globOptions)) {
+    if (preserveMode || preserveMtime) {
+      const stat = await fs.stat(p)
+
+      if (options.preserveMode) {
+        mode = stat.mode
+      }
+
+      if (options.preserveMtime) {
+        mtime = parseInt(stat.mtimeMs / 1000)
+      }
+    }
+
     yield {
       path: toPosix(p.replace(prefix, '')),
-      content: fs.createReadStream(p)
+      content: fs.createReadStream(p),
+      mode,
+      mtime
     }
   }
 }
