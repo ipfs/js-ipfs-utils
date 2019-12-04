@@ -63,7 +63,15 @@ module.exports = async function * globSource (paths, options) {
       mtime = parseInt(stat.mtimeMs / 1000)
     }
 
-    for await (const entry of toGlobSource({
+    if (stat.isDirectory()) {
+      yield {
+        path: `/${Path.basename(path)}`,
+        mode,
+        mtime
+      }
+    }
+
+    yield * toGlobSource({
       path,
       type: stat.isDirectory() ? 'dir' : 'file',
       prefix,
@@ -71,13 +79,7 @@ module.exports = async function * globSource (paths, options) {
       mtime,
       preserveMode: options.preserveMode,
       preserveMtime: options.preserveMtime
-    }, globSourceOptions)) {
-      yield {
-        ...entry,
-        mode,
-        mtime
-      }
-    }
+    }, globSourceOptions)
   }
 }
 
@@ -88,7 +90,7 @@ async function * toGlobSource ({ path, type, prefix, mode, mtime, preserveMode, 
 
   if (type === 'file') {
     yield {
-      path: baseName.replace(prefix, ''),
+      path: `/${baseName.replace(prefix, '')}`,
       content: fs.createReadStream(Path.isAbsolute(path) ? path : Path.join(process.cwd(), path)),
       mode,
       mtime
@@ -116,11 +118,11 @@ async function * toGlobSource ({ path, type, prefix, mode, mtime, preserveMode, 
     if (preserveMode || preserveMtime) {
       const stat = await fs.stat(p)
 
-      if (options.preserveMode) {
+      if (preserveMode) {
         mode = stat.mode
       }
 
-      if (options.preserveMtime) {
+      if (preserveMtime) {
         mtime = parseInt(stat.mtimeMs / 1000)
       }
     }
