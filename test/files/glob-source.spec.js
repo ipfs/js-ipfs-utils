@@ -48,11 +48,14 @@ describe('glob-source', () => {
       recursive: true
     }))
 
-    expect(result).to.have.lengthOf(4)
+    expect(result).to.have.lengthOf(6)
     expect(result).to.have.nested.property('[0].path', '/dir')
+    expect(result).to.not.have.nested.property('[0].content')
     expect(result).to.have.nested.property('[1].path', '/dir/file-1.txt')
     expect(result).to.have.nested.property('[2].path', '/dir/file-2.js')
     expect(result).to.have.nested.property('[3].path', '/dir/file-3.css')
+    expect(result).to.have.nested.property('[4].path', '/dir/nested-dir')
+    expect(result).to.have.nested.property('[5].path', '/dir/nested-dir/other.txt')
   })
 
   it('directory, hidden files', async function () {
@@ -65,12 +68,14 @@ describe('glob-source', () => {
       hidden: true
     }))
 
-    expect(result).to.have.lengthOf(5)
+    expect(result).to.have.lengthOf(7)
     expect(result).to.have.nested.property('[0].path', '/dir')
     expect(result).to.have.nested.property('[1].path', '/dir/.hidden.txt')
     expect(result).to.have.nested.property('[2].path', '/dir/file-1.txt')
     expect(result).to.have.nested.property('[3].path', '/dir/file-2.js')
     expect(result).to.have.nested.property('[4].path', '/dir/file-3.css')
+    expect(result).to.have.nested.property('[5].path', '/dir/nested-dir')
+    expect(result).to.have.nested.property('[6].path', '/dir/nested-dir/other.txt')
   })
 
   it('directory, ignore files', async function () {
@@ -83,10 +88,12 @@ describe('glob-source', () => {
       ignore: ['**/file-1.txt']
     }))
 
-    expect(result).to.have.lengthOf(3)
+    expect(result).to.have.lengthOf(5)
     expect(result).to.have.nested.property('[0].path', '/dir')
     expect(result).to.have.nested.property('[1].path', '/dir/file-2.js')
     expect(result).to.have.nested.property('[2].path', '/dir/file-3.css')
+    expect(result).to.have.nested.property('[3].path', '/dir/nested-dir')
+    expect(result).to.have.nested.property('[4].path', '/dir/nested-dir/other.txt')
   })
 
   it('multiple paths', async function () {
@@ -122,7 +129,7 @@ describe('glob-source', () => {
       recursive: true
     }))
 
-    expect(result).to.have.lengthOf(4)
+    expect(result).to.have.lengthOf(6)
     expect(result).to.have.nested.property('[0].path', '/dir')
     expect(result).to.have.nested.property('[0].mode', fs.statSync(path.resolve(path.join(__dirname, '..', 'fixtures', 'dir'))).mode)
     expect(result).to.have.nested.property('[1].path', '/dir/file-1.txt')
@@ -131,6 +138,10 @@ describe('glob-source', () => {
     expect(result).to.have.nested.property('[2].mode', fs.statSync(path.resolve(path.join(__dirname, '..', 'fixtures', 'dir', 'file-2.js'))).mode)
     expect(result).to.have.nested.property('[3].path', '/dir/file-3.css')
     expect(result).to.have.nested.property('[3].mode', fs.statSync(path.resolve(path.join(__dirname, '..', 'fixtures', 'dir', 'file-3.css'))).mode)
+    expect(result).to.have.nested.property('[4].path', '/dir/nested-dir')
+    expect(result).to.have.nested.property('[4].mode', fs.statSync(path.resolve(path.join(__dirname, '..', 'fixtures', 'dir', 'nested-dir'))).mode)
+    expect(result).to.have.nested.property('[5].path', '/dir/nested-dir/other.txt')
+    expect(result).to.have.nested.property('[5].mode', fs.statSync(path.resolve(path.join(__dirname, '..', 'fixtures', 'dir', 'nested-dir', 'other.txt'))).mode)
   })
 
   it('overrides mode for directories', async function () {
@@ -143,7 +154,7 @@ describe('glob-source', () => {
       mode: 5
     }))
 
-    expect(result).to.have.lengthOf(4)
+    expect(result).to.have.lengthOf(6)
     expect(result).to.have.nested.property('[0].path', '/dir')
     expect(result).to.have.nested.property('[0].mode', 5)
     expect(result).to.have.nested.property('[1].path', '/dir/file-1.txt')
@@ -152,6 +163,10 @@ describe('glob-source', () => {
     expect(result).to.have.nested.property('[2].mode', 5)
     expect(result).to.have.nested.property('[3].path', '/dir/file-3.css')
     expect(result).to.have.nested.property('[3].mode', 5)
+    expect(result).to.have.nested.property('[4].path', '/dir/nested-dir')
+    expect(result).to.have.nested.property('[4].mode', 5)
+    expect(result).to.have.nested.property('[5].path', '/dir/nested-dir/other.txt')
+    expect(result).to.have.nested.property('[5].mode', 5)
   })
 
   it('preserves mtime for directories', async function () {
@@ -164,7 +179,7 @@ describe('glob-source', () => {
       recursive: true
     }))
 
-    expect(result).to.have.lengthOf(4)
+    expect(result).to.have.lengthOf(6)
     expect(result).to.have.nested.property('[0].path', '/dir')
     expect(result).to.have.nested.property('[0].mtime', parseInt(fs.statSync(path.resolve(path.join(__dirname, '..', 'fixtures', 'dir'))).mtimeMs / 1000))
     expect(result).to.have.nested.property('[1].path', '/dir/file-1.txt')
@@ -173,6 +188,10 @@ describe('glob-source', () => {
     expect(result).to.have.nested.property('[2].mtime', parseInt(fs.statSync(path.resolve(path.join(__dirname, '..', 'fixtures', 'dir', 'file-2.js'))).mtimeMs / 1000))
     expect(result).to.have.nested.property('[3].path', '/dir/file-3.css')
     expect(result).to.have.nested.property('[3].mtime', parseInt(fs.statSync(path.resolve(path.join(__dirname, '..', 'fixtures', 'dir', 'file-3.css'))).mtimeMs / 1000))
+    expect(result).to.have.nested.property('[4].path', '/dir/nested-dir')
+    expect(result).to.have.nested.property('[4].mtime', parseInt(fs.statSync(path.resolve(path.join(__dirname, '..', 'fixtures', 'dir', 'nested-dir'))).mtimeMs / 1000))
+    expect(result).to.have.nested.property('[5].path', '/dir/nested-dir/other.txt')
+    expect(result).to.have.nested.property('[5].mtime', parseInt(fs.statSync(path.resolve(path.join(__dirname, '..', 'fixtures', 'dir', 'nested-dir', 'other.txt'))).mtimeMs / 1000))
   })
 
   it('overrides mtime for directories', async function () {
@@ -185,7 +204,7 @@ describe('glob-source', () => {
       mtime: 5
     }))
 
-    expect(result).to.have.lengthOf(4)
+    expect(result).to.have.lengthOf(6)
     expect(result).to.have.nested.property('[0].path', '/dir')
     expect(result).to.have.nested.property('[0].mtime', 5)
     expect(result).to.have.nested.property('[1].path', '/dir/file-1.txt')
@@ -194,5 +213,9 @@ describe('glob-source', () => {
     expect(result).to.have.nested.property('[2].mtime', 5)
     expect(result).to.have.nested.property('[3].path', '/dir/file-3.css')
     expect(result).to.have.nested.property('[3].mtime', 5)
+    expect(result).to.have.nested.property('[4].path', '/dir/nested-dir')
+    expect(result).to.have.nested.property('[4].mtime', 5)
+    expect(result).to.have.nested.property('[5].path', '/dir/nested-dir/other.txt')
+    expect(result).to.have.nested.property('[5].mtime', 5)
   })
 })

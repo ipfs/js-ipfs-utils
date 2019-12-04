@@ -115,9 +115,9 @@ async function * toGlobSource ({ path, type, prefix, mode, mtime, preserveMode, 
   })
 
   for await (const p of glob(path, '**/*', globOptions)) {
-    if (preserveMode || preserveMtime) {
-      const stat = await fs.stat(p)
+    const stat = await fs.stat(p)
 
+    if (preserveMode || preserveMtime) {
       if (preserveMode) {
         mode = stat.mode
       }
@@ -129,7 +129,7 @@ async function * toGlobSource ({ path, type, prefix, mode, mtime, preserveMode, 
 
     yield {
       path: toPosix(p.replace(prefix, '')),
-      content: fs.createReadStream(p),
+      content: stat.isFile() ? fs.createReadStream(p) : undefined,
       mode,
       mtime
     }
