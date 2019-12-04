@@ -16,13 +16,25 @@ chai.use(dirtyChai)
 chai.use(chaiAsPromised)
 const expect = chai.expect
 
+function fixture (file) {
+  return path.resolve(path.join(__dirname, '..', 'fixtures', file))
+}
+
+function findMode (file) {
+  return fs.statSync(fixture(file)).mode
+}
+
+function findMtime (file) {
+  return parseInt(fs.statSync(fixture(file)).mtimeMs / 1000)
+}
+
 describe('glob-source', () => {
   it('single file, relative path', async function () {
     if (!isNode) {
       return this.skip()
     }
 
-    const result = await all(globSource(path.relative(process.cwd(), path.join(__dirname, '..', 'fixtures', 'file-0.html'))))
+    const result = await all(globSource(fixture('file-0.html')))
 
     expect(result.length).to.equal(1)
     expect(result[0].path).to.equal('/file-0.html')
@@ -33,7 +45,7 @@ describe('glob-source', () => {
       return this.skip()
     }
 
-    const result = await all(globSource(path.resolve(process.cwd(), path.join(__dirname, '..', 'fixtures', 'file-0.html'))))
+    const result = await all(globSource(fixture('file-0.html')))
 
     expect(result.length).to.equal(1)
     expect(result[0].path).to.equal('/file-0.html')
@@ -44,7 +56,7 @@ describe('glob-source', () => {
       return this.skip()
     }
 
-    const result = await all(globSource(path.relative(process.cwd(), path.join(__dirname, '..', 'fixtures', 'dir')), {
+    const result = await all(globSource(fixture('/dir'), {
       recursive: true
     }))
 
@@ -63,7 +75,7 @@ describe('glob-source', () => {
       return this.skip()
     }
 
-    const result = await all(globSource(path.resolve(process.cwd(), path.join(__dirname, '..', 'fixtures', 'dir')), {
+    const result = await all(globSource(fixture('/dir'), {
       recursive: true,
       hidden: true
     }))
@@ -83,7 +95,7 @@ describe('glob-source', () => {
       return this.skip()
     }
 
-    const result = await all(globSource(path.resolve(process.cwd(), path.join(__dirname, '..', 'fixtures', 'dir')), {
+    const result = await all(globSource(fixture('/dir'), {
       recursive: true,
       ignore: ['**/file-1.txt']
     }))
@@ -102,8 +114,8 @@ describe('glob-source', () => {
     }
 
     const result = await all(globSource([
-      path.relative(process.cwd(), path.join(__dirname, '..', 'fixtures', 'dir', 'file-1.txt')),
-      path.relative(process.cwd(), path.join(__dirname, '..', 'fixtures', 'dir', 'file-2.js'))
+      fixture('/dir/file-1.txt'),
+      fixture('/dir/file-2.js')
     ]))
 
     expect(result).to.have.lengthOf(2)
@@ -116,7 +128,7 @@ describe('glob-source', () => {
       return this.skip()
     }
 
-    await expect(all(globSource(path.resolve(process.cwd(), path.join(__dirname, '..', 'fixtures', 'dir'))))).to.be.rejectedWith(/recursive option not set/)
+    await expect(all(globSource(fixture('/dir')))).to.be.rejectedWith(/recursive option not set/)
   })
 
   it('preserves mode for directories', async function () {
@@ -124,24 +136,24 @@ describe('glob-source', () => {
       return this.skip()
     }
 
-    const result = await all(globSource(path.resolve(path.join(__dirname, '..', 'fixtures', 'dir')), {
+    const result = await all(globSource(fixture('/dir'), {
       preserveMode: true,
       recursive: true
     }))
 
     expect(result).to.have.lengthOf(6)
     expect(result).to.have.nested.property('[0].path', '/dir')
-    expect(result).to.have.nested.property('[0].mode', fs.statSync(path.resolve(path.join(__dirname, '..', 'fixtures', 'dir'))).mode)
+    expect(result).to.have.nested.property('[0].mode', findMode('/dir'))
     expect(result).to.have.nested.property('[1].path', '/dir/file-1.txt')
-    expect(result).to.have.nested.property('[1].mode', fs.statSync(path.resolve(path.join(__dirname, '..', 'fixtures', 'dir', 'file-1.txt'))).mode)
+    expect(result).to.have.nested.property('[1].mode', findMode('/dir/file-1.txt'))
     expect(result).to.have.nested.property('[2].path', '/dir/file-2.js')
-    expect(result).to.have.nested.property('[2].mode', fs.statSync(path.resolve(path.join(__dirname, '..', 'fixtures', 'dir', 'file-2.js'))).mode)
+    expect(result).to.have.nested.property('[2].mode', findMode('/dir/file-2.js'))
     expect(result).to.have.nested.property('[3].path', '/dir/file-3.css')
-    expect(result).to.have.nested.property('[3].mode', fs.statSync(path.resolve(path.join(__dirname, '..', 'fixtures', 'dir', 'file-3.css'))).mode)
+    expect(result).to.have.nested.property('[3].mode', findMode('/dir/file-3.css'))
     expect(result).to.have.nested.property('[4].path', '/dir/nested-dir')
-    expect(result).to.have.nested.property('[4].mode', fs.statSync(path.resolve(path.join(__dirname, '..', 'fixtures', 'dir', 'nested-dir'))).mode)
+    expect(result).to.have.nested.property('[4].mode', findMode('/dir/nested-dir'))
     expect(result).to.have.nested.property('[5].path', '/dir/nested-dir/other.txt')
-    expect(result).to.have.nested.property('[5].mode', fs.statSync(path.resolve(path.join(__dirname, '..', 'fixtures', 'dir', 'nested-dir', 'other.txt'))).mode)
+    expect(result).to.have.nested.property('[5].mode', findMode('/dir/nested-dir/other.txt'))
   })
 
   it('overrides mode for directories', async function () {
@@ -149,7 +161,7 @@ describe('glob-source', () => {
       return this.skip()
     }
 
-    const result = await all(globSource(path.resolve(process.cwd(), path.join(__dirname, '..', 'fixtures', 'dir')), {
+    const result = await all(globSource(fixture('/dir'), {
       recursive: true,
       mode: 5
     }))
@@ -174,24 +186,24 @@ describe('glob-source', () => {
       return this.skip()
     }
 
-    const result = await all(globSource(path.resolve(path.join(__dirname, '..', 'fixtures', 'dir')), {
+    const result = await all(globSource(fixture('/dir'), {
       preserveMtime: true,
       recursive: true
     }))
 
     expect(result).to.have.lengthOf(6)
     expect(result).to.have.nested.property('[0].path', '/dir')
-    expect(result).to.have.nested.property('[0].mtime', parseInt(fs.statSync(path.resolve(path.join(__dirname, '..', 'fixtures', 'dir'))).mtimeMs / 1000))
+    expect(result).to.have.nested.property('[0].mtime', findMtime('/dir'))
     expect(result).to.have.nested.property('[1].path', '/dir/file-1.txt')
-    expect(result).to.have.nested.property('[1].mtime', parseInt(fs.statSync(path.resolve(path.join(__dirname, '..', 'fixtures', 'dir', 'file-1.txt'))).mtimeMs / 1000))
+    expect(result).to.have.nested.property('[1].mtime', findMtime('/dir/file-1.txt'))
     expect(result).to.have.nested.property('[2].path', '/dir/file-2.js')
-    expect(result).to.have.nested.property('[2].mtime', parseInt(fs.statSync(path.resolve(path.join(__dirname, '..', 'fixtures', 'dir', 'file-2.js'))).mtimeMs / 1000))
+    expect(result).to.have.nested.property('[2].mtime', findMtime('/dir/file-2.js'))
     expect(result).to.have.nested.property('[3].path', '/dir/file-3.css')
-    expect(result).to.have.nested.property('[3].mtime', parseInt(fs.statSync(path.resolve(path.join(__dirname, '..', 'fixtures', 'dir', 'file-3.css'))).mtimeMs / 1000))
+    expect(result).to.have.nested.property('[3].mtime', findMtime('/dir/file-3.css'))
     expect(result).to.have.nested.property('[4].path', '/dir/nested-dir')
-    expect(result).to.have.nested.property('[4].mtime', parseInt(fs.statSync(path.resolve(path.join(__dirname, '..', 'fixtures', 'dir', 'nested-dir'))).mtimeMs / 1000))
+    expect(result).to.have.nested.property('[4].mtime', findMtime('/dir/nested-dir'))
     expect(result).to.have.nested.property('[5].path', '/dir/nested-dir/other.txt')
-    expect(result).to.have.nested.property('[5].mtime', parseInt(fs.statSync(path.resolve(path.join(__dirname, '..', 'fixtures', 'dir', 'nested-dir', 'other.txt'))).mtimeMs / 1000))
+    expect(result).to.have.nested.property('[5].mtime', findMtime('/dir/nested-dir/other.txt'))
   })
 
   it('overrides mtime for directories', async function () {
@@ -199,7 +211,7 @@ describe('glob-source', () => {
       return this.skip()
     }
 
-    const result = await all(globSource(path.resolve(process.cwd(), path.join(__dirname, '..', 'fixtures', 'dir')), {
+    const result = await all(globSource(fixture('/dir'), {
       recursive: true,
       mtime: 5
     }))
