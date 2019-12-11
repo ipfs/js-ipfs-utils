@@ -40,7 +40,7 @@
   },
   "devDependencies": {
     "aegir": "^20.3.0",
-    "async-iterator-all": "^1.0.0",
+    "it-all": "^1.0.1",
     "chai": "^4.2.0",
     "chai-as-promised": "^7.1.1",
     "dirty-chai": "^2.0.1",
