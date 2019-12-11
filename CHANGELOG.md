@@ -1,3 +1,18 @@
+<a name="0.4.1"></a>
+## [0.4.1](https://github.com/ipfs/js-ipfs-utils/compare/v0.4.0...v0.4.1) (2019-12-11)
+
+
+### Features
+
+* support unixfs metadata and formatting it ([#14](https://github.com/ipfs/js-ipfs-utils/issues/14)) ([#18](https://github.com/ipfs/js-ipfs-utils/issues/18)) ([0caf2be](https://github.com/ipfs/js-ipfs-utils/commit/0caf2be))
+
+
+### BREAKING CHANGES
+
+* In order to support metadata on intermediate directories, globSource in this module will now emit directories and files where previously it only emitted files.
+
+
+
 <a name="0.4.0"></a>
 # [0.4.0](https://github.com/ipfs/js-ipfs-utils/compare/v0.3.0...v0.4.0) (2019-09-19)
 
