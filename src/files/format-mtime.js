@@ -1,11 +1,16 @@
 'use strict'
 
 function formatMtime (mtime) {
-  if (mtime === undefined) {
-    return '-'
+  if (mtime == null) {
+    mtime = {
+      secs: 0,
+      nsecs: 0
+    }
   }
 
-  return new Date(mtime * 1000).toLocaleDateString(Intl.DateTimeFormat().resolvedOptions().locale, {
+  const date = new Date((mtime.secs * 1000) + Math.round(mtime.nsecs / 1000))
+
+  return date.toLocaleDateString(Intl.DateTimeFormat().resolvedOptions().locale, {
     year: 'numeric',
     month: 'short',
     day: 'numeric',
