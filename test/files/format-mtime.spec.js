@@ -14,6 +14,6 @@ describe('format-mtime', function () {
   })
 
   it('formats empty mtime', function () {
-    expect(formatMtime()).to.include('Jan 1, 1970')
+    expect(formatMtime()).to.equal('-')
   })
 })

@@ -2,10 +2,7 @@
 
 function formatMtime (mtime) {
   if (mtime == null) {
-    mtime = {
-      secs: 0,
-      nsecs: 0
-    }
+    return '-'
   }
 
   const date = new Date((mtime.secs * 1000) + Math.round(mtime.nsecs / 1000))
