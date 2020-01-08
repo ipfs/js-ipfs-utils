@@ -1,3 +1,13 @@
+<a name="0.4.2"></a>
+## [0.4.2](https://github.com/ipfs/js-ipfs-utils/compare/v0.4.1...v0.4.2) (2020-01-08)
+
+
+### Bug Fixes
+
+* format mtime as timespec ([#19](https://github.com/ipfs/js-ipfs-utils/issues/19)) ([22d326f](https://github.com/ipfs/js-ipfs-utils/commit/22d326f))
+
+
+
 <a name="0.4.1"></a>
 ## [0.4.1](https://github.com/ipfs/js-ipfs-utils/compare/v0.4.0...v0.4.1) (2019-12-11)
 
