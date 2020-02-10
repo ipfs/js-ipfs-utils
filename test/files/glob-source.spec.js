@@ -25,7 +25,7 @@ function findMode (file) {
 }
 
 function findMtime (file) {
-  return new Date(fs.statSync(fixture(file)).mtimeMs)
+  return fs.statSync(fixture(file)).mtime
 }
 
 describe('glob-source', () => {
