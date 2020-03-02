@@ -1,3 +1,9 @@
+# 🔒 Archived <!-- omit in toc -->
+
+The contents of this repo have been merged into [ipfs/js-ipfs](https://github.com/ipfs/js-ipfs).
+
+Please open [issues](https://github.com/ipfs/js-ipfs/issues) or submit [PRs](https://github.com/ipfs/js-ipfs/pulls) there.
+
 # js-ipfs-utils
 
 [![](https://img.shields.io/badge/made%20by-Protocol%20Labs-blue.svg?style=flat-square)](http://protocol.ai)
@@ -13,11 +19,11 @@
 `ipfs-utils` aims to provide single function default export per file (with a few exceptions) scoped in 3 general categories:
 -  General use
 -  Data structs wrangling (arrays, objects, streams, etc)
--  IPFS core subsystems   
+-  IPFS core subsystems
 
-*General use* and *Data structs wrangling* should try to be just re-exports of community packages.   
+*General use* and *Data structs wrangling* should try to be just re-exports of community packages.
 
-The IPFS ecosystem has lots of repos with it comes several problems like: 
+The IPFS ecosystem has lots of repos with it comes several problems like:
 - Domain logic dedupe - all interface-core implementations shared a lot of logic like validation, streams handling, etc.
 - Dependencies management - it's really easy with so many repos for dependencies to go out of control, they become outdated, different repos use different modules to do the same thing (like merging defaults options), browser bundles ends up with multiple versions of the same package, bumping versions is cumbersome to do because we need to go through several repos, etc.
 
@@ -48,7 +54,7 @@ validateAddInput(Buffer.from('test'))
 
 ### General Use
 #### TODO
-### Data Struct Wrangling 
+### Data Struct Wrangling
 #### TODO
 ### Core API
 #### TODO
