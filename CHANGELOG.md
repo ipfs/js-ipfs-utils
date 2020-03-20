@@ -1,3 +1,13 @@
+<a name="1.0.0"></a>
+# [1.0.0](https://github.com/ipfs/js-ipfs-utils/compare/v0.7.2...v1.0.0) (2020-03-20)
+
+
+### Features
+
+* import code from monorepo ([#25](https://github.com/ipfs/js-ipfs-utils/issues/25)) ([dcd6f77](https://github.com/ipfs/js-ipfs-utils/commit/dcd6f77))
+
+
+
 <a name="0.7.2"></a>
 ## [0.7.2](https://github.com/ipfs/js-ipfs-utils/compare/v0.7.1...v0.7.2) (2020-02-10)
 
