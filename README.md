@@ -1,10 +1,4 @@
-# 🔒 Archived <!-- omit in toc -->
-
-The contents of this repo have been merged into [ipfs/js-ipfs](https://github.com/ipfs/js-ipfs).
-
-Please open [issues](https://github.com/ipfs/js-ipfs/issues) or submit [PRs](https://github.com/ipfs/js-ipfs/pulls) there.
-
-# js-ipfs-utils
+# js-ipfs-utils  <!-- omit in toc -->
 
 [![](https://img.shields.io/badge/made%20by-Protocol%20Labs-blue.svg?style=flat-square)](http://protocol.ai)
 [![](https://img.shields.io/badge/project-IPFS-blue.svg?style=flat-square)](http://ipfs.io/)
@@ -29,9 +23,23 @@ The IPFS ecosystem has lots of repos with it comes several problems like:
 
 These problems are the motivation for this package, having shared logic in this package avoids creating cyclic dependencies, centralizes common use modules/functions (exactly like aegir does for the tooling), semantic versioning for 3rd party dependencies is handled in one single place (a good example is going from streams 2 to 3) and maintainers should only care about having `ipfs-utils` updated.
 
-## Lead Maintainer
+## Lead Maintainer <!-- omit in toc -->
 
 [Hugo Dias](https://github.com/hugomrdias)
+
+## Table of Contents <!-- omit in toc -->
+
+- [Install](#install)
+- [Usage](#usage)
+- [Functions](#functions)
+  - [General Use](#general-use)
+    - [TODO](#todo)
+  - [Data Struct Wrangling](#data-struct-wrangling)
+    - [TODO](#todo-1)
+  - [Core API](#core-api)
+    - [TODO](#todo-2)
+- [Contribute](#contribute)
+- [License](#license)
 
 ## Install
 
@@ -64,7 +72,7 @@ validateAddInput(Buffer.from('test'))
 
 Contributions welcome. Please check out [the issues](https://github.com/ipfs/js-ipfs-utils/issues).
 
-Check out our [contributing document](https://github.com/ipfs/community/blob/master/contributing.md) for more information on how we work, and about contributing in general. Please be aware that all interactions related to this repo are subject to the IPFS [Code of Conduct](https://github.com/ipfs/community/blob/master/code-of-conduct.md).
+Check out our [contributing document](https://github.com/ipfs/community/blob/master/CONTRIBUTING_JS.md) for more information on how we work, and about contributing in general. Please be aware that all interactions related to this repo are subject to the IPFS [Code of Conduct](https://github.com/ipfs/community/blob/master/code-of-conduct.md).
 
 ## License
 
