@@ -43,13 +43,13 @@ const globalThis = require('../globalthis')
  * AsyncIterable<{ path, content: AsyncIterable<Buffer> }>
  * ```
  *
- * @param input Object
+ * @param {Object} input
  * @return AsyncInterable<{ path, content: AsyncIterable<Buffer> }>
  */
 module.exports = function normaliseInput (input) {
   // must give us something
   if (input === null || input === undefined) {
-    throw errCode(new Error(`Unexpected input: ${input}`, 'ERR_UNEXPECTED_INPUT'))
+    throw errCode(new Error(`Unexpected input: ${input}`), 'ERR_UNEXPECTED_INPUT')
   }
 
   // String
