@@ -1,3 +1,18 @@
+<a name="1.1.0"></a>
+# [1.1.0](https://github.com/ipfs/js-ipfs-utils/compare/v1.0.0...v1.1.0) (2020-03-26)
+
+
+### Bug Fixes
+
+* fix error code param ([dd73a33](https://github.com/ipfs/js-ipfs-utils/commit/dd73a33))
+
+
+### Features
+
+* add temp dir function ([7714c66](https://github.com/ipfs/js-ipfs-utils/commit/7714c66))
+
+
+
 <a name="1.0.0"></a>
 # [1.0.0](https://github.com/ipfs/js-ipfs-utils/compare/v0.7.2...v1.0.0) (2020-03-20)
 
