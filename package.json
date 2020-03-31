@@ -14,7 +14,8 @@
   "browser": {
     "fs-extra": false,
     "./src/text-encoder.js": "./src/text-encoder.browser.js",
-    "./src/temp-dir.js": "./src/temp-dir.browser.js"
+    "./src/temp-dir.js": "./src/temp-dir.browser.js",
+    "./src/path-join.js": "./src/path-join.browser.js"
   },
   "repository": "github:ipfs/js-ipfs-utils",
   "scripts": {
