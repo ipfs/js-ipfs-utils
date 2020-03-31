@@ -1,3 +1,13 @@
+<a name="1.2.1"></a>
+## [1.2.1](https://github.com/ipfs/js-ipfs-utils/compare/v1.2.0...v1.2.1) (2020-03-31)
+
+
+### Bug Fixes
+
+* fix path join swap ([b538ee4](https://github.com/ipfs/js-ipfs-utils/commit/b538ee4))
+
+
+
 <a name="1.2.0"></a>
 # [1.2.0](https://github.com/ipfs/js-ipfs-utils/compare/v1.1.0...v1.2.0) (2020-03-31)
 
