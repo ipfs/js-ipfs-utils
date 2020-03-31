@@ -1,5 +1,3 @@
 'use strict'
 
-const global = require('./globalthis')
-
-module.exports = global.TextDecoder
+module.exports = require('./globalthis').TextDecoder
