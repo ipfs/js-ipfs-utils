@@ -4,9 +4,8 @@
 const fetch = require('node-fetch')
 const merge = require('merge-options')
 const { URL, URLSearchParams } = require('iso-url')
-const global = require('./globalthis')
 const TextDecoder = require('./text-encoder')
-const Request = global.Request
+const Request = require('./globalthis').Request
 const AbortController = require('abort-controller')
 
 class TimeoutError extends Error {
