@@ -1,3 +1,13 @@
+<a name="1.2.2"></a>
+## [1.2.2](https://github.com/ipfs/js-ipfs-utils/compare/v1.2.1...v1.2.2) (2020-04-06)
+
+
+### Bug Fixes
+
+* avoid Identifier 'global' has already been declared ([#30](https://github.com/ipfs/js-ipfs-utils/issues/30)) ([f468065](https://github.com/ipfs/js-ipfs-utils/commit/f468065))
+
+
+
 <a name="1.2.1"></a>
 ## [1.2.1](https://github.com/ipfs/js-ipfs-utils/compare/v1.2.0...v1.2.1) (2020-03-31)
 
