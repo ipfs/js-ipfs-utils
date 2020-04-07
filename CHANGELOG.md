@@ -1,3 +1,13 @@
+<a name="1.2.3"></a>
+## [1.2.3](https://github.com/ipfs/js-ipfs-utils/compare/v1.2.2...v1.2.3) (2020-04-07)
+
+
+### Bug Fixes
+
+* destroy request body when we are aborting it midway though r… ([#31](https://github.com/ipfs/js-ipfs-utils/issues/31)) ([1f7506d](https://github.com/ipfs/js-ipfs-utils/commit/1f7506d))
+
+
+
 <a name="1.2.2"></a>
 ## [1.2.2](https://github.com/ipfs/js-ipfs-utils/compare/v1.2.1...v1.2.2) (2020-04-06)
 
