@@ -269,9 +269,7 @@ const streamToAsyncIterator = function (source) {
       const wrapper = {
         next: iter.next.bind(iter),
         return: () => {
-          if (source.writableEnded) {
-            source.destroy()
-          }
+          source.destroy()
 
           return iter.return()
         },
