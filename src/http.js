@@ -263,7 +263,7 @@ const ndjson = async function * (source) {
 const streamToAsyncIterator = function (source) {
   if (isAsyncIterator(source)) {
     // Workaround for https://github.com/node-fetch/node-fetch/issues/766
-    if (source.writable && source.readable) {
+    if (source.hasOwnProperty('readable') && source.hasOwnProperty('writable')) {
       const iter = source[Symbol.asyncIterator]()
 
       const wrapper = {
