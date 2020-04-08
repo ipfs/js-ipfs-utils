@@ -13,9 +13,37 @@ const { Buffer } = require('buffer')
 
 describe('http', function () {
   it('makes a GET request', async function () {
-    const res = HTTP.get('http://localhost:3000')
+    const req = await HTTP.get('http://localhost:3000/echo/query?test=one')
+    const rsp = await req.json()
+    expect(rsp).to.be.deep.eq({ test: 'one' })
+  })
 
-    await expect(res).to.eventually.be.fulfilled()
+  it('makes a GET request with redirect', async function () {
+    const req = await HTTP.get(`http://localhost:3000/redirect?to=${encodeURI('http://localhost:3000/echo/query?test=one')}`)
+    const rsp = await req.json()
+    expect(rsp).to.be.deep.eq({ test: 'one' })
+  })
+
+  it('makes a JSON request', async () => {
+    const req = await HTTP.post('http://localhost:3000/echo', {
+      json: {
+        test: 2
+      }
+    })
+
+    const out = await req.text()
+    expect(out).to.be.eq('{"test":2}')
+  })
+
+  it('makes a DELETE request', async () => {
+    const req = await HTTP.delete('http://localhost:3000/echo', {
+      json: {
+        test: 2
+      }
+    })
+
+    const out = await req.text()
+    expect(out).to.be.eq('{"test":2}')
   })
 
   it('allow async aborting', async function () {
