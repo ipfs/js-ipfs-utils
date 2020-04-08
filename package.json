@@ -34,6 +34,7 @@
   "dependencies": {
     "abort-controller": "^3.0.0",
     "buffer": "^5.4.2",
+    "cors": "^2.8.5",
     "err-code": "^2.0.0",
     "fs-extra": "^9.0.0",
     "is-electron": "^2.2.0",
@@ -42,6 +43,8 @@
     "merge-options": "^2.0.0",
     "nanoid": "^2.1.11",
     "node-fetch": "^2.6.0",
+    "@polka/send-type": "^0.5.2",
+    "polka": "^0.5.2",
     "stream-to-it": "^0.2.0"
   },
   "devDependencies": {
