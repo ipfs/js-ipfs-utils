@@ -1,3 +1,13 @@
+<a name="1.2.4"></a>
+## [1.2.4](https://github.com/ipfs/js-ipfs-utils/compare/v1.2.3...v1.2.4) (2020-04-08)
+
+
+### Bug Fixes
+
+* detect node stream with hasOwnProperty ([#33](https://github.com/ipfs/js-ipfs-utils/issues/33)) ([1c1d894](https://github.com/ipfs/js-ipfs-utils/commit/1c1d894))
+
+
+
 <a name="1.2.3"></a>
 ## [1.2.3](https://github.com/ipfs/js-ipfs-utils/compare/v1.2.2...v1.2.3) (2020-04-07)
 
