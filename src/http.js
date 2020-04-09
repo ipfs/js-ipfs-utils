@@ -136,6 +136,22 @@ class HTTP {
       throw new HTTPError(response)
     }
 
+    response.ndjson = async function * () {
+      const it = streamToAsyncIterator(response.body)
+
+      if (!isAsyncIterator(it)) {
+        throw new Error('Can\'t convert fetch body into a Async Iterator:')
+      }
+
+      for await (const chunk of ndjson(it)) {
+        if (options.transform) {
+          yield options.transform(chunk)
+        } else {
+          yield chunk
+        }
+      }
+    }
+
     return response
   }
 
@@ -182,52 +198,6 @@ class HTTP {
    */
   options (resource, options = {}) {
     return this.fetch(resource, merge(this.opts, options, { method: 'OPTIONS' }))
-  }
-
-  /**
-   * @param {string | URL | Request} resource
-   * @param {APIOptions} options
-   * @returns {Promise<ReadableStream<Uint8Array>>}
-   */
-  async stream (resource, options = {}) {
-    const res = await this.fetch(resource, merge(this.opts, options))
-
-    return res.body
-  }
-
-  /**
-   * @param {string | URL | Request} resource
-   * @param {APIOptions} options
-   * @returns {AsyncGenerator<Uint8Array, void, any>}
-   */
-  async * iterator (resource, options = {}) {
-    const res = await this.fetch(resource, merge(this.opts, options))
-    const it = streamToAsyncIterator(res.body)
-
-    if (!isAsyncIterator(it)) {
-      throw new Error('Can\'t convert fetch body into a Async Iterator:')
-    }
-
-    for await (const chunk of it) {
-      yield chunk
-    }
-  }
-
-  /**
-   * @param {string | URL | Request} resource
-   * @param {APIOptions} options
-   * @returns {AsyncGenerator<Object, void, any>}
-   */
-  ndjson (resource, options = {}) {
-    const source = ndjson(this.iterator(resource, merge(this.opts, options)))
-    if (options.transform) {
-      return (async function * () {
-        for await (const chunk of source) {
-          yield options.transform(chunk)
-        }
-      })()
-    }
-    return source
   }
 }
 
@@ -309,7 +279,6 @@ const isAsyncIterator = (obj) => {
 
 HTTP.HTTPError = HTTPError
 HTTP.TimeoutError = TimeoutError
-HTTP.ndjson = ndjson
 HTTP.streamToAsyncIterator = streamToAsyncIterator
 
 /**

@@ -7,6 +7,7 @@ const toStream = require('it-to-stream')
 const delay = require('delay')
 const AbortController = require('abort-controller')
 const drain = require('it-drain')
+const all = require('it-all')
 const { isBrowser, isWebWorker } = require('../src/env')
 
 describe('http', function () {
@@ -25,6 +26,16 @@ describe('http', function () {
     controller.abort()
 
     await expect(res).to.eventually.be.rejectedWith(/aborted/)
+  })
+
+  it('parses the response as ndjson', async function () {
+    const res = await HTTP.post('http://localhost:3000', {
+      body: '{}\n{}'
+    })
+
+    const entities = await all(res.ndjson())
+
+    expect(entities).to.deep.equal([{}, {}])
   })
 
   it.skip('should handle errors in streaming bodies', async function () {
