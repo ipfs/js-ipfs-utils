@@ -1,3 +1,38 @@
+<a name="2.0.0"></a>
+# [2.0.0](https://github.com/ipfs/js-ipfs-utils/compare/v1.2.4...v2.0.0) (2020-04-09)
+
+
+### Bug Fixes
+
+* simplify http client ([#35](https://github.com/ipfs/js-ipfs-utils/issues/35)) ([05c4c5d](https://github.com/ipfs/js-ipfs-utils/commit/05c4c5d))
+
+
+### BREAKING CHANGES
+
+* - The `.ndjson`, `.stream` and `.iterator` methods have been removed
+- An `.ndjson` async generator function has been added to the response which
+  does the same thing the `.ndjson` instance method used to
+
+Old:
+
+```javascript
+for await (const datum of http.ndjson('http://...')) {
+
+}
+```
+
+New:
+
+```javascript
+const response = await http.post('http://...')
+
+for await (const datum of response.ndjson()) {
+
+}
+```
+
+
+
 <a name="1.2.4"></a>
 ## [1.2.4](https://github.com/ipfs/js-ipfs-utils/compare/v1.2.3...v1.2.4) (2020-04-08)
 
