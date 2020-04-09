@@ -136,14 +136,14 @@ class HTTP {
       throw new HTTPError(response)
     }
 
-    response.iterator = async function * () {
+    response.iterator = function () {
       const it = streamToAsyncIterator(response.body)
 
       if (!isAsyncIterator(it)) {
         throw new Error('Can\'t convert fetch body into a Async Iterator:')
       }
 
-      yield * it
+      return it
     }
 
     response.ndjson = async function * () {
