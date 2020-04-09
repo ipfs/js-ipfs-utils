@@ -9,6 +9,7 @@ const AbortController = require('abort-controller')
 const drain = require('it-drain')
 const all = require('it-all')
 const { isBrowser, isWebWorker } = require('../src/env')
+const { Buffer } = require('buffer')
 
 describe('http', function () {
   it('makes a GET request', async function () {
@@ -36,6 +37,16 @@ describe('http', function () {
     const entities = await all(res.ndjson())
 
     expect(entities).to.deep.equal([{}, {}])
+  })
+
+  it('parses the response as an async iterable', async function () {
+    const res = await HTTP.post('http://localhost:3000', {
+      body: 'hello world'
+    })
+
+    const entities = await all(res.iterator())
+
+    expect(entities).to.deep.equal([Buffer.from('hello world')])
   })
 
   it.skip('should handle errors in streaming bodies', async function () {
