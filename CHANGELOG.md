@@ -1,3 +1,13 @@
+<a name="2.1.0"></a>
+# [2.1.0](https://github.com/ipfs/js-ipfs-utils/compare/v2.0.0...v2.1.0) (2020-04-13)
+
+
+### Features
+
+* add iterator method to response ([#36](https://github.com/ipfs/js-ipfs-utils/issues/36)) ([8f7c96c](https://github.com/ipfs/js-ipfs-utils/commit/8f7c96c))
+
+
+
 <a name="2.0.0"></a>
 # [2.0.0](https://github.com/ipfs/js-ipfs-utils/compare/v1.2.4...v2.0.0) (2020-04-09)
 
