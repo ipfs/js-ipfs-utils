@@ -1,9 +1,7 @@
 'use strict'
 
 /* eslint-env mocha */
-const chai = require('chai')
-const dirtyChai = require('dirty-chai')
-const chaiAsPromised = require('chai-as-promised')
+const { expect } = require('aegir/utils/chai')
 const globSource = require('../../src/files/glob-source')
 const all = require('it-all')
 const path = require('path')
@@ -11,10 +9,6 @@ const {
   isNode
 } = require('../../src/env')
 const fs = require('fs')
-
-chai.use(dirtyChai)
-chai.use(chaiAsPromised)
-const expect = chai.expect
 
 function fixture (file) {
   return path.resolve(path.join(__dirname, '..', 'fixtures', file))

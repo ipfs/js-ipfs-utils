@@ -1,16 +1,12 @@
 'use strict'
 
 /* eslint-env mocha */
-const chai = require('chai')
-const dirtyChai = require('dirty-chai')
+const { expect, assert } = require('aegir/utils/chai')
 const normalise = require('../../src/files/normalise-input')
 const { supportsFileReader } = require('../../src/supports')
 const { Buffer } = require('buffer')
 const all = require('it-all')
 const globalThis = require('../../src/globalthis')
-
-chai.use(dirtyChai)
-const expect = chai.expect
 
 const STRING = () => 'hello world'
 const BUFFER = () => Buffer.from(STRING())
@@ -36,7 +32,7 @@ async function verifyNormalisation (input) {
   expect(input.length).to.equal(1)
 
   if (!input[0].content[Symbol.asyncIterator] && !input[0].content[Symbol.iterator]) {
-    chai.assert.fail('Content should have been an iterable or an async iterable')
+    assert.fail('Content should have been an iterable or an async iterable')
   }
 
   expect(await all(input[0].content)).to.deep.equal([BUFFER()])

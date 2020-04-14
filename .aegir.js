@@ -1,16 +1,21 @@
 'use strict'
 
-const EchoServer = require('./src/echo-server')
+const EchoServer = require('aegir/utils/echo-server')
+const { format } =require('iso-url')
 
-let echo2 = new EchoServer()
+let echo = new EchoServer()
 
 module.exports = {
   hooks: {
     pre: async () => {
-      const server = await echo2.start()
+      const server = await echo.start()
+      const { address, port } = server.server.address()
+      return {
+        env: { ECHO_SERVER : format({ protocol: 'http:', hostname: address, port })}
+      }
     },
     post: async () => {
-      await echo2.stop()
+      await echo.stop()
     }
   }
 }
