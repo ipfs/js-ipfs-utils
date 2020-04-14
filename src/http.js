@@ -5,8 +5,10 @@ const fetch = require('node-fetch')
 const merge = require('merge-options')
 const { URL, URLSearchParams } = require('iso-url')
 const TextDecoder = require('./text-encoder')
-const Request = require('./globalthis').Request
 const AbortController = require('abort-controller')
+
+const Request = fetch.Request
+const Headers = fetch.Headers
 
 class TimeoutError extends Error {
   constructor () {
@@ -49,6 +51,7 @@ const timeout = (promise, ms, abortController) => {
 }
 
 const defaults = {
+  headers: {},
   throwHttpErrors: true,
   credentials: 'same-origin',
   transformSearchParams: p => p
@@ -57,6 +60,7 @@ const defaults = {
 /**
  * @typedef {Object} APIOptions - creates a new type named 'SpecialType'
  * @prop {any} [body] - Request body
+ * @prop {Object} [json] - JSON shortcut
  * @prop {string} [method] - GET, POST, PUT, DELETE, etc.
  * @prop {string} [base] - The base URL to use in case url is a relative URL
  * @prop {Headers|Record<string, string>} [headers] - Request header.
@@ -78,6 +82,7 @@ class HTTP {
   constructor (options = {}) {
     /** @type {APIOptions} */
     this.opts = merge(defaults, options)
+    this.opts.headers = new Headers(options.headers)
 
     // connect internal abort to external
     this.abortController = new AbortController()
@@ -101,6 +106,7 @@ class HTTP {
   async fetch (resource, options = {}) {
     /** @type {APIOptions} */
     const opts = merge(this.opts, options)
+    opts.headers = new Headers(opts.headers)
 
     // validate resource type
     if (typeof resource !== 'string' && !(resource instanceof URL || resource instanceof Request)) {
@@ -125,6 +131,11 @@ class HTTP {
 
     if (opts.searchParams) {
       url.search = opts.transformSearchParams(new URLSearchParams(opts.searchParams))
+    }
+
+    if (opts.json !== undefined) {
+      opts.body = JSON.stringify(opts.json)
+      opts.headers.set('content-type', 'application/json')
     }
 
     const response = await timeout(fetch(url, opts), opts.timeout, this.abortController)

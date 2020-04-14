@@ -1,13 +1,9 @@
 'use strict'
 
 /* eslint-env mocha */
-const chai = require('chai')
-const dirtyChai = require('dirty-chai')
+const { expect } = require('aegir/utils/chai')
 const supports = require('../src/supports')
 const env = require('../src/env')
-
-chai.use(dirtyChai)
-const expect = chai.expect
 
 describe('supports', function () {
   it('supportsFileReader should return false in node', function () {

@@ -1,12 +1,8 @@
 'use strict'
 
 /* eslint-env mocha */
-const chai = require('chai')
-const dirtyChai = require('dirty-chai')
+const { expect } = require('aegir/utils/chai')
 const formatMode = require('../../src/files/format-mode')
-
-chai.use(dirtyChai)
-const expect = chai.expect
 
 describe('format-mode', function () {
   it('formats mode for directories', function () {

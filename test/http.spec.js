@@ -1,7 +1,7 @@
 'use strict'
 
 /* eslint-env mocha */
-const { expect } = require('./utils/chai')
+const { expect } = require('aegir/utils/chai')
 const HTTP = require('../src/http')
 const toStream = require('it-to-stream')
 const delay = require('delay')
@@ -13,15 +13,43 @@ const { Buffer } = require('buffer')
 
 describe('http', function () {
   it('makes a GET request', async function () {
-    const res = HTTP.get('http://localhost:3000')
+    const req = await HTTP.get(`${process.env.ECHO_SERVER}/echo/query?test=one`)
+    const rsp = await req.json()
+    expect(rsp).to.be.deep.eq({ test: 'one' })
+  })
 
-    await expect(res).to.eventually.be.fulfilled()
+  it('makes a GET request with redirect', async function () {
+    const req = await HTTP.get(`${process.env.ECHO_SERVER}/redirect?to=${encodeURI(`${process.env.ECHO_SERVER}/echo/query?test=one`)}`)
+    const rsp = await req.json()
+    expect(rsp).to.be.deep.eq({ test: 'one' })
+  })
+
+  it('makes a JSON request', async () => {
+    const req = await HTTP.post(`${process.env.ECHO_SERVER}/echo`, {
+      json: {
+        test: 2
+      }
+    })
+
+    const out = await req.text()
+    expect(out).to.be.eq('{"test":2}')
+  })
+
+  it('makes a DELETE request', async () => {
+    const req = await HTTP.delete(`${process.env.ECHO_SERVER}/echo`, {
+      json: {
+        test: 2
+      }
+    })
+
+    const out = await req.text()
+    expect(out).to.be.eq('{"test":2}')
   })
 
   it('allow async aborting', async function () {
     const controller = new AbortController()
 
-    const res = HTTP.get('http://localhost:3000', {
+    const res = HTTP.get(process.env.ECHO_SERVER, {
       signal: controller.signal
     })
     controller.abort()
@@ -30,7 +58,7 @@ describe('http', function () {
   })
 
   it('parses the response as ndjson', async function () {
-    const res = await HTTP.post('http://localhost:3000', {
+    const res = await HTTP.post(`${process.env.ECHO_SERVER}/echo`, {
       body: '{}\n{}'
     })
 
@@ -40,7 +68,8 @@ describe('http', function () {
   })
 
   it('parses the response as an async iterable', async function () {
-    const res = await HTTP.post('http://localhost:3000', {
+    const res = await HTTP.post('echo', {
+      base: process.env.ECHO_SERVER,
       body: 'hello world'
     })
 
@@ -64,7 +93,7 @@ describe('http', function () {
       throw err
     }())
 
-    const res = await HTTP.post('http://localhost:3000', {
+    const res = await HTTP.post(process.env.ECHO_SERVER, {
       body: toStream.readable(body)
     })
 
@@ -87,7 +116,7 @@ describe('http', function () {
       throw err
     }())
 
-    const res = await HTTP.post('http://localhost:3000', {
+    const res = await HTTP.post(process.env.ECHO_SERVER, {
       body: toStream.readable(body),
       signal: controller.signal
     })
