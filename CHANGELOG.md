@@ -1,3 +1,13 @@
+<a name="2.2.0"></a>
+# [2.2.0](https://github.com/ipfs/js-ipfs-utils/compare/v2.1.0...v2.2.0) (2020-04-14)
+
+
+### Features
+
+* add json option to http ([#34](https://github.com/ipfs/js-ipfs-utils/issues/34)) ([070a456](https://github.com/ipfs/js-ipfs-utils/commit/070a456))
+
+
+
 <a name="2.1.0"></a>
 # [2.1.0](https://github.com/ipfs/js-ipfs-utils/compare/v2.0.0...v2.1.0) (2020-04-13)
 
