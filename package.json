@@ -1,6 +1,6 @@
 {
   "name": "ipfs-utils",
-  "version": "2.2.0",
+  "version": "2.2.1",
   "description": "Package to aggregate shared logic and dependencies for the IPFS ecosystem",
   "main": "src/index.js",
   "author": "Hugo Dias <hugomrdias@gmail.com>",
@@ -57,6 +57,7 @@
     "Alex Potsides <alex@achingbrain.net>",
     "Alan Shaw <alan.shaw@protocol.ai>",
     "Marcin Rataj <lidel@lidel.org>",
-    "bluelovers <codelovers@users.sourceforge.net>"
+    "bluelovers <codelovers@users.sourceforge.net>",
+    "Hector Sanjuan <code@hector.link>"
   ]
 }
