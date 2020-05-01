@@ -1,3 +1,18 @@
+<a name="2.2.1"></a>
+## [2.2.1](https://github.com/ipfs/js-ipfs-utils/compare/v2.2.0...v2.2.1) (2020-05-01)
+
+
+### Bug Fixes
+
+* make timeouts stricter ([#40](https://github.com/ipfs/js-ipfs-utils/issues/40)) ([bbcd1eb](https://github.com/ipfs/js-ipfs-utils/commit/bbcd1eb))
+
+
+### Features
+
+* pass in Options Object to http Constructor ([#37](https://github.com/ipfs/js-ipfs-utils/issues/37)) ([727f28d](https://github.com/ipfs/js-ipfs-utils/commit/727f28d))
+
+
+
 <a name="2.2.0"></a>
 # [2.2.0](https://github.com/ipfs/js-ipfs-utils/compare/v2.1.0...v2.2.0) (2020-04-14)
 
