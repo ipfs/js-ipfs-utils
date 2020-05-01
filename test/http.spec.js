@@ -24,6 +24,12 @@ describe('http', function () {
     expect(rsp).to.be.deep.eq({ test: 'one' })
   })
 
+  it('makes a GET request with a really short timeout', function () {
+    return expect(HTTP.get(`${process.env.ECHO_SERVER}/redirect?to=${encodeURI(`${process.env.ECHO_SERVER}/echo/query?test=one`)}`, {
+      timeout: 1
+    })).to.eventually.be.rejectedWith().instanceOf(HTTP.TimeoutError)
+  })
+
   it('makes a JSON request', async () => {
     const req = await HTTP.post(`${process.env.ECHO_SERVER}/echo`, {
       json: {
