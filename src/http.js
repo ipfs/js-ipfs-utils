@@ -30,23 +30,29 @@ const timeout = (promise, ms, abortController) => {
     return promise
   }
 
-  return new Promise((resolve, reject) => {
-    const timeoutID = setTimeout(() => {
-      reject(new TimeoutError())
+  const start = Date.now()
 
-      abortController.abort()
-    }, ms)
+  return new Promise((resolve, reject) => {
+    const after = (next) => {
+      return (res) => {
+        clearTimeout(timeoutID)
+        const time = Date.now() - start
+
+        if (time >= ms) {
+          abortController.abort()
+          reject(new TimeoutError())
+          return
+        }
+
+        if (next) {
+          next(res)
+        }
+      }
+    }
+    const timeoutID = setTimeout(after(), ms)
 
     promise
-      .then((result) => {
-        clearTimeout(timeoutID)
-
-        resolve(result)
-      }, (err) => {
-        clearTimeout(timeoutID)
-
-        reject(err)
-      })
+      .then(after(resolve), after(reject))
   })
 }
 
@@ -138,7 +144,13 @@ class HTTP {
       opts.headers.set('content-type', 'application/json')
     }
 
-    const response = await timeout(fetch(url, opts), opts.timeout, this.abortController)
+    const response = await timeout(fetch(url, {
+      ...opts,
+
+      // node-fetch implements it's own timeout in an addition to the spec so do not
+      // pass the timeout value on, otherwise there are two sources of timeout errors
+      timeout: undefined
+    }), opts.timeout, this.abortController)
 
     if (!response.ok && opts.throwHttpErrors) {
       if (opts.handleError) {
