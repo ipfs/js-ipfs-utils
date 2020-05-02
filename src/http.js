@@ -2,7 +2,7 @@
 'use strict'
 
 const fetch = require('node-fetch')
-const merge = require('merge-options')
+const merge = require('merge-options').bind({ ignoreUndefined: true })
 const { URL, URLSearchParams } = require('iso-url')
 const TextDecoder = require('./text-encoder')
 const AbortController = require('abort-controller')
@@ -146,9 +146,6 @@ class HTTP {
 
     const response = await timeout(fetch(url, {
       ...opts,
-
-      // node-fetch implements it's own timeout in an addition to the spec so do not
-      // pass the timeout value on, otherwise there are two sources of timeout errors
       timeout: undefined
     }), opts.timeout, this.abortController)
 
@@ -188,7 +185,10 @@ class HTTP {
    * @returns {Promise<Response>}
    */
   post (resource, options = {}) {
-    return this.fetch(resource, merge(this.opts, options, { method: 'POST' }))
+    return this.fetch(resource, {
+      ...options,
+      method: 'POST'
+    })
   }
 
   /**
@@ -197,7 +197,10 @@ class HTTP {
    * @returns {Promise<Response>}
    */
   get (resource, options = {}) {
-    return this.fetch(resource, merge(this.opts, options, { method: 'GET' }))
+    return this.fetch(resource, {
+      ...options,
+      method: 'GET'
+    })
   }
 
   /**
@@ -206,7 +209,10 @@ class HTTP {
    * @returns {Promise<Response>}
    */
   put (resource, options = {}) {
-    return this.fetch(resource, merge(this.opts, options, { method: 'PUT' }))
+    return this.fetch(resource, {
+      ...options,
+      method: 'PUT'
+    })
   }
 
   /**
@@ -215,7 +221,10 @@ class HTTP {
    * @returns {Promise<Response>}
    */
   delete (resource, options = {}) {
-    return this.fetch(resource, merge(this.opts, options, { method: 'DELETE' }))
+    return this.fetch(resource, {
+      ...options,
+      method: 'DELETE'
+    })
   }
 
   /**
@@ -224,7 +233,10 @@ class HTTP {
    * @returns {Promise<Response>}
    */
   options (resource, options = {}) {
-    return this.fetch(resource, merge(this.opts, options, { method: 'OPTIONS' }))
+    return this.fetch(resource, {
+      ...options,
+      method: 'OPTIONS'
+    })
   }
 }
 
