@@ -32,24 +32,32 @@ const timeout = (promise, ms, abortController) => {
 
   const start = Date.now()
 
+  const timedOut = () => {
+    const time = Date.now() - start
+
+    return time >= ms
+  }
+
   return new Promise((resolve, reject) => {
+    const timeoutID = setTimeout(() => {
+      if (timedOut()) {
+        reject(new TimeoutError())
+        abortController.abort()
+      }
+    }, ms)
+
     const after = (next) => {
       return (res) => {
         clearTimeout(timeoutID)
-        const time = Date.now() - start
 
-        if (time >= ms) {
-          abortController.abort()
+        if (timedOut()) {
           reject(new TimeoutError())
           return
         }
 
-        if (next) {
-          next(res)
-        }
+        next(res)
       }
     }
-    const timeoutID = setTimeout(after(), ms)
 
     promise
       .then(after(resolve), after(reject))
@@ -88,7 +96,7 @@ class HTTP {
   constructor (options = {}) {
     /** @type {APIOptions} */
     this.opts = merge(defaults, options)
-    this.opts.headers = new Headers(options.headers)
+    this.opts.headers = options.headers
 
     // connect internal abort to external
     this.abortController = new AbortController()
