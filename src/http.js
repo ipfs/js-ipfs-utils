@@ -6,6 +6,7 @@ const merge = require('merge-options').bind({ ignoreUndefined: true })
 const { URL, URLSearchParams } = require('iso-url')
 const TextDecoder = require('./text-encoder')
 const AbortController = require('abort-controller')
+const anySignal = require('any-signal')
 
 const Request = fetch.Request
 const Headers = fetch.Headers
@@ -96,18 +97,6 @@ class HTTP {
   constructor (options = {}) {
     /** @type {APIOptions} */
     this.opts = merge(defaults, options)
-    this.opts.headers = options.headers
-
-    // connect internal abort to external
-    this.abortController = new AbortController()
-
-    if (this.opts.signal) {
-      this.opts.signal.addEventListener('abort', () => {
-        this.abortController.abort()
-      })
-    }
-
-    this.opts.signal = this.abortController.signal
   }
 
   /**
@@ -152,10 +141,14 @@ class HTTP {
       opts.headers.set('content-type', 'application/json')
     }
 
+    const abortController = new AbortController()
+    const signal = anySignal([abortController.signal, opts.signal])
+
     const response = await timeout(fetch(url, {
       ...opts,
+      signal,
       timeout: undefined
-    }), opts.timeout, this.abortController)
+    }), opts.timeout, abortController)
 
     if (!response.ok && opts.throwHttpErrors) {
       if (opts.handleError) {
