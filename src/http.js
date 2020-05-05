@@ -2,10 +2,11 @@
 'use strict'
 
 const fetch = require('node-fetch')
-const merge = require('merge-options')
+const merge = require('merge-options').bind({ ignoreUndefined: true })
 const { URL, URLSearchParams } = require('iso-url')
 const TextDecoder = require('./text-encoder')
 const AbortController = require('abort-controller')
+const anySignal = require('any-signal')
 
 const Request = fetch.Request
 const Headers = fetch.Headers
@@ -32,24 +33,32 @@ const timeout = (promise, ms, abortController) => {
 
   const start = Date.now()
 
+  const timedOut = () => {
+    const time = Date.now() - start
+
+    return time >= ms
+  }
+
   return new Promise((resolve, reject) => {
+    const timeoutID = setTimeout(() => {
+      if (timedOut()) {
+        reject(new TimeoutError())
+        abortController.abort()
+      }
+    }, ms)
+
     const after = (next) => {
       return (res) => {
         clearTimeout(timeoutID)
-        const time = Date.now() - start
 
-        if (time >= ms) {
-          abortController.abort()
+        if (timedOut()) {
           reject(new TimeoutError())
           return
         }
 
-        if (next) {
-          next(res)
-        }
+        next(res)
       }
     }
-    const timeoutID = setTimeout(after(), ms)
 
     promise
       .then(after(resolve), after(reject))
@@ -88,18 +97,6 @@ class HTTP {
   constructor (options = {}) {
     /** @type {APIOptions} */
     this.opts = merge(defaults, options)
-    this.opts.headers = new Headers(options.headers)
-
-    // connect internal abort to external
-    this.abortController = new AbortController()
-
-    if (this.opts.signal) {
-      this.opts.signal.addEventListener('abort', () => {
-        this.abortController.abort()
-      })
-    }
-
-    this.opts.signal = this.abortController.signal
   }
 
   /**
@@ -144,13 +141,14 @@ class HTTP {
       opts.headers.set('content-type', 'application/json')
     }
 
+    const abortController = new AbortController()
+    const signal = anySignal([abortController.signal, opts.signal])
+
     const response = await timeout(fetch(url, {
       ...opts,
-
-      // node-fetch implements it's own timeout in an addition to the spec so do not
-      // pass the timeout value on, otherwise there are two sources of timeout errors
+      signal,
       timeout: undefined
-    }), opts.timeout, this.abortController)
+    }), opts.timeout, abortController)
 
     if (!response.ok && opts.throwHttpErrors) {
       if (opts.handleError) {
@@ -188,7 +186,10 @@ class HTTP {
    * @returns {Promise<Response>}
    */
   post (resource, options = {}) {
-    return this.fetch(resource, merge(this.opts, options, { method: 'POST' }))
+    return this.fetch(resource, {
+      ...options,
+      method: 'POST'
+    })
   }
 
   /**
@@ -197,7 +198,10 @@ class HTTP {
    * @returns {Promise<Response>}
    */
   get (resource, options = {}) {
-    return this.fetch(resource, merge(this.opts, options, { method: 'GET' }))
+    return this.fetch(resource, {
+      ...options,
+      method: 'GET'
+    })
   }
 
   /**
@@ -206,7 +210,10 @@ class HTTP {
    * @returns {Promise<Response>}
    */
   put (resource, options = {}) {
-    return this.fetch(resource, merge(this.opts, options, { method: 'PUT' }))
+    return this.fetch(resource, {
+      ...options,
+      method: 'PUT'
+    })
   }
 
   /**
@@ -215,7 +222,10 @@ class HTTP {
    * @returns {Promise<Response>}
    */
   delete (resource, options = {}) {
-    return this.fetch(resource, merge(this.opts, options, { method: 'DELETE' }))
+    return this.fetch(resource, {
+      ...options,
+      method: 'DELETE'
+    })
   }
 
   /**
@@ -224,7 +234,10 @@ class HTTP {
    * @returns {Promise<Response>}
    */
   options (resource, options = {}) {
-    return this.fetch(resource, merge(this.opts, options, { method: 'OPTIONS' }))
+    return this.fetch(resource, {
+      ...options,
+      method: 'OPTIONS'
+    })
   }
 }
 

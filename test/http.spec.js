@@ -30,6 +30,27 @@ describe('http', function () {
     })).to.eventually.be.rejectedWith().instanceOf(HTTP.TimeoutError)
   })
 
+  it('respects headers', async function () {
+    const req = await HTTP.post(`${process.env.ECHO_SERVER}/echo/headers`, {
+      headers: {
+        foo: 'bar'
+      }
+    })
+    const rsp = await req.json()
+    expect(rsp).to.have.property('foo', 'bar')
+  })
+
+  it('respects constructor headers', async function () {
+    const http = new HTTP({
+      headers: {
+        bar: 'baz'
+      }
+    })
+    const req = await http.post(`${process.env.ECHO_SERVER}/echo/headers`)
+    const rsp = await req.json()
+    expect(rsp).to.have.property('bar', 'baz')
+  })
+
   it('makes a JSON request', async () => {
     const req = await HTTP.post(`${process.env.ECHO_SERVER}/echo`, {
       json: {
