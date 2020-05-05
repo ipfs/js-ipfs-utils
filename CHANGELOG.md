@@ -1,3 +1,14 @@
+<a name="2.2.2"></a>
+## [2.2.2](https://github.com/ipfs/js-ipfs-utils/compare/v2.2.1...v2.2.2) (2020-05-05)
+
+
+### Bug Fixes
+
+* fix headers and abort signals ([#41](https://github.com/ipfs/js-ipfs-utils/issues/41)) ([ad977a9](https://github.com/ipfs/js-ipfs-utils/commit/ad977a9))
+* **ci:** add empty commit to fix lint checks on master ([ad2fdc4](https://github.com/ipfs/js-ipfs-utils/commit/ad2fdc4))
+
+
+
 <a name="2.2.1"></a>
 ## [2.2.1](https://github.com/ipfs/js-ipfs-utils/compare/v2.2.0...v2.2.1) (2020-05-01)
 
