@@ -1,3 +1,3 @@
 'use strict'
 
-module.exports = require('./globalthis').TextDecoder
+module.exports = require('./globalthis').TextEncoder

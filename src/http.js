@@ -4,7 +4,7 @@
 const fetch = require('node-fetch')
 const merge = require('merge-options').bind({ ignoreUndefined: true })
 const { URL, URLSearchParams } = require('iso-url')
-const TextDecoder = require('./text-encoder')
+const TextDecoder = require('./text-decoder')
 const AbortController = require('abort-controller')
 const anySignal = require('any-signal')
 

@@ -1,2 +1,2 @@
 'use strict'
-module.exports = require('util').TextDecoder
+module.exports = require('util').TextEncoder
