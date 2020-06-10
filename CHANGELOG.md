@@ -1,3 +1,13 @@
+<a name="2.3.0"></a>
+# [2.3.0](https://github.com/ipfs/js-ipfs-utils/compare/v2.2.2...v2.3.0) (2020-06-10)
+
+
+### Bug Fixes
+
+* text encoder / decoder exports ([c4792e1](https://github.com/ipfs/js-ipfs-utils/commit/c4792e1))
+
+
+
 <a name="2.2.2"></a>
 ## [2.2.2](https://github.com/ipfs/js-ipfs-utils/compare/v2.2.1...v2.2.2) (2020-05-05)
 
