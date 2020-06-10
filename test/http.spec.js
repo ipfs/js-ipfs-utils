@@ -5,33 +5,35 @@ const { expect } = require('aegir/utils/chai')
 const HTTP = require('../src/http')
 const toStream = require('it-to-stream')
 const delay = require('delay')
-const AbortController = require('abort-controller')
+const { AbortController } = require('abort-controller')
 const drain = require('it-drain')
 const all = require('it-all')
 const { isBrowser, isWebWorker } = require('../src/env')
 const { Buffer } = require('buffer')
 
+const ECHO_SERVER = /** @type {string|null} */(process.env.ECHO_SERVER)
+
 describe('http', function () {
   it('makes a GET request', async function () {
-    const req = await HTTP.get(`${process.env.ECHO_SERVER}/echo/query?test=one`)
+    const req = await HTTP.get(`${ECHO_SERVER}/echo/query?test=one`)
     const rsp = await req.json()
     expect(rsp).to.be.deep.eq({ test: 'one' })
   })
 
   it('makes a GET request with redirect', async function () {
-    const req = await HTTP.get(`${process.env.ECHO_SERVER}/redirect?to=${encodeURI(`${process.env.ECHO_SERVER}/echo/query?test=one`)}`)
+    const req = await HTTP.get(`${ECHO_SERVER}/redirect?to=${encodeURI(`${ECHO_SERVER}/echo/query?test=one`)}`)
     const rsp = await req.json()
     expect(rsp).to.be.deep.eq({ test: 'one' })
   })
 
   it('makes a GET request with a really short timeout', function () {
-    return expect(HTTP.get(`${process.env.ECHO_SERVER}/redirect?to=${encodeURI(`${process.env.ECHO_SERVER}/echo/query?test=one`)}`, {
+    return expect(HTTP.get(`${ECHO_SERVER}/redirect?to=${encodeURI(`${ECHO_SERVER}/echo/query?test=one`)}`, {
       timeout: 1
     })).to.eventually.be.rejectedWith().instanceOf(HTTP.TimeoutError)
   })
 
   it('respects headers', async function () {
-    const req = await HTTP.post(`${process.env.ECHO_SERVER}/echo/headers`, {
+    const req = await HTTP.post(`${ECHO_SERVER}/echo/headers`, {
       headers: {
         foo: 'bar'
       }
@@ -46,13 +48,13 @@ describe('http', function () {
         bar: 'baz'
       }
     })
-    const req = await http.post(`${process.env.ECHO_SERVER}/echo/headers`)
+    const req = await http.post(`${ECHO_SERVER}/echo/headers`)
     const rsp = await req.json()
     expect(rsp).to.have.property('bar', 'baz')
   })
 
   it('makes a JSON request', async () => {
-    const req = await HTTP.post(`${process.env.ECHO_SERVER}/echo`, {
+    const req = await HTTP.post(`${ECHO_SERVER}/echo`, {
       json: {
         test: 2
       }
@@ -63,7 +65,7 @@ describe('http', function () {
   })
 
   it('makes a DELETE request', async () => {
-    const req = await HTTP.delete(`${process.env.ECHO_SERVER}/echo`, {
+    const req = await HTTP.delete(`${ECHO_SERVER}/echo`, {
       json: {
         test: 2
       }
@@ -76,7 +78,7 @@ describe('http', function () {
   it('allow async aborting', async function () {
     const controller = new AbortController()
 
-    const res = HTTP.get(process.env.ECHO_SERVER, {
+    const res = HTTP.get(ECHO_SERVER, {
       signal: controller.signal
     })
     controller.abort()
@@ -85,7 +87,7 @@ describe('http', function () {
   })
 
   it('parses the response as ndjson', async function () {
-    const res = await HTTP.post(`${process.env.ECHO_SERVER}/echo`, {
+    const res = await HTTP.post(`${ECHO_SERVER}/echo`, {
       body: '{}\n{}'
     })
 
@@ -96,7 +98,7 @@ describe('http', function () {
 
   it('parses the response as an async iterable', async function () {
     const res = await HTTP.post('echo', {
-      base: process.env.ECHO_SERVER,
+      base: ECHO_SERVER,
       body: 'hello world'
     })
 
@@ -120,7 +122,7 @@ describe('http', function () {
       throw err
     }())
 
-    const res = await HTTP.post(process.env.ECHO_SERVER, {
+    const res = await HTTP.post(ECHO_SERVER, {
       body: toStream.readable(body)
     })
 
@@ -143,7 +145,7 @@ describe('http', function () {
       throw err
     }())
 
-    const res = await HTTP.post(process.env.ECHO_SERVER, {
+    const res = await HTTP.post(ECHO_SERVER, {
       body: toStream.readable(body),
       signal: controller.signal
     })

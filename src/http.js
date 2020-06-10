@@ -3,13 +3,14 @@
 
 const fetch = require('node-fetch')
 const merge = require('merge-options').bind({ ignoreUndefined: true })
+const anySignal = require('any-signal')
 const { URL, URLSearchParams } = require('iso-url')
 const TextDecoder = require('./text-encoder')
-const AbortController = require('abort-controller')
-const anySignal = require('any-signal')
+const { AbortController } = require('abort-controller')
 
 const Request = fetch.Request
-const Headers = fetch.Headers
+
+/** @typedef {import("./types").HttpResponse} HttpResponse */
 
 class TimeoutError extends Error {
   constructor () {
@@ -73,20 +74,20 @@ const defaults = {
 }
 
 /**
- * @typedef {Object} APIOptions - creates a new type named 'SpecialType'
- * @prop {any} [body] - Request body
- * @prop {Object} [json] - JSON shortcut
- * @prop {string} [method] - GET, POST, PUT, DELETE, etc.
- * @prop {string} [base] - The base URL to use in case url is a relative URL
- * @prop {Headers|Record<string, string>} [headers] - Request header.
- * @prop {number} [timeout] - Amount of time until request should timeout in ms.
- * @prop {AbortSignal} [signal] - Signal to abort the request.
- * @prop {URLSearchParams|Object} [searchParams] - URL search param.
- * @prop {string} [credentials]
- * @prop {boolean} [throwHttpErrors]
- * @prop {function(URLSearchParams): URLSearchParams } [transformSearchParams]
- * @prop {function(any): any} [transform] - When iterating the response body, transform each chunk with this function.
- * @prop {function(Response): Promise<void>} [handleError] - Handle errors
+ * @typedef {object} APIOptions - creates a new type named 'SpecialType'
+ * @property {any} [body] - Request body
+ * @property {object} [json] - JSON shortcut
+ * @property {string} [method] - GET, POST, PUT, DELETE, etc.
+ * @property {string} [base] - The base URL to use in case url is a relative URL
+ * @property {Headers|Record<string,string>} [headers] - Request header.
+ * @property {number} [timeout] - Amount of time until request should timeout in ms.
+ * @property {AbortSignal} [signal] - Signal to abort the request.
+ * @property {URLSearchParams|object} [searchParams] - URL search param.
+ * @property {string} [credentials]
+ * @property {boolean} [throwHttpErrors]
+ * @property {function(URLSearchParams): URLSearchParams } [transformSearchParams]
+ * @property {function(any): any} [transform] - When iterating the response body, transform each chunk with this function.
+ * @property {function(Response): Promise<void>} [handleError] - Handle errors
  */
 
 class HTTP {
@@ -104,12 +105,12 @@ class HTTP {
    *
    * @param {string | URL | Request} resource
    * @param {APIOptions} options
-   * @returns {Promise<Response>}
+   * @returns {Promise<HttpResponse>}
    */
   async fetch (resource, options = {}) {
     /** @type {APIOptions} */
     const opts = merge(this.opts, options)
-    opts.headers = new Headers(opts.headers)
+    // opts.headers = new Headers(opts.headers)
 
     // validate resource type
     if (typeof resource !== 'string' && !(resource instanceof URL || resource instanceof Request)) {
@@ -137,8 +138,9 @@ class HTTP {
     }
 
     if (opts.json !== undefined) {
-      opts.body = JSON.stringify(opts.json)
-      opts.headers.set('content-type', 'application/json')
+      opts.body = JSON.stringify(opts.json);
+
+      /** @type {Headers} */(opts.headers).set('content-type', 'application/json')
     }
 
     const abortController = new AbortController()
@@ -183,7 +185,7 @@ class HTTP {
   /**
    * @param {string | URL | Request} resource
    * @param {APIOptions} options
-   * @returns {Promise<Response>}
+   * @returns {Promise<HttpResponse>}
    */
   post (resource, options = {}) {
     return this.fetch(resource, {
@@ -195,7 +197,7 @@ class HTTP {
   /**
    * @param {string | URL | Request} resource
    * @param {APIOptions} options
-   * @returns {Promise<Response>}
+   * @returns {Promise<HttpResponse>}
    */
   get (resource, options = {}) {
     return this.fetch(resource, {
@@ -207,7 +209,7 @@ class HTTP {
   /**
    * @param {string | URL | Request} resource
    * @param {APIOptions} options
-   * @returns {Promise<Response>}
+   * @returns {Promise<HttpResponse>}
    */
   put (resource, options = {}) {
     return this.fetch(resource, {
@@ -219,7 +221,7 @@ class HTTP {
   /**
    * @param {string | URL | Request} resource
    * @param {APIOptions} options
-   * @returns {Promise<Response>}
+   * @returns {Promise<HttpResponse>}
    */
   delete (resource, options = {}) {
     return this.fetch(resource, {
@@ -231,7 +233,7 @@ class HTTP {
   /**
    * @param {string | URL | Request} resource
    * @param {APIOptions} options
-   * @returns {Promise<Response>}
+   * @returns {Promise<HttpResponse>}
    */
   options (resource, options = {}) {
     return this.fetch(resource, {
@@ -245,7 +247,7 @@ class HTTP {
  * Parses NDJSON chunks from an iterator
  *
  * @param {AsyncGenerator<Uint8Array, void, any>} source
- * @returns {AsyncGenerator<Object, void, any>}
+ * @returns {AsyncGenerator<object, void, any>}
  */
 const ndjson = async function * (source) {
   const decoder = new TextDecoder()
@@ -320,39 +322,40 @@ const isAsyncIterator = (obj) => {
 HTTP.HTTPError = HTTPError
 HTTP.TimeoutError = TimeoutError
 HTTP.streamToAsyncIterator = streamToAsyncIterator
+HTTP.ndjson = (s) => ndjson(streamToAsyncIterator(s))
 
 /**
  * @param {string | URL | Request} resource
- * @param {APIOptions} options
- * @returns {Promise<Response>}
+ * @param {APIOptions} [options]
+ * @returns {Promise<HttpResponse>}
  */
 HTTP.post = (resource, options) => new HTTP(options).post(resource, options)
 
 /**
  * @param {string | URL | Request} resource
- * @param {APIOptions} options
- * @returns {Promise<Response>}
+ * @param {APIOptions} [options]
+ * @returns {Promise<HttpResponse>}
  */
 HTTP.get = (resource, options) => new HTTP(options).get(resource, options)
 
 /**
  * @param {string | URL | Request} resource
- * @param {APIOptions} options
- * @returns {Promise<Response>}
+ * @param {APIOptions} [options]
+ * @returns {Promise<HttpResponse>}
  */
 HTTP.put = (resource, options) => new HTTP(options).put(resource, options)
 
 /**
  * @param {string | URL | Request} resource
- * @param {APIOptions} options
- * @returns {Promise<Response>}
+ * @param {APIOptions} [options]
+ * @returns {Promise<HttpResponse>}
  */
 HTTP.delete = (resource, options) => new HTTP(options).delete(resource, options)
 
 /**
  * @param {string | URL | Request} resource
- * @param {APIOptions} options
- * @returns {Promise<Response>}
+ * @param {APIOptions} [options]
+ * @returns {Promise<HttpResponse>}
  */
 HTTP.options = (resource, options) => new HTTP(options).options(resource, options)
 

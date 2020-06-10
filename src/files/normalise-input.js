@@ -275,8 +275,10 @@ async function * readBlob (blob, options) {
 
   const getNextChunk = () => new Promise((resolve, reject) => {
     reader.onloadend = e => {
-      const data = e.target.result
-      resolve(data.byteLength === 0 ? null : data)
+      if (e.target) {
+        const data = /** @type {ArrayBuffer} */(e.target.result)
+        resolve(data.byteLength === 0 ? null : data)
+      }
     }
     reader.onerror = reject
 

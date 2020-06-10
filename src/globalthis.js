@@ -1,3 +1,4 @@
+// @ts-nocheck
 /* eslint-disable no-undef */
 /* eslint-disable no-extend-native */
 /* eslint-disable strict */
