@@ -1,3 +1,13 @@
+<a name="2.3.1"></a>
+## [2.3.1](https://github.com/ipfs/js-ipfs-utils/compare/v2.3.0...v2.3.1) (2020-06-18)
+
+
+### Features
+
+* add webrtc to supports ([#38](https://github.com/ipfs/js-ipfs-utils/issues/38)) ([8cca85d](https://github.com/ipfs/js-ipfs-utils/commit/8cca85d))
+
+
+
 <a name="2.3.0"></a>
 # [2.3.0](https://github.com/ipfs/js-ipfs-utils/compare/v2.2.2...v2.3.0) (2020-06-10)
 
