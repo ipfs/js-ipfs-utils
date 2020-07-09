@@ -8,7 +8,7 @@ const path = require('path')
 const {
   isNode
 } = require('../../src/env')
-const fs = require('fs')
+const fs = require('fs-extra')
 
 function fixture (file) {
   return path.resolve(path.join(__dirname, '..', 'fixtures', file))
