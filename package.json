@@ -12,6 +12,7 @@
     "dist"
   ],
   "browser": {
+    "./src/http/fetch.js": "./src/http/fetch.browser.js",
     "./src/text-encoder.js": "./src/text-encoder.browser.js",
     "./src/text-decoder.js": "./src/text-decoder.browser.js",
     "./src/temp-dir.js": "./src/temp-dir.browser.js",
