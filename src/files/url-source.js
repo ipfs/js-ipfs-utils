@@ -2,12 +2,17 @@
 
 const Http = require('../http')
 
-module.exports = async function * urlSource (url, options) {
-  const http = new Http()
-  const response = await http.get(url, options)
-
-  yield {
+const urlSource = (url, options) => {
+  return {
     path: decodeURIComponent(new URL(url).pathname.split('/').pop() || ''),
-    content: response.iterator()
+    content: readURLContent(url, options)
   }
 }
+
+const readURLContent = async function * (url, options) {
+  const http = new Http()
+  const response = await http.get(url, options)
+  yield * response.iterator()
+}
+
+module.exports = urlSource
