@@ -1,16 +1,24 @@
 'use strict'
 
+const multibase = require('multibase')
+const { names } = require('multibase/src/constants')
 const TextEncoder = require('../text-encoder')
 const utf8Encoder = new TextEncoder('utf8')
 
-/**
- * Returns a Uint8Array created from the passed utf8 encoded string
- *
- * @param {String} str
- * @returns {Uint8Array}
- */
-function fromString (str) {
-  return utf8Encoder.encode(str)
+function fromString (string, encoding = 'utf8') {
+  if (encoding !== 'utf8') {
+    const base = names[encoding]
+
+    if (!base) {
+      throw new Error('Unknown base')
+    }
+
+    string = `${base.code}${string}`
+
+    return Uint8Array.from(multibase.decode(string))
+  }
+
+  return utf8Encoder.encode(string)
 }
 
 module.exports = fromString
