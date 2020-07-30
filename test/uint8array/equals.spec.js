@@ -2,7 +2,7 @@
 
 /* eslint-env mocha */
 const { expect } = require('aegir/utils/chai')
-const equals = require('../../src/uint8array/equals')
+const equals = require('../../src/uint8arrays/equals')
 
 describe('Uint8Array equals', () => {
   it('finds two Uint8Arrays equal', () => {

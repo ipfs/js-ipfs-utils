@@ -2,7 +2,7 @@
 
 /* eslint-env mocha */
 const { expect } = require('aegir/utils/chai')
-const concat = require('../../src/uint8array/concat')
+const concat = require('../../src/uint8arrays/concat')
 
 describe('Uint8Array concat', () => {
   it('concats two Uint8Arrays', () => {

@@ -2,7 +2,7 @@
 
 /* eslint-env mocha */
 const { expect } = require('aegir/utils/chai')
-const fromHexString = require('../../src/uint8array/from-hex-string')
+const fromHexString = require('../../src/uint8arrays/from-hex-string')
 
 describe('Uint8Array fromHexString', () => {
   it('creates a Uint8Array from a hex string', () => {

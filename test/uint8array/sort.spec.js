@@ -2,7 +2,7 @@
 
 /* eslint-env mocha */
 const { expect } = require('aegir/utils/chai')
-const sort = require('../../src/uint8array/sort')
+const sort = require('../../src/uint8arrays/sort')
 
 describe('Uint8Array sort', () => {
   it('is stable', () => {
