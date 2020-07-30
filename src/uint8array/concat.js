@@ -1,5 +1,12 @@
 'use strict'
 
+/**
+ * Returns a new Uint8Array created by concatenating the passed Arrays
+ *
+ * @param {Array<Array|TypedArray>} arrs
+ * @param {Number} length
+ * @returns {Uint8Array}
+ */
 function concat (arrs, length) {
   if (!length) {
     length = arrs.reduce((acc, curr) => acc + curr.byteLength, 0)

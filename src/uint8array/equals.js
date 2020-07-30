@@ -1,5 +1,12 @@
 'use strict'
 
+/**
+ * Returns true if the two passed Uint8Arrays have the same content
+ *
+ * @param {Uint8Array} a
+ * @param {Uint8Array} b
+ * @returns {boolean}
+ */
 function equals (a, b) {
   if (a === b) {
     return true

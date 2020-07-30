@@ -1,5 +1,12 @@
 'use strict'
 
+/**
+ * Can be used with Array.sort to sort and array with Uint8Array entries
+ *
+ * @param {Uint8Array} a
+ * @param {Uint8Array} b
+ * @returns {Number}
+ */
 function sort (a, b) {
   for (let i = 0; i < a.byteLength; i++) {
     if (a[i] < b[i]) {
