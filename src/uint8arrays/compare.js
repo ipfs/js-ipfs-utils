@@ -7,7 +7,7 @@
  * @param {Uint8Array} b
  * @returns {Number}
  */
-function sort (a, b) {
+function compare (a, b) {
   for (let i = 0; i < a.byteLength; i++) {
     if (a[i] < b[i]) {
       return -1
@@ -29,4 +29,4 @@ function sort (a, b) {
   return 0
 }
 
-module.exports = sort
+module.exports = compare
