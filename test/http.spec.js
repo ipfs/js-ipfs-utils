@@ -151,7 +151,7 @@ describe('http', function () {
     await expect(drain(HTTP.ndjson(res.body))).to.eventually.be.rejectedWith(/aborted/)
   })
 
-  ;(typeof XMLHttpRequest === 'undefined' ? it.skip : it)('progress events', async () => {
+  it('progress events', async () => {
     let upload = 0
     let download = 0
     const body = new Uint8Array(1000000 / 2)

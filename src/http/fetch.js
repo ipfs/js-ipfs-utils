@@ -5,8 +5,5 @@
 if (typeof XMLHttpRequest !== 'undefined') {
   module.exports = require('./fetch.browser')
 } else {
-  const fetch = require('node-fetch')
-  exports.fetch = fetch
-  exports.Request = fetch.Request
-  exports.Headers = fetch.Headers
+  module.exports = require('./fetch.node')
 }
