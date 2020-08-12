@@ -1,30 +1,13 @@
 /* eslint-disable no-undef */
 'use strict'
 
-const fetch = require('node-fetch')
+const { fetch, Request, Headers } = require('./http/fetch')
+const { TimeoutError, HTTPError } = require('./http/error')
 const merge = require('merge-options').bind({ ignoreUndefined: true })
 const { URL, URLSearchParams } = require('iso-url')
 const TextDecoder = require('./text-decoder')
 const AbortController = require('abort-controller')
 const anySignal = require('any-signal')
-
-const Request = fetch.Request
-const Headers = fetch.Headers
-
-class TimeoutError extends Error {
-  constructor () {
-    super('Request timed out')
-    this.name = 'TimeoutError'
-  }
-}
-
-class HTTPError extends Error {
-  constructor (response) {
-    super(response.statusText)
-    this.name = 'HTTPError'
-    this.response = response
-  }
-}
 
 const timeout = (promise, ms, abortController) => {
   if (ms === undefined) {
@@ -87,6 +70,8 @@ const defaults = {
  * @prop {function(URLSearchParams): URLSearchParams } [transformSearchParams]
  * @prop {function(any): any} [transform] - When iterating the response body, transform each chunk with this function.
  * @prop {function(Response): Promise<void>} [handleError] - Handle errors
+ * @prop {function({total:number, loaded:number, lengthComputable:boolean}):void} [onUploadProgress] - Can be passed to track upload progress
+ * @prop {function({total:number, loaded:number, lengthComputable:boolean}):void} [onDownloadProgress] - Can be passed to track download progress
  */
 
 class HTTP {

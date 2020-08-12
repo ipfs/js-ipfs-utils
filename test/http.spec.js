@@ -150,4 +150,29 @@ describe('http', function () {
 
     await expect(drain(HTTP.ndjson(res.body))).to.eventually.be.rejectedWith(/aborted/)
   })
+
+  it('progress events', async () => {
+    let upload = 0
+    let download = 0
+    const body = new Uint8Array(1000000 / 2)
+    const request = await HTTP.post(`${process.env.ECHO_SERVER}/echo`, {
+      body,
+      onUploadProgress: (progress) => {
+        expect(progress).to.have.property('lengthComputable').to.be.a('boolean')
+        expect(progress).to.have.property('total', body.byteLength)
+        expect(progress).to.have.property('loaded').to.be.a('number')
+        upload += 1
+      },
+      onDownloadProgress: (progress) => {
+        expect(progress).to.have.property('lengthComputable').to.be.a('boolean')
+        expect(progress).to.have.property('total').to.be.a('number')
+        expect(progress).to.have.property('loaded').to.be.a('number')
+        download += 1
+      }
+    })
+    await all(request.iterator())
+
+    expect(upload).to.be.greaterThan(0)
+    expect(download).to.be.greaterThan(0)
+  })
 })
