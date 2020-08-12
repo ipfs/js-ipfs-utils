@@ -62,7 +62,7 @@ describe('supports', function () {
     }
   })
 
-  it('supportsWebRTC should return true in Web Worker', function () {
+  it('supportsWebRTC should return false in Web Worker', function () {
     if (env.isWebWorker) {
       expect(supports.supportsWebRTC).to.be.false()
     } else {
@@ -81,6 +81,46 @@ describe('supports', function () {
   it('supportsWebRTC should return true in Electron renderer', function () {
     if (env.isElectronRenderer) {
       expect(supports.supportsWebRTC).to.be.true()
+    } else {
+      this.skip()
+    }
+  })
+
+  it('supportsWebRTCDataChannels should return false in node', function () {
+    if (env.isNode) {
+      expect(supports.supportsWebRTCDataChannels).to.be.false()
+    } else {
+      this.skip()
+    }
+  })
+
+  it('supportsWebRTCDataChannels should return true in browser', function () {
+    if (env.isBrowser) {
+      expect(supports.supportsWebRTCDataChannels).to.be.true()
+    } else {
+      this.skip()
+    }
+  })
+
+  it('supportsWebRTCDataChannels should return false in Web Worker', function () {
+    if (env.isWebWorker) {
+      expect(supports.supportsWebRTCDataChannels).to.be.false()
+    } else {
+      this.skip()
+    }
+  })
+
+  it('supportsWebRTCDataChannels should return false in Electron main', function () {
+    if (env.isElectron && !env.isElectronRenderer) {
+      expect(supports.supportsWebRTCDataChannels).to.be.false()
+    } else {
+      this.skip()
+    }
+  })
+
+  it('supportsWebRTCDataChannels should return true in Electron renderer', function () {
+    if (env.isElectronRenderer) {
+      expect(supports.supportsWebRTCDataChannels).to.be.true()
     } else {
       this.skip()
     }
