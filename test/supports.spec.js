@@ -62,7 +62,7 @@ describe('supports', function () {
     }
   })
 
-  it('supportsWebRTC should return true in Web Worker', function () {
+  it('supportsWebRTC should return false in Web Worker', function () {
     if (env.isWebWorker) {
       expect(supports.supportsWebRTC).to.be.false()
     } else {
@@ -102,7 +102,7 @@ describe('supports', function () {
     }
   })
 
-  it('supportsWebRTCDataChannels should return true in Web Worker', function () {
+  it('supportsWebRTCDataChannels should return false in Web Worker', function () {
     if (env.isWebWorker) {
       expect(supports.supportsWebRTCDataChannels).to.be.false()
     } else {
