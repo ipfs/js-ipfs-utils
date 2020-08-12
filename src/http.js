@@ -70,8 +70,8 @@ const defaults = {
  * @prop {function(URLSearchParams): URLSearchParams } [transformSearchParams]
  * @prop {function(any): any} [transform] - When iterating the response body, transform each chunk with this function.
  * @prop {function(Response): Promise<void>} [handleError] - Handle errors
- * @prop {function({total:number, loaded:number, lengthComputable:boolean}):void} [onUploadProgress] - Can be passed to track upload progress (in browsers only).
- * @prop {function({total:number, loaded:number, lengthComputable:boolean}):void} [onDownloadProgress] - Can be passed to track download progress (in browsers only).
+ * @prop {function({total:number, loaded:number, lengthComputable:boolean}):void} [onUploadProgress] - Can be passed to track upload progress
+ * @prop {function({total:number, loaded:number, lengthComputable:boolean}):void} [onDownloadProgress] - Can be passed to track download progress
  */
 
 class HTTP {
