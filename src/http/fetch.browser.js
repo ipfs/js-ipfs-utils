@@ -50,6 +50,8 @@ const fetch = (url, options = {}) => {
     request.upload.onprogress = options.onUploadProgress
   }
 
+  request.responseType = 'arraybuffer'
+
   return new Promise((resolve, reject) => {
     /**
      * @param {Event} event

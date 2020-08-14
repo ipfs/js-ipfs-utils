@@ -10,6 +10,8 @@ const drain = require('it-drain')
 const all = require('it-all')
 const { isBrowser, isWebWorker } = require('../src/env')
 const { Buffer } = require('buffer')
+const uint8ArrayFromString = require('uint8arrays/from-string')
+const uint8ArrayEquals = require('uint8arrays/equals')
 
 describe('http', function () {
   it('makes a GET request', async function () {
@@ -174,5 +176,14 @@ describe('http', function () {
 
     expect(upload).to.be.greaterThan(0)
     expect(download).to.be.greaterThan(0)
+  })
+
+  it('makes a GET request with unprintable characters', async function () {
+    const buf = uint8ArrayFromString('a163666f6f6c6461672d63626f722d626172', 'base16')
+    const params = Array.from(buf).map(val => `data=${val.toString()}`).join('&')
+
+    const req = await HTTP.get(`${process.env.ECHO_SERVER}/download?${params}`)
+    const rsp = await req.arrayBuffer()
+    expect(uint8ArrayEquals(new Uint8Array(rsp), buf)).to.be.true()
   })
 })
