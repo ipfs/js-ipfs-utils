@@ -1,3 +1,13 @@
+<a name="3.0.0"></a>
+# [3.0.0](https://github.com/ipfs/js-ipfs-utils/compare/v2.4.0...v3.0.0) (2020-08-18)
+
+
+### Bug Fixes
+
+* revert "feat: http upload/download progress handlers" ([#58](https://github.com/ipfs/js-ipfs-utils/issues/58)) ([1bbe957](https://github.com/ipfs/js-ipfs-utils/commit/1bbe957))
+
+
+
 <a name="2.4.0"></a>
 # [2.4.0](https://github.com/ipfs/js-ipfs-utils/compare/v2.3.1...v2.4.0) (2020-08-12)
 
