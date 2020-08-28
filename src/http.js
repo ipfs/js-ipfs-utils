@@ -1,15 +1,16 @@
 /* eslint-disable no-undef */
 'use strict'
 
-const fetch = require('node-fetch')
+const {
+  default: fetch,
+  Request,
+  Headers
+} = require('native-browser-fetch')
 const merge = require('merge-options').bind({ ignoreUndefined: true })
 const { URL, URLSearchParams } = require('iso-url')
 const TextDecoder = require('./text-decoder')
-const AbortController = require('abort-controller')
+const AbortController = require('native-abort-controller')
 const anySignal = require('any-signal')
-
-const Request = fetch.Request
-const Headers = fetch.Headers
 
 class TimeoutError extends Error {
   constructor () {
