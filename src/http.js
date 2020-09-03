@@ -5,7 +5,7 @@ const {
   default: fetch,
   Request,
   Headers
-} = require('native-browser-fetch')
+} = require('native-fetch')
 const merge = require('merge-options').bind({ ignoreUndefined: true })
 const { URL, URLSearchParams } = require('iso-url')
 const TextDecoder = require('./text-decoder')

@@ -44,7 +44,7 @@
     "merge-options": "^2.0.0",
     "nanoid": "^3.1.3",
     "native-abort-controller": "0.0.3",
-    "native-browser-fetch": "0.0.1",
+    "native-fetch": "^2.0.0",
     "node-fetch": "^2.6.0",
     "stream-to-it": "^0.2.0"
   },
