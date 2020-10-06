@@ -34,7 +34,7 @@
   "license": "MIT",
   "dependencies": {
     "abort-controller": "^3.0.0",
-    "any-signal": "achingbrain/any-signal#fix/use-native-abort-controller-if-available",
+    "any-signal": "^2.1.0",
     "buffer": "^5.6.0",
     "err-code": "^2.0.0",
     "fs-extra": "^9.0.1",
