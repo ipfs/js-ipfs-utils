@@ -2,7 +2,8 @@
 /* eslint-env browser */
 
 const { TimeoutError, AbortError } = require('./error')
-const { Request, Response, Headers, fetch } = require('./fetch.polyfill')
+const fetch = require('native-fetch')
+const { Request, Response, Headers } = fetch
 
 /**
  * @typedef {RequestInit & ExtraFetchOptions} FetchOptions

@@ -3,7 +3,7 @@
 
 /** @type {import('node-fetch') & typeof fetch} */
 // @ts-ignore
-const nodeFetch = require('node-fetch')
+const nodeFetch = require('native-fetch')
 const toStream = require('it-to-stream')
 const { Buffer } = require('buffer')
 const { Request, Response, Headers } = nodeFetch
@@ -72,7 +72,7 @@ const bodyWithUploadProgress = (init, onUploadProgress) => {
 }
 
 /**
- * Takes body from node-fetch response as body and `onUploadProgress` handler
+ * Takes body from native-fetch response as body and `onUploadProgress` handler
  * and returns async iterable that emits body chunks and emits
  * `onUploadProgress`.
  * @param {Buffer|null|Readable} body
