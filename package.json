@@ -16,7 +16,8 @@
     "./src/text-decoder.js": "./src/text-decoder.browser.js",
     "./src/temp-dir.js": "./src/temp-dir.browser.js",
     "./src/path-join.js": "./src/path-join.browser.js",
-    "./test/files/glob-source.spec.js": false
+    "./test/files/glob-source.spec.js": false,
+    "electron-fetch": false
   },
   "repository": "github:ipfs/js-ipfs-utils",
   "scripts": {
@@ -36,6 +37,7 @@
     "abort-controller": "^3.0.0",
     "any-signal": "^2.1.0",
     "buffer": "^5.6.0",
+    "electron-fetch": "^1.7.1",
     "err-code": "^2.0.0",
     "fs-extra": "^9.0.1",
     "is-electron": "^2.2.0",
