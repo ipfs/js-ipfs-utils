@@ -17,7 +17,7 @@
     "./src/temp-dir.js": "./src/temp-dir.browser.js",
     "./src/path-join.js": "./src/path-join.browser.js",
     "./test/files/glob-source.spec.js": false,
-    "electron-fetch": false
+    "@achingbrain/electron-fetch": false
   },
   "repository": "github:ipfs/js-ipfs-utils",
   "scripts": {
