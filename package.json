@@ -37,7 +37,7 @@
     "abort-controller": "^3.0.0",
     "any-signal": "^2.1.0",
     "buffer": "^5.6.0",
-    "electron-fetch": "achingbrain/electron-fetch#fix/abort-request-when-abort-signal-received",
+    "electron-fetch": "^1.7.1",
     "err-code": "^2.0.0",
     "fs-extra": "^9.0.1",
     "is-electron": "^2.2.0",
