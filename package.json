@@ -16,7 +16,8 @@
     "./src/text-decoder.js": "./src/text-decoder.browser.js",
     "./src/temp-dir.js": "./src/temp-dir.browser.js",
     "./src/path-join.js": "./src/path-join.browser.js",
-    "./test/files/glob-source.spec.js": false
+    "./test/files/glob-source.spec.js": false,
+    "@achingbrain/electron-fetch": false
   },
   "repository": "github:ipfs/js-ipfs-utils",
   "scripts": {
@@ -34,8 +35,9 @@
   "license": "MIT",
   "dependencies": {
     "abort-controller": "^3.0.0",
-    "any-signal": "^1.1.0",
+    "any-signal": "^2.1.0",
     "buffer": "^5.6.0",
+    "@achingbrain/electron-fetch": "^1.7.2",
     "err-code": "^2.0.0",
     "fs-extra": "^9.0.1",
     "is-electron": "^2.2.0",
@@ -43,6 +45,8 @@
     "it-glob": "0.0.8",
     "merge-options": "^2.0.0",
     "nanoid": "^3.1.3",
+    "native-abort-controller": "0.0.3",
+    "native-fetch": "^2.0.0",
     "node-fetch": "^2.6.0",
     "stream-to-it": "^0.2.0"
   },
