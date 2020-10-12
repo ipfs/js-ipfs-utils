@@ -3,7 +3,7 @@
 
 /** @type {import('node-fetch') & typeof fetch} */
 // @ts-ignore
-const nodeFetch = require('native-fetch')
+const nodeFetch = require('../fetch')
 const toStream = require('it-to-stream')
 const { Buffer } = require('buffer')
 const { Request, Response, Headers } = nodeFetch

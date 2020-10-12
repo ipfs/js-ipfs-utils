@@ -1,3 +1,13 @@
+<a name="4.0.0"></a>
+# [4.0.0](https://github.com/ipfs/js-ipfs-utils/compare/v3.0.0...v4.0.0) (2020-10-10)
+
+
+### Bug Fixes
+
+* use native fetch if available ([#62](https://github.com/ipfs/js-ipfs-utils/issues/62)) ([9b0ff2f](https://github.com/ipfs/js-ipfs-utils/commit/9b0ff2f))
+
+
+
 <a name="3.0.0"></a>
 # [3.0.0](https://github.com/ipfs/js-ipfs-utils/compare/v2.4.0...v3.0.0) (2020-08-18)
 

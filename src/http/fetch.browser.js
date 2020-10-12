@@ -2,7 +2,7 @@
 /* eslint-env browser */
 
 const { TimeoutError, AbortError } = require('./error')
-const fetch = require('native-fetch')
+const fetch = require('../fetch')
 const { Request, Response, Headers } = fetch
 
 /**
