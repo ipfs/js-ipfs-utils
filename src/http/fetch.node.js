@@ -62,12 +62,35 @@ const withUploadProgress = (options) => {
  * @returns {Readable}
  */
 const bodyWithUploadProgress = (init, onUploadProgress) => {
-  // @ts-ignore - node-fetch is typed poorly
-  const { body } = new Response(init.body, init)
+  // This works around the fact that electron-fetch serializes `Uint8Array`s
+  // and `ArrayBuffer`'s to strings.
+  const content = normalizeBody(init.body)
+
+  // @ts-ignore - Response does not accept node `Readable` streams.
+  const { body } = new Response(content, init)
   // @ts-ignore - Unlike standard Response, node-fetch `body` has a differnt
   // type see: see https://github.com/node-fetch/node-fetch/blob/master/src/body.js
   const source = iterateBodyWithProgress(body, onUploadProgress)
   return toStream.readable(source)
+}
+
+/**
+ * @param {BodyInit} [input]
+ * @returns {Buffer|Readable|Blob|null}
+ */
+const normalizeBody = (input = null) => {
+  if (input instanceof ArrayBuffer) {
+    return Buffer.from(input)
+  } else if (ArrayBuffer.isView(input)) {
+    return Buffer.from(input.buffer, input.byteOffset, input.byteLength)
+  } else if (typeof input === 'string') {
+    return Buffer.from(input)
+  } else {
+    // @ts-ignore - Could be FormData|URLSearchParams|ReadableStream<Uint8Array>
+    // however electron-fetch does not support either of those types and
+    // node-fetch normalizes those to node streams.
+    return input
+  }
 }
 
 /**
