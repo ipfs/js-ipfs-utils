@@ -1,12 +1,10 @@
 // @ts-check
 'use strict'
 
-/** @type {import('node-fetch') & typeof fetch} */
-// @ts-ignore
-const nodeFetch = require('../fetch')
+const { Request, Response, Headers, default: nodeFetch } = require('../fetch')
 const toStream = require('it-to-stream')
 const { Buffer } = require('buffer')
-const { Request, Response, Headers } = nodeFetch
+
 /**
  * @typedef {RequestInit & ExtraFetchOptions} FetchOptions
  *
@@ -30,6 +28,7 @@ const { Request, Response, Headers } = nodeFetch
  * @returns {Promise<Response>}
  */
 const fetch = (url, options = {}) =>
+  // @ts-ignore
   nodeFetch(url, withUploadProgress(options))
 
 exports.fetch = fetch

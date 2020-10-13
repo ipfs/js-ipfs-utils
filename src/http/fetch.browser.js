@@ -2,8 +2,7 @@
 /* eslint-env browser */
 
 const { TimeoutError, AbortError } = require('./error')
-const fetch = require('../fetch')
-const { Request, Response, Headers } = fetch
+const { Request, Response, Headers } = require('../fetch')
 
 /**
  * @typedef {RequestInit & ExtraFetchOptions} FetchOptions
