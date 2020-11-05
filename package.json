@@ -36,7 +36,7 @@
   "dependencies": {
     "abort-controller": "^3.0.0",
     "any-signal": "^2.1.0",
-    "buffer": "^5.6.0",
+    "buffer": "^6.0.1",
     "@achingbrain/electron-fetch": "^1.7.2",
     "err-code": "^2.0.0",
     "fs-extra": "^9.0.1",
