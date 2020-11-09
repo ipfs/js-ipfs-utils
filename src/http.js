@@ -145,7 +145,7 @@ class HTTP {
     const abortController = new AbortController()
     const signal = anySignal([abortController.signal, opts.signal])
 
-    const response = await timeout(fetch(url, {
+    const response = await timeout(fetch(url.toString(), {
       ...opts,
       signal,
       timeout: undefined
