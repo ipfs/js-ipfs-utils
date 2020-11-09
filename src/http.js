@@ -75,19 +75,19 @@ const defaults = {
 
 /**
  * @typedef {Object} APIOptions - creates a new type named 'SpecialType'
- * @prop {any} [body] - Request body
- * @prop {Object} [json] - JSON shortcut
- * @prop {string} [method] - GET, POST, PUT, DELETE, etc.
- * @prop {string} [base] - The base URL to use in case url is a relative URL
- * @prop {Headers|Record<string, string>} [headers] - Request header.
- * @prop {number} [timeout] - Amount of time until request should timeout in ms.
- * @prop {AbortSignal} [signal] - Signal to abort the request.
- * @prop {URLSearchParams|Object} [searchParams] - URL search param.
- * @prop {string} [credentials]
- * @prop {boolean} [throwHttpErrors]
- * @prop {function(URLSearchParams): URLSearchParams } [transformSearchParams]
- * @prop {function(any): any} [transform] - When iterating the response body, transform each chunk with this function.
- * @prop {function(Response): Promise<void>} [handleError] - Handle errors
+ * @property {any} [body] - Request body
+ * @property {Object} [json] - JSON shortcut
+ * @property {string} [method] - GET, POST, PUT, DELETE, etc.
+ * @property {string} [base] - The base URL to use in case url is a relative URL
+ * @property {Headers|Record<string, string>} [headers] - Request header.
+ * @property {number} [timeout] - Amount of time until request should timeout in ms.
+ * @property {AbortSignal} [signal] - Signal to abort the request.
+ * @property {URLSearchParams|Object} [searchParams] - URL search param.
+ * @property {string} [credentials]
+ * @property {boolean} [throwHttpErrors]
+ * @property {function(URLSearchParams): URLSearchParams } [transformSearchParams]
+ * @property {function(any): any} [transform] - When iterating the response body, transform each chunk with this function.
+ * @property {function(Response): Promise<void>} [handleError] - Handle errors
  */
 
 class HTTP {
