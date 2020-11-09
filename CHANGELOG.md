@@ -1,3 +1,12 @@
+## [4.0.1](https://github.com/ipfs/js-ipfs-utils/compare/v4.0.0...v4.0.1) (2020-11-09)
+
+
+### Bug Fixes
+
+* fetch takes a string, not a URL ([#75](https://github.com/ipfs/js-ipfs-utils/issues/75)) ([15576b2](https://github.com/ipfs/js-ipfs-utils/commit/15576b28495caee7410fda51d8cb5aa2c8e6d106)), closes [#74](https://github.com/ipfs/js-ipfs-utils/issues/74)
+
+
+
 <a name="4.0.0"></a>
 # [4.0.0](https://github.com/ipfs/js-ipfs-utils/compare/v3.0.0...v4.0.0) (2020-10-10)
 
