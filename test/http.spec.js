@@ -12,6 +12,7 @@ const { isBrowser, isWebWorker } = require('../src/env')
 const { Buffer } = require('buffer')
 const uint8ArrayFromString = require('uint8arrays/from-string')
 const uint8ArrayEquals = require('uint8arrays/equals')
+const uint8ArrayConcat = require('uint8arrays/concat')
 
 describe('http', function () {
   it('makes a GET request', async function () {
@@ -165,7 +166,9 @@ describe('http', function () {
         upload += 1
       }
     })
-    await all(request.iterator())
+
+    const out = uint8ArrayConcat(await all(request.iterator()))
+    expect(uint8ArrayEquals(out, body))
 
     expect(upload).to.be.greaterThan(0)
   })
