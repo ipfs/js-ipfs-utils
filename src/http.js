@@ -71,7 +71,7 @@ const defaults = {
  * @prop {function(any): any} [transform] - When iterating the response body, transform each chunk with this function.
  * @prop {function(Response): Promise<void>} [handleError] - Handle errors
  * @prop {function({total:number, loaded:number, lengthComputable:boolean}):void} [onUploadProgress] - Can be passed to track upload progress.
- * Note that if this option in passed undelying request will be performed using `XMLHttpRequest` and response will not be streamed.
+ * Note that if this option in passed underlying request will be performed using `XMLHttpRequest` and response will not be streamed.
  */
 
 class HTTP {

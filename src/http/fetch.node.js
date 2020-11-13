@@ -36,7 +36,7 @@ exports.Request = Request
 exports.Headers = Headers
 
 /**
- * Takes fetch options and wraps request body to track uploda progress if
+ * Takes fetch options and wraps request body to track upload progress if
  * `onUploadProgress` is supplied. Otherwise returns options as is.
  * @param {FetchOptions} options
  * @returns {FetchOptions}
@@ -56,14 +56,14 @@ const withUploadProgress = (options) => {
 
 /**
  * Takes request `body` and `onUploadProgress` handler and returns wrapped body
- * that as consumed will report progress to suppled `onUploadProgress` handler.
+ * that as consumed will report progress to supplied `onUploadProgress` handler.
  * @param {FetchOptions} init
  * @param {function(LoadProgress):void} onUploadProgress
  * @returns {Readable}
  */
 const bodyWithUploadProgress = (init, onUploadProgress) => {
   // This works around the fact that electron-fetch serializes `Uint8Array`s
-  // and `ArrayBuffer`'s to strings.
+  // and `ArrayBuffer`s to strings.
   const content = normalizeBody(init.body)
 
   // @ts-ignore - Response does not accept node `Readable` streams.

@@ -161,7 +161,7 @@ describe('http', function () {
       onUploadProgress: (progress) => {
         expect(progress).to.have.property('lengthComputable').to.be.a('boolean')
         expect(progress).to.have.property('total', body.byteLength)
-        expect(progress).to.have.property('loaded').to.be.greaterThan(0)
+        expect(progress).to.have.property('loaded').that.is.greaterThan(0)
         upload += 1
       }
     })
