@@ -38,6 +38,7 @@ exports.Headers = Headers
 /**
  * Takes fetch options and wraps request body to track upload progress if
  * `onUploadProgress` is supplied. Otherwise returns options as is.
+ *
  * @param {FetchOptions} options
  * @returns {FetchOptions}
  */
@@ -57,6 +58,7 @@ const withUploadProgress = (options) => {
 /**
  * Takes request `body` and `onUploadProgress` handler and returns wrapped body
  * that as consumed will report progress to supplied `onUploadProgress` handler.
+ *
  * @param {FetchOptions} init
  * @param {function(LoadProgress):void} onUploadProgress
  * @returns {Readable}
@@ -97,6 +99,7 @@ const normalizeBody = (input = null) => {
  * Takes body from native-fetch response as body and `onUploadProgress` handler
  * and returns async iterable that emits body chunks and emits
  * `onUploadProgress`.
+ *
  * @param {Buffer|null|Readable} body
  * @param {function(LoadProgress):void} onUploadProgress
  * @returns {AsyncIterable<Buffer>}
