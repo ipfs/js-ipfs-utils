@@ -1,3 +1,12 @@
+# [5.0.0](https://github.com/ipfs/js-ipfs-utils/compare/v4.0.1...v5.0.0) (2020-11-16)
+
+
+### Features
+
+* add onUploadProgress handler ([#60](https://github.com/ipfs/js-ipfs-utils/issues/60)) ([a2e88e2](https://github.com/ipfs/js-ipfs-utils/commit/a2e88e23f16bd0da57a67c02e8c875a2705bb28f))
+
+
+
 ## [4.0.1](https://github.com/ipfs/js-ipfs-utils/compare/v4.0.0...v4.0.1) (2020-11-09)
 
 
