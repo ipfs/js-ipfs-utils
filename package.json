@@ -18,7 +18,7 @@
     "./src/temp-dir.js": "./src/temp-dir.browser.js",
     "./src/path-join.js": "./src/path-join.browser.js",
     "./test/files/glob-source.spec.js": false,
-    "@achingbrain/electron-fetch": false
+    "electron-fetch": false
   },
   "repository": "github:ipfs/js-ipfs-utils",
   "scripts": {
@@ -35,7 +35,7 @@
   },
   "license": "MIT",
   "dependencies": {
-    "@achingbrain/electron-fetch": "^1.7.2",
+    "electron-fetch": "arantes555/electron-fetch#fix-abort-request",
     "abort-controller": "^3.0.0",
     "any-signal": "^2.1.0",
     "buffer": "^6.0.1",
