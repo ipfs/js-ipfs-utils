@@ -35,7 +35,7 @@
   },
   "license": "MIT",
   "dependencies": {
-    "electron-fetch": "arantes555/electron-fetch#fix-abort-request",
+    "electron-fetch": "^1.7.2",
     "abort-controller": "^3.0.0",
     "any-signal": "^2.1.0",
     "buffer": "^6.0.1",
