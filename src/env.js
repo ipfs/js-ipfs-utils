@@ -7,7 +7,7 @@ const IS_BROWSER = IS_ENV_WITH_DOM && !IS_ELECTRON
 const IS_ELECTRON_MAIN = IS_ELECTRON && !IS_ENV_WITH_DOM
 const IS_ELECTRON_RENDERER = IS_ELECTRON && IS_ENV_WITH_DOM
 const IS_NODE = typeof require === 'function' && typeof process !== 'undefined' && typeof process.release !== 'undefined' && process.release.name === 'node' && !IS_ELECTRON
-// eslint-disable-next-line no-undef
+// @ts-ignore - we either ignore worker scope or dom scope
 const IS_WEBWORKER = typeof importScripts === 'function' && typeof self !== 'undefined' && typeof WorkerGlobalScope !== 'undefined' && self instanceof WorkerGlobalScope
 const IS_TEST = typeof process !== 'undefined' && typeof process.env !== 'undefined' && process.env.NODE_ENV === 'test'
 
