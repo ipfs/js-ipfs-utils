@@ -9,6 +9,19 @@ const TextDecoder = require('./text-decoder')
 const AbortController = require('native-abort-controller')
 const anySignal = require('any-signal')
 
+/**
+ * @typedef {import('electron-fetch').Response} Response
+ * @typedef {import('stream').Readable} NodeReadableStream
+ * @typedef {import('./types').HTTPOptions} HTTPOptions
+ */
+
+/**
+ * @template TResponse
+ * @param {Promise<TResponse>} promise
+ * @param {number | undefined} ms
+ * @param {AbortController} abortController
+ * @returns {Promise<TResponse>}
+ */
 const timeout = (promise, ms, abortController) => {
   if (ms === undefined) {
     return promise
@@ -30,8 +43,14 @@ const timeout = (promise, ms, abortController) => {
       }
     }, ms)
 
+    /**
+     * @param {(value: any) => void } next
+     */
     const after = (next) => {
-      return (res) => {
+      /**
+       * @param {any} res
+       */
+      const fn = (res) => {
         clearTimeout(timeoutID)
 
         if (timedOut()) {
@@ -41,6 +60,7 @@ const timeout = (promise, ms, abortController) => {
 
         next(res)
       }
+      return fn
     }
 
     promise
@@ -49,91 +69,77 @@ const timeout = (promise, ms, abortController) => {
 }
 
 const defaults = {
-  headers: {},
   throwHttpErrors: true,
-  credentials: 'same-origin',
-  transformSearchParams: p => p
+  credentials: 'same-origin'
 }
-
-/**
- * @typedef {Object} APIOptions - creates a new type named 'SpecialType'
- * @property {any} [body] - Request body
- * @property {Object} [json] - JSON shortcut
- * @property {string} [method] - GET, POST, PUT, DELETE, etc.
- * @property {string} [base] - The base URL to use in case url is a relative URL
- * @property {Headers|Record<string, string>} [headers] - Request header.
- * @property {number} [timeout] - Amount of time until request should timeout in ms.
- * @property {AbortSignal} [signal] - Signal to abort the request.
- * @property {URLSearchParams|Object} [searchParams] - URL search param.
- * @property {string} [credentials]
- * @property {boolean} [throwHttpErrors]
- * @property {function(URLSearchParams): URLSearchParams } [transformSearchParams]
- * @property {function(any): any} [transform] - When iterating the response body, transform each chunk with this function.
- * @property {function(Response): Promise<void>} [handleError] - Handle errors
- * @property {function({total:number, loaded:number, lengthComputable:boolean}):void} [onUploadProgress] - Can be passed to track upload progress.
- * Note that if this option in passed underlying request will be performed using `XMLHttpRequest` and response will not be streamed.
- */
 
 class HTTP {
   /**
    *
-   * @param {APIOptions} options
+   * @param {HTTPOptions} options
    */
   constructor (options = {}) {
-    /** @type {APIOptions} */
+    /** @type {HTTPOptions} */
     this.opts = merge(defaults, options)
   }
 
   /**
    * Fetch
    *
-   * @param {string | URL | Request} resource
-   * @param {APIOptions} options
+   * @param {string | Request} resource
+   * @param {HTTPOptions} options
    * @returns {Promise<Response>}
    */
   async fetch (resource, options = {}) {
-    /** @type {APIOptions} */
+    /** @type {HTTPOptions} */
     const opts = merge(this.opts, options)
-    opts.headers = new Headers(opts.headers)
+    const headers = new Headers(opts.headers)
 
     // validate resource type
     if (typeof resource !== 'string' && !(resource instanceof URL || resource instanceof Request)) {
       throw new TypeError('`resource` must be a string, URL, or Request')
     }
 
-    // validate resource format and normalize with prefixUrl
-    if (opts.base && typeof opts.base === 'string' && typeof resource === 'string') {
-      if (resource.startsWith('/')) {
-        throw new Error('`resource` must not begin with a slash when using `base`')
-      }
+    const url = new URL(resource.toString(), opts.base)
 
-      if (!opts.base.endsWith('/')) {
-        opts.base += '/'
-      }
+    const {
+      searchParams,
+      transformSearchParams,
+      json
+    } = opts
 
-      resource = opts.base + resource
+    if (searchParams) {
+      if (typeof transformSearchParams === 'function') {
+        // @ts-ignore
+        url.search = transformSearchParams(new URLSearchParams(opts.searchParams))
+      } else {
+        // @ts-ignore
+        url.search = new URLSearchParams(opts.searchParams)
+      }
     }
 
-    // TODO: try to remove the logic above or fix URL instance input without trailing '/'
-    const url = new URL(resource, opts.base)
-
-    if (opts.searchParams) {
-      url.search = opts.transformSearchParams(new URLSearchParams(opts.searchParams))
-    }
-
-    if (opts.json !== undefined) {
+    if (json) {
       opts.body = JSON.stringify(opts.json)
-      opts.headers.set('content-type', 'application/json')
+      headers.set('content-type', 'application/json')
     }
 
     const abortController = new AbortController()
+    // @ts-ignore
     const signal = anySignal([abortController.signal, opts.signal])
 
-    const response = await timeout(fetch(url.toString(), {
-      ...opts,
-      signal,
-      timeout: undefined
-    }), opts.timeout, abortController)
+    const response = await timeout(
+      fetch(
+        url.toString(),
+        {
+          ...opts,
+          signal,
+          timeout: undefined,
+          headers
+        }
+      ),
+      opts.timeout,
+      abortController
+    )
 
     if (!response.ok && opts.throwHttpErrors) {
       if (opts.handleError) {
@@ -143,13 +149,7 @@ class HTTP {
     }
 
     response.iterator = function () {
-      const it = streamToAsyncIterator(response.body)
-
-      if (!isAsyncIterator(it)) {
-        throw new Error('Can\'t convert fetch body into a Async Iterator:')
-      }
-
-      return it
+      return fromStream(response.body)
     }
 
     response.ndjson = async function * () {
@@ -166,71 +166,56 @@ class HTTP {
   }
 
   /**
-   * @param {string | URL | Request} resource
-   * @param {APIOptions} options
+   * @param {string | Request} resource
+   * @param {HTTPOptions} options
    * @returns {Promise<Response>}
    */
   post (resource, options = {}) {
-    return this.fetch(resource, {
-      ...options,
-      method: 'POST'
-    })
+    return this.fetch(resource, { ...options, method: 'POST' })
   }
 
   /**
-   * @param {string | URL | Request} resource
-   * @param {APIOptions} options
+   * @param {string | Request} resource
+   * @param {HTTPOptions} options
    * @returns {Promise<Response>}
    */
   get (resource, options = {}) {
-    return this.fetch(resource, {
-      ...options,
-      method: 'GET'
-    })
+    return this.fetch(resource, { ...options, method: 'GET' })
   }
 
   /**
-   * @param {string | URL | Request} resource
-   * @param {APIOptions} options
+   * @param {string | Request} resource
+   * @param {HTTPOptions} options
    * @returns {Promise<Response>}
    */
   put (resource, options = {}) {
-    return this.fetch(resource, {
-      ...options,
-      method: 'PUT'
-    })
+    return this.fetch(resource, { ...options, method: 'PUT' })
   }
 
   /**
-   * @param {string | URL | Request} resource
-   * @param {APIOptions} options
+   * @param {string | Request} resource
+   * @param {HTTPOptions} options
    * @returns {Promise<Response>}
    */
   delete (resource, options = {}) {
-    return this.fetch(resource, {
-      ...options,
-      method: 'DELETE'
-    })
+    return this.fetch(resource, { ...options, method: 'DELETE' })
   }
 
   /**
-   * @param {string | URL | Request} resource
-   * @param {APIOptions} options
+   * @param {string | Request} resource
+   * @param {HTTPOptions} options
    * @returns {Promise<Response>}
    */
   options (resource, options = {}) {
-    return this.fetch(resource, {
-      ...options,
-      method: 'OPTIONS'
-    })
+    return this.fetch(resource, { ...options, method: 'OPTIONS' })
   }
 }
 
 /**
  * Parses NDJSON chunks from an iterator
  *
- * @param {AsyncGenerator<Uint8Array, void, any>} source
- * @returns {AsyncGenerator<Object, void, any>}
+ * @param {AsyncIterable<Uint8Array>} source
+ * @returns {AsyncIterable<any>}
  */
 const ndjson = async function * (source) {
   const decoder = new TextDecoder()
@@ -255,47 +240,67 @@ const ndjson = async function * (source) {
   }
 }
 
-const streamToAsyncIterator = function (source) {
-  if (isAsyncIterator(source)) {
+/**
+ * Stream to AsyncIterable
+ *
+ * @template TChunk
+ * @param {ReadableStream<TChunk> | NodeReadableStream | null} source
+ * @returns {AsyncIterable<TChunk>}
+ */
+const fromStream = (source) => {
+  if (isAsyncIterable(source)) {
     // Workaround for https://github.com/node-fetch/node-fetch/issues/766
     if (Object.prototype.hasOwnProperty.call(source, 'readable') && Object.prototype.hasOwnProperty.call(source, 'writable')) {
-      const iter = source[Symbol.asyncIterator]()
-
-      const wrapper = {
+      const nodeSource = /** @type {NodeReadableStream} */(source)
+      const iter = nodeSource[Symbol.asyncIterator]()
+      return {
+        // @ts-ignore
         next: iter.next.bind(iter),
-        return: () => {
-          source.destroy()
-
-          return iter.return()
+        return () {
+          nodeSource.destroy()
+          if (iter.return) {
+            return iter.return()
+          }
+          return {}
         },
-        [Symbol.asyncIterator]: () => {
-          return wrapper
+        [Symbol.asyncIterator] () {
+          return this
         }
       }
-
-      return wrapper
     }
 
-    return source
+    return /** @type {AsyncIterable<TChunk>} */(source)
   }
 
-  const reader = source.getReader()
-
-  return {
-    next () {
-      return reader.read()
-    },
-    return () {
-      reader.releaseLock()
-      return {}
-    },
-    [Symbol.asyncIterator] () {
-      return this
-    }
+  if (source && typeof /** @type {ReadableStream<TChunk>} */(source).getReader === 'function') {
+    const reader = /** @type {ReadableStream<TChunk>} */(source).getReader()
+    return (async function * () {
+      try {
+        while (true) {
+          // Read from the stream
+          const { done, value } = await reader.read()
+          // Exit if we're done
+          if (done) return
+          // Else yield the chunk
+          if (value) {
+            yield value
+          }
+        }
+      } finally {
+        reader.releaseLock()
+      }
+    })()
   }
+
+  throw new TypeError('Body can\'t be converted to AsyncIterable')
 }
 
-const isAsyncIterator = (obj) => {
+/**
+ * Check if it's an AsyncIterable
+ *
+ * @param {any} obj
+ */
+const isAsyncIterable = (obj) => {
   return typeof obj === 'object' &&
   obj !== null &&
   // typeof obj.next === 'function' &&
@@ -304,39 +309,39 @@ const isAsyncIterator = (obj) => {
 
 HTTP.HTTPError = HTTPError
 HTTP.TimeoutError = TimeoutError
-HTTP.streamToAsyncIterator = streamToAsyncIterator
+HTTP.streamToAsyncIterator = fromStream
 
 /**
- * @param {string | URL | Request} resource
- * @param {APIOptions} options
+ * @param {string | Request} resource
+ * @param {HTTPOptions} [options]
  * @returns {Promise<Response>}
  */
 HTTP.post = (resource, options) => new HTTP(options).post(resource, options)
 
 /**
- * @param {string | URL | Request} resource
- * @param {APIOptions} options
+ * @param {string | Request} resource
+ * @param {HTTPOptions} [options]
  * @returns {Promise<Response>}
  */
 HTTP.get = (resource, options) => new HTTP(options).get(resource, options)
 
 /**
- * @param {string | URL | Request} resource
- * @param {APIOptions} options
+ * @param {string | Request} resource
+ * @param {HTTPOptions} [options]
  * @returns {Promise<Response>}
  */
 HTTP.put = (resource, options) => new HTTP(options).put(resource, options)
 
 /**
- * @param {string | URL | Request} resource
- * @param {APIOptions} options
+ * @param {string | Request} resource
+ * @param {HTTPOptions} [options]
  * @returns {Promise<Response>}
  */
 HTTP.delete = (resource, options) => new HTTP(options).delete(resource, options)
 
 /**
- * @param {string | URL | Request} resource
- * @param {APIOptions} options
+ * @param {string | Request} resource
+ * @param {HTTPOptions} [options]
  * @returns {Promise<Response>}
  */
 HTTP.options = (resource, options) => new HTTP(options).options(resource, options)

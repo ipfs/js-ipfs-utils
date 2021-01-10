@@ -3,6 +3,7 @@
 /* eslint-env mocha */
 const { expect } = require('aegir/utils/chai')
 const HTTP = require('../src/http')
+// @ts-ignore
 const toStream = require('it-to-stream')
 const delay = require('delay')
 const AbortController = require('native-abort-controller')
@@ -78,7 +79,7 @@ describe('http', function () {
 
   it('allow async aborting', async function () {
     const controller = new AbortController()
-
+    // @ts-ignore its never undefined
     const res = HTTP.get(process.env.ECHO_SERVER, {
       signal: controller.signal
     })
@@ -123,11 +124,12 @@ describe('http', function () {
       throw err
     }())
 
+    // @ts-ignore its never undefined
     const res = await HTTP.post(process.env.ECHO_SERVER, {
       body: toStream.readable(body)
     })
 
-    await expect(drain(HTTP.ndjson(res.body))).to.eventually.be.rejectedWith(/aborted/)
+    await expect(drain(res.ndjson())).to.eventually.be.rejectedWith(/aborted/)
   })
 
   it.skip('should handle errors in streaming bodies when a signal is passed', async function () {
@@ -145,13 +147,13 @@ describe('http', function () {
 
       throw err
     }())
-
+    // @ts-ignore its never undefined
     const res = await HTTP.post(process.env.ECHO_SERVER, {
       body: toStream.readable(body),
       signal: controller.signal
     })
 
-    await expect(drain(HTTP.ndjson(res.body))).to.eventually.be.rejectedWith(/aborted/)
+    await expect(drain(res.ndjson())).to.eventually.be.rejectedWith(/aborted/)
   })
 
   it('progress events', async () => {

@@ -1,39 +1,37 @@
 'use strict'
-/* eslint-env browser */
 
 const { TimeoutError, AbortError } = require('./error')
-const { Request, Response, Headers } = require('../fetch')
+const { Response, Request, Headers, default: fetch } = require('../fetch')
 
 /**
- * @typedef {RequestInit & ExtraFetchOptions} FetchOptions
- * @typedef {Object} ExtraFetchOptions
- * @property {number} [timeout]
- * @property {URLSearchParams} [searchParams]
- * @property {function({total:number, loaded:number, lengthComputable:boolean}):void} [onUploadProgress]
- * @property {string} [overrideMimeType]
- * @returns {Promise<Response>}
+ * @typedef {import('../types').FetchOptions} FetchOptions
+ * @typedef {import('../types').ProgressFn} ProgressFn
  */
 
 /**
- * @param {string|URL} url
+ * Fetch with progress
+ *
+ * @param {string | Request} url
  * @param {FetchOptions} [options]
- * @returns {Promise<Response>}
+ * @returns {Promise<ResponseWithURL>}
  */
 const fetchWithProgress = (url, options = {}) => {
   const request = new XMLHttpRequest()
   request.open(options.method || 'GET', url.toString(), true)
 
-  const { timeout } = options
-  if (timeout > 0 && timeout < Infinity) {
-    request.timeout = options.timeout
+  const { timeout, headers } = options
+
+  if (timeout && timeout > 0 && timeout < Infinity) {
+    request.timeout = timeout
   }
 
   if (options.overrideMimeType != null) {
     request.overrideMimeType(options.overrideMimeType)
   }
 
-  if (options.headers) {
-    for (const [name, value] of options.headers.entries()) {
+  if (headers) {
+    // @ts-ignore TS does not know that headers is an iterator
+    for (const [name, value] of headers) {
       request.setRequestHeader(name, value)
     }
   }
@@ -91,22 +89,24 @@ const fetchWithProgress = (url, options = {}) => {
     request.ontimeout = handleEvent
     request.onabort = handleEvent
 
-    request.send(options.body)
+    request.send(/** @type {BodyInit} */(options.body))
   })
 }
 
 const fetchWithStreaming = fetch
 
+/**
+ * @param {string | Request} url
+ * @param {FetchOptions} options
+ */
 const fetchWith = (url, options = {}) =>
   (options.onUploadProgress != null)
     ? fetchWithProgress(url, options)
     : fetchWithStreaming(url, options)
 
-exports.fetch = fetchWith
-exports.Request = Request
-exports.Headers = Headers
-
 /**
+ * Parse Headers from a XMLHttpRequest
+ *
  * @param {string} input
  * @returns {Headers}
  */
@@ -125,11 +125,18 @@ const parseHeaders = (input) => {
 class ResponseWithURL extends Response {
   /**
    * @param {string} url
-   * @param {string|Blob|ArrayBufferView|ArrayBuffer|FormData|ReadableStream<Uint8Array>} body
+   * @param {BodyInit} body
    * @param {ResponseInit} options
    */
   constructor (url, body, options) {
     super(body, options)
     Object.defineProperty(this, 'url', { value: url })
   }
+}
+
+module.exports = {
+  fetch: fetchWith,
+  Request,
+  Headers,
+  ResponseWithURL
 }
