@@ -10,14 +10,23 @@ const {
 } = require('../../src/env')
 const fs = require('fs-extra')
 
+/**
+ * @param {string} file
+ */
 function fixture (file) {
   return path.resolve(path.join(__dirname, '..', 'fixtures', file))
 }
 
+/**
+ * @param {string} file
+ */
 function findMode (file) {
   return fs.statSync(fixture(file)).mode
 }
 
+/**
+ * @param {string} file
+ */
 function findMtime (file) {
   return fs.statSync(fixture(file)).mtime
 }
