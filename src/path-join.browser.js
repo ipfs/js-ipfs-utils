@@ -1,7 +1,7 @@
 'use strict'
 
 /**
- * @param {any[]} args
+ * @param {string[]} args
  */
 function join (...args) {
   if (args.length === 0) {

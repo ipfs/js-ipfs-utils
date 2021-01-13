@@ -61,6 +61,7 @@
     "web-encoding": "^1.0.6"
   },
   "devDependencies": {
+    "@types/err-code": "^2.0.0",
     "@types/fs-extra": "^9.0.5",
     "aegir": "^30.3.0",
     "delay": "^4.4.0",

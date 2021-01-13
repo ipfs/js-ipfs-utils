@@ -13,7 +13,10 @@ describe('url-source', function () {
     const content = 'foo'
     const file = await last(urlSource(`${process.env.ECHO_SERVER}/download?data=${content}`))
 
-    // @ts-ignore
-    await expect(all(file.content)).to.eventually.deep.equal([Buffer.from(content)])
+    if (file && file.content) {
+      await expect(all(file.content)).to.eventually.deep.equal([Buffer.from(content)])
+    } else {
+      throw new Error('empty response')
+    }
   })
 })

@@ -15,27 +15,29 @@ const uint8ArrayFromString = require('uint8arrays/from-string')
 const uint8ArrayEquals = require('uint8arrays/equals')
 const uint8ArrayConcat = require('uint8arrays/concat')
 
+const ECHO_SERVER = process.env.ECHO_SERVER || ''
+
 describe('http', function () {
   it('makes a GET request', async function () {
-    const req = await HTTP.get(`${process.env.ECHO_SERVER}/echo/query?test=one`)
+    const req = await HTTP.get(`${ECHO_SERVER}/echo/query?test=one`)
     const rsp = await req.json()
     expect(rsp).to.be.deep.eq({ test: 'one' })
   })
 
   it('makes a GET request with redirect', async function () {
-    const req = await HTTP.get(`${process.env.ECHO_SERVER}/redirect?to=${encodeURI(`${process.env.ECHO_SERVER}/echo/query?test=one`)}`)
+    const req = await HTTP.get(`${ECHO_SERVER}/redirect?to=${encodeURI(`${ECHO_SERVER}/echo/query?test=one`)}`)
     const rsp = await req.json()
     expect(rsp).to.be.deep.eq({ test: 'one' })
   })
 
   it('makes a GET request with a really short timeout', function () {
-    return expect(HTTP.get(`${process.env.ECHO_SERVER}/redirect?to=${encodeURI(`${process.env.ECHO_SERVER}/echo/query?test=one`)}`, {
+    return expect(HTTP.get(`${ECHO_SERVER}/redirect?to=${encodeURI(`${ECHO_SERVER}/echo/query?test=one`)}`, {
       timeout: 1
     })).to.eventually.be.rejectedWith().instanceOf(HTTP.TimeoutError)
   })
 
   it('respects headers', async function () {
-    const req = await HTTP.post(`${process.env.ECHO_SERVER}/echo/headers`, {
+    const req = await HTTP.post(`${ECHO_SERVER}/echo/headers`, {
       headers: {
         foo: 'bar'
       }
@@ -50,13 +52,13 @@ describe('http', function () {
         bar: 'baz'
       }
     })
-    const req = await http.post(`${process.env.ECHO_SERVER}/echo/headers`)
+    const req = await http.post(`${ECHO_SERVER}/echo/headers`)
     const rsp = await req.json()
     expect(rsp).to.have.property('bar', 'baz')
   })
 
   it('makes a JSON request', async () => {
-    const req = await HTTP.post(`${process.env.ECHO_SERVER}/echo`, {
+    const req = await HTTP.post(`${ECHO_SERVER}/echo`, {
       json: {
         test: 2
       }
@@ -67,7 +69,7 @@ describe('http', function () {
   })
 
   it('makes a DELETE request', async () => {
-    const req = await HTTP.delete(`${process.env.ECHO_SERVER}/echo`, {
+    const req = await HTTP.delete(`${ECHO_SERVER}/echo`, {
       json: {
         test: 2
       }
@@ -79,8 +81,7 @@ describe('http', function () {
 
   it('allow async aborting', async function () {
     const controller = new AbortController()
-    // @ts-ignore its never undefined
-    const res = HTTP.get(process.env.ECHO_SERVER, {
+    const res = HTTP.get(ECHO_SERVER, {
       signal: controller.signal
     })
     controller.abort()
@@ -89,7 +90,7 @@ describe('http', function () {
   })
 
   it('parses the response as ndjson', async function () {
-    const res = await HTTP.post(`${process.env.ECHO_SERVER}/echo`, {
+    const res = await HTTP.post(`${ECHO_SERVER}/echo`, {
       body: '{}\n{}'
     })
 
@@ -100,7 +101,7 @@ describe('http', function () {
 
   it('parses the response as an async iterable', async function () {
     const res = await HTTP.post('echo', {
-      base: process.env.ECHO_SERVER,
+      base: ECHO_SERVER,
       body: 'hello world'
     })
 
@@ -124,8 +125,7 @@ describe('http', function () {
       throw err
     }())
 
-    // @ts-ignore its never undefined
-    const res = await HTTP.post(process.env.ECHO_SERVER, {
+    const res = await HTTP.post(ECHO_SERVER, {
       body: toStream.readable(body)
     })
 
@@ -147,8 +147,7 @@ describe('http', function () {
 
       throw err
     }())
-    // @ts-ignore its never undefined
-    const res = await HTTP.post(process.env.ECHO_SERVER, {
+    const res = await HTTP.post(ECHO_SERVER, {
       body: toStream.readable(body),
       signal: controller.signal
     })
@@ -159,7 +158,7 @@ describe('http', function () {
   it('progress events', async () => {
     let upload = 0
     const body = new Uint8Array(1000000 / 2)
-    const request = await HTTP.post(`${process.env.ECHO_SERVER}/echo`, {
+    const request = await HTTP.post(`${ECHO_SERVER}/echo`, {
       body,
       onUploadProgress: (progress) => {
         expect(progress).to.have.property('lengthComputable').to.be.a('boolean')
@@ -179,7 +178,7 @@ describe('http', function () {
     const buf = uint8ArrayFromString('a163666f6f6c6461672d63626f722d626172', 'base16')
     const params = Array.from(buf).map(val => `data=${val.toString()}`).join('&')
 
-    const req = await HTTP.get(`${process.env.ECHO_SERVER}/download?${params}`)
+    const req = await HTTP.get(`${ECHO_SERVER}/download?${params}`)
     const rsp = await req.arrayBuffer()
     expect(uint8ArrayEquals(new Uint8Array(rsp), buf)).to.be.true()
   })

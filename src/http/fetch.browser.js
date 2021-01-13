@@ -30,8 +30,7 @@ const fetchWithProgress = (url, options = {}) => {
   }
 
   if (headers) {
-    // @ts-ignore TS does not know that headers is an iterator
-    for (const [name, value] of headers) {
+    for (const [name, value] of new Headers(headers)) {
       request.setRequestHeader(name, value)
     }
   }
