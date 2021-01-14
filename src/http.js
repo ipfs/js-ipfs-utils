@@ -12,6 +12,7 @@ const anySignal = require('any-signal')
 /**
  * @typedef {import('electron-fetch').Response} Response
  * @typedef {import('stream').Readable} NodeReadableStream
+ * @typedef {import('stream').Duplex} NodeDuplexStream
  * @typedef {import('./types').HTTPOptions} HTTPOptions
  */
 
@@ -248,32 +249,27 @@ const ndjson = async function * (source) {
  * @returns {AsyncIterable<TChunk>}
  */
 const fromStream = (source) => {
-  if (isAsyncIterable(source)) {
-    // Workaround for https://github.com/node-fetch/node-fetch/issues/766
-    if (Object.prototype.hasOwnProperty.call(source, 'readable') && Object.prototype.hasOwnProperty.call(source, 'writable')) {
-      const nodeSource = /** @type {NodeReadableStream} */(source)
-      const iter = nodeSource[Symbol.asyncIterator]()
-      return {
-        // @ts-ignore
-        next: iter.next.bind(iter),
-        return () {
-          nodeSource.destroy()
-          if (iter.return) {
-            return iter.return()
+  // Workaround for https://github.com/node-fetch/node-fetch/issues/766
+  if (isNodeReadableStream(source)) {
+    const iter = source[Symbol.asyncIterator]()
+    return {
+      [Symbol.asyncIterator] () {
+        return {
+          next: iter.next.bind(iter),
+          return (value) {
+            source.destroy()
+            if (typeof iter.return === 'function') {
+              return iter.return()
+            }
+            return Promise.resolve({ done: true, value })
           }
-          return {}
-        },
-        [Symbol.asyncIterator] () {
-          return this
         }
       }
     }
-
-    return /** @type {AsyncIterable<TChunk>} */(source)
   }
 
-  if (source && typeof /** @type {ReadableStream<TChunk>} */(source).getReader === 'function') {
-    const reader = /** @type {ReadableStream<TChunk>} */(source).getReader()
+  if (isWebReadableStream(source)) {
+    const reader = source.getReader()
     return (async function * () {
       try {
         while (true) {
@@ -292,20 +288,46 @@ const fromStream = (source) => {
     })()
   }
 
+  if (isAsyncIterable(source)) {
+    return source
+  }
+
   throw new TypeError('Body can\'t be converted to AsyncIterable')
 }
 
 /**
  * Check if it's an AsyncIterable
  *
- * @param {any} obj
+ * @template {unknown} TChunk
+ * @template {any} Other
+ * @param {Other|AsyncIterable<TChunk>} value
+ * @returns {value is AsyncIterable<TChunk>}
  */
-const isAsyncIterable = (obj) => {
-  return typeof obj === 'object' &&
-  obj !== null &&
-  // typeof obj.next === 'function' &&
-  typeof obj[Symbol.asyncIterator] === 'function'
+const isAsyncIterable = (value) => {
+  return typeof value === 'object' &&
+  value !== null &&
+  typeof /** @type {any} */(value)[Symbol.asyncIterator] === 'function'
 }
+
+/**
+ * Check for web readable stream
+ *
+ * @template {unknown} TChunk
+ * @template {any} Other
+ * @param {Other|ReadableStream<TChunk>} value
+ * @returns {value is ReadableStream<TChunk>}
+ */
+const isWebReadableStream = (value) => {
+  return value && typeof /** @type {any} */(value).getReader === 'function'
+}
+
+/**
+ * @param {any} value
+ * @returns {value is NodeReadableStream}
+ */
+const isNodeReadableStream = (value) =>
+  Object.prototype.hasOwnProperty.call(value, 'readable') &&
+  Object.prototype.hasOwnProperty.call(value, 'writable')
 
 HTTP.HTTPError = HTTPError
 HTTP.TimeoutError = TimeoutError
