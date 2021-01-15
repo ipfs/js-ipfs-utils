@@ -1,2 +1,5 @@
 'use strict'
-module.exports = require('util').TextEncoder
+
+const { TextEncoder } = require('web-encoding')
+
+module.exports = TextEncoder

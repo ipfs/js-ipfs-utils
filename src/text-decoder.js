@@ -1,2 +1,3 @@
 'use strict'
-module.exports = require('util').TextDecoder
+
+module.exports = require('web-encoding').TextDecoder

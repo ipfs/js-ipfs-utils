@@ -1,39 +1,25 @@
-// @ts-check
 'use strict'
 
-const { Request, Response, Headers, default: nodeFetch } = require('../fetch')
+const { Request, Response, Headers, default: nativeFetch } = require('../fetch')
+// @ts-ignore
 const toStream = require('it-to-stream')
 const { Buffer } = require('buffer')
-
 /**
- * @typedef {RequestInit & ExtraFetchOptions} FetchOptions
+ * @typedef {import('electron-fetch').BodyInit} BodyInit
+ * @typedef {import('stream').Readable} NodeReadableStream
  *
- * @typedef {import('stream').Readable} Readable
- * @typedef {Object} LoadProgress
- * @property {number} total
- * @property {number} loaded
- * @property {boolean} lengthComputable
- * @typedef {Object} ExtraFetchOptions
- * @property {number} [timeout]
- * @property {URLSearchParams} [searchParams]
- * @property {function(LoadProgress):void} [onUploadProgress]
- * @property {function(LoadProgress):void} [onDownloadProgress]
- * @property {string} [overrideMimeType]
- * @returns {Promise<Response>}
+ * @typedef {import('../types').FetchOptions} FetchOptions
+ * @typedef {import('../types').ProgressFn} ProgressFn
  */
 
 /**
- * @param {string|URL} url
+ * @param {string|Request} url
  * @param {FetchOptions} [options]
  * @returns {Promise<Response>}
  */
 const fetch = (url, options = {}) =>
   // @ts-ignore
-  nodeFetch(url, withUploadProgress(options))
-
-exports.fetch = fetch
-exports.Request = Request
-exports.Headers = Headers
+  nativeFetch(url, withUploadProgress(options))
 
 /**
  * Takes fetch options and wraps request body to track upload progress if
@@ -43,12 +29,17 @@ exports.Headers = Headers
  * @returns {FetchOptions}
  */
 const withUploadProgress = (options) => {
-  const { onUploadProgress } = options
-  if (onUploadProgress) {
+  const { onUploadProgress, body } = options
+  if (onUploadProgress && body) {
+    // This works around the fact that electron-fetch serializes `Uint8Array`s
+  // and `ArrayBuffer`s to strings.
+    const content = normalizeBody(body)
+
+    const rsp = new Response(content)
+    const source = iterateBodyWithProgress(/** @type {NodeReadableStream} */(rsp.body), onUploadProgress)
     return {
       ...options,
-      // @ts-ignore
-      body: bodyWithUploadProgress(options, onUploadProgress)
+      body: toStream.readable(source)
     }
   } else {
     return options
@@ -56,43 +47,18 @@ const withUploadProgress = (options) => {
 }
 
 /**
- * Takes request `body` and `onUploadProgress` handler and returns wrapped body
- * that as consumed will report progress to supplied `onUploadProgress` handler.
- *
- * @param {FetchOptions} init
- * @param {function(LoadProgress):void} onUploadProgress
- * @returns {Readable}
+ * @param {BodyInit} input
+ * @returns {Blob | FormData | URLSearchParams | ReadableStream<Uint8Array> | string | NodeReadableStream | Buffer}
  */
-const bodyWithUploadProgress = (init, onUploadProgress) => {
-  // This works around the fact that electron-fetch serializes `Uint8Array`s
-  // and `ArrayBuffer`s to strings.
-  const content = normalizeBody(init.body)
-
-  // @ts-ignore - Response does not accept node `Readable` streams.
-  const { body } = new Response(content, init)
-  // @ts-ignore - Unlike standard Response, node-fetch `body` has a differnt
-  // type see: see https://github.com/node-fetch/node-fetch/blob/master/src/body.js
-  const source = iterateBodyWithProgress(body, onUploadProgress)
-  return toStream.readable(source)
-}
-
-/**
- * @param {BodyInit} [input]
- * @returns {Buffer|Readable|Blob|null}
- */
-const normalizeBody = (input = null) => {
+const normalizeBody = (input) => {
   if (input instanceof ArrayBuffer) {
     return Buffer.from(input)
   } else if (ArrayBuffer.isView(input)) {
     return Buffer.from(input.buffer, input.byteOffset, input.byteLength)
   } else if (typeof input === 'string') {
     return Buffer.from(input)
-  } else {
-    // @ts-ignore - Could be FormData|URLSearchParams|ReadableStream<Uint8Array>
-    // however electron-fetch does not support either of those types and
-    // node-fetch normalizes those to node streams.
-    return input
   }
+  return input
 }
 
 /**
@@ -100,12 +66,11 @@ const normalizeBody = (input = null) => {
  * and returns async iterable that emits body chunks and emits
  * `onUploadProgress`.
  *
- * @param {Buffer|null|Readable} body
- * @param {function(LoadProgress):void} onUploadProgress
+ * @param {NodeReadableStream | null} body
+ * @param {ProgressFn} onUploadProgress
  * @returns {AsyncIterable<Buffer>}
  */
 const iterateBodyWithProgress = async function * (body, onUploadProgress) {
-  /** @type {Buffer|null|Readable} */
   if (body == null) {
     onUploadProgress({ total: 0, loaded: 0, lengthComputable: true })
   } else if (Buffer.isBuffer(body)) {
@@ -123,4 +88,10 @@ const iterateBodyWithProgress = async function * (body, onUploadProgress) {
       onUploadProgress({ total, loaded, lengthComputable })
     }
   }
+}
+
+module.exports = {
+  fetch,
+  Request,
+  Headers
 }
