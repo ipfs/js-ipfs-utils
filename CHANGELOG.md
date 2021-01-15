@@ -1,3 +1,18 @@
+# [6.0.0](https://github.com/ipfs/js-ipfs-utils/compare/v5.0.1...v6.0.0) (2021-01-15)
+
+
+### Features
+
+* add types, gh actions and remove unused methods ([#89](https://github.com/ipfs/js-ipfs-utils/issues/89)) ([707174c](https://github.com/ipfs/js-ipfs-utils/commit/707174c131a0651677200329583bf7dca652504a))
+* make urlSource compatible with new ipfs.add ([#53](https://github.com/ipfs/js-ipfs-utils/issues/53)) ([2b3ebbe](https://github.com/ipfs/js-ipfs-utils/commit/2b3ebbe86df409c1bc89d7855bf427446748b073)), closes [ipfs/js-ipfs#3195](https://github.com/ipfs/js-ipfs/issues/3195)
+
+
+### BREAKING CHANGES
+
+* removed globalThis and normalise-input, format-mode and format-mtime
+
+
+
 ## [5.0.1](https://github.com/ipfs/js-ipfs-utils/compare/v5.0.0...v5.0.1) (2020-11-25)
 
 
