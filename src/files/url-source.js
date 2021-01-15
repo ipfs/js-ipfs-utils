@@ -6,10 +6,7 @@ const HTTP = require('../http')
  *
  * @param {string} url
  * @param {import("../types").HTTPOptions} [options]
- * @returns {{
- *   path: string;
- *   content?: AsyncIterable<Uint8Array>;
- * }}
+ * @returns {{ path: string; content?: AsyncIterable<Uint8Array> }}
  */
 const urlSource = (url, options) => {
   return {
