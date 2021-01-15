@@ -1,3 +1,56 @@
+## [5.0.1](https://github.com/ipfs/js-ipfs-utils/compare/v5.0.0...v5.0.1) (2020-11-25)
+
+
+
+# [5.0.0](https://github.com/ipfs/js-ipfs-utils/compare/v4.0.1...v5.0.0) (2020-11-16)
+
+
+### Features
+
+* add onUploadProgress handler ([#60](https://github.com/ipfs/js-ipfs-utils/issues/60)) ([a2e88e2](https://github.com/ipfs/js-ipfs-utils/commit/a2e88e23f16bd0da57a67c02e8c875a2705bb28f))
+
+
+
+## [4.0.1](https://github.com/ipfs/js-ipfs-utils/compare/v4.0.0...v4.0.1) (2020-11-09)
+
+
+### Bug Fixes
+
+* fetch takes a string, not a URL ([#75](https://github.com/ipfs/js-ipfs-utils/issues/75)) ([15576b2](https://github.com/ipfs/js-ipfs-utils/commit/15576b28495caee7410fda51d8cb5aa2c8e6d106)), closes [#74](https://github.com/ipfs/js-ipfs-utils/issues/74)
+
+
+
+<a name="4.0.0"></a>
+# [4.0.0](https://github.com/ipfs/js-ipfs-utils/compare/v3.0.0...v4.0.0) (2020-10-10)
+
+
+### Bug Fixes
+
+* use native fetch if available ([#62](https://github.com/ipfs/js-ipfs-utils/issues/62)) ([9b0ff2f](https://github.com/ipfs/js-ipfs-utils/commit/9b0ff2f))
+
+
+
+<a name="3.0.0"></a>
+# [3.0.0](https://github.com/ipfs/js-ipfs-utils/compare/v2.4.0...v3.0.0) (2020-08-18)
+
+
+### Bug Fixes
+
+* revert "feat: http upload/download progress handlers" ([#58](https://github.com/ipfs/js-ipfs-utils/issues/58)) ([1bbe957](https://github.com/ipfs/js-ipfs-utils/commit/1bbe957))
+
+
+
+<a name="2.4.0"></a>
+# [2.4.0](https://github.com/ipfs/js-ipfs-utils/compare/v2.3.1...v2.4.0) (2020-08-12)
+
+
+### Features
+
+* detect support for WebRTC data channels ([#56](https://github.com/ipfs/js-ipfs-utils/issues/56)) ([78ad2d2](https://github.com/ipfs/js-ipfs-utils/commit/78ad2d2)), closes [#50](https://github.com/ipfs/js-ipfs-utils/issues/50)
+* http upload/download progress handlers ([#54](https://github.com/ipfs/js-ipfs-utils/issues/54)) ([d30be96](https://github.com/ipfs/js-ipfs-utils/commit/d30be96)), closes [#52](https://github.com/ipfs/js-ipfs-utils/issues/52) [#52](https://github.com/ipfs/js-ipfs-utils/issues/52)
+
+
+
 <a name="2.3.1"></a>
 ## [2.3.1](https://github.com/ipfs/js-ipfs-utils/compare/v2.3.0...v2.3.1) (2020-06-18)
 

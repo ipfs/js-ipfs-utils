@@ -14,6 +14,10 @@ describe('url-source', function () {
 
     expect(file).to.have.property('path', 'download')
 
-    await expect(all(file.content)).to.eventually.deep.equal([Buffer.from(content)])
+    if (file && file.content) {
+      await expect(all(file.content)).to.eventually.deep.equal([Buffer.from(content)])
+    } else {
+      throw new Error('empty response')
+    }
   })
 })
