@@ -22,6 +22,9 @@ describe('env', function () {
       case 'webworker':
         expect(env.isElectron).to.be.false()
         break
+      case 'react-native':
+        expect(env.isElectron).to.be.false()
+        break
       default:
         expect.fail(`Could not detect env. Current env is ${process.env.AEGIR_RUNNER}`)
         break
@@ -43,6 +46,9 @@ describe('env', function () {
         expect(env.isElectronMain).to.be.false()
         break
       case 'webworker':
+        expect(env.isElectronMain).to.be.false()
+        break
+      case 'react-native':
         expect(env.isElectronMain).to.be.false()
         break
       default:
@@ -68,6 +74,9 @@ describe('env', function () {
       case 'webworker':
         expect(env.isElectronRenderer).to.be.false()
         break
+      case 'react-native':
+        expect(env.isElectronRenderer).to.be.false()
+        break
       default:
         expect.fail(`Could not detect env. Current env is ${process.env.AEGIR_RUNNER}`)
         break
@@ -89,6 +98,9 @@ describe('env', function () {
         expect(env.isNode).to.be.false()
         break
       case 'webworker':
+        expect(env.isNode).to.be.false()
+        break
+      case 'react-native':
         expect(env.isNode).to.be.false()
         break
       default:
@@ -114,6 +126,9 @@ describe('env', function () {
       case 'webworker':
         expect(env.isBrowser).to.be.false()
         break
+      case 'react-native':
+        expect(env.isBrowser).to.be.false()
+        break
       default:
         expect.fail(`Could not detect env. Current env is ${process.env.AEGIR_RUNNER}`)
         break
@@ -136,6 +151,35 @@ describe('env', function () {
         break
       case 'webworker':
         expect(env.isWebWorker).to.be.true()
+        break
+      case 'react-native':
+        expect(env.isWebWorker).to.be.false()
+        break
+      default:
+        expect.fail(`Could not detect env. Current env is ${process.env.AEGIR_RUNNER}`)
+        break
+    }
+  })
+
+  it('isReactNative should have the correct value in each env', function () {
+    switch (process.env.AEGIR_RUNNER) {
+      case 'electron-main':
+        expect(env.isReactNative).to.be.false()
+        break
+      case 'electron-renderer':
+        expect(env.isReactNative).to.be.false()
+        break
+      case 'node':
+        expect(env.isReactNative).to.be.false()
+        break
+      case 'browser':
+        expect(env.isReactNative).to.be.false()
+        break
+      case 'webworker':
+        expect(env.isReactNative).to.be.false()
+        break
+      case 'react-native':
+        expect(env.isReactNative).to.be.true()
         break
       default:
         expect.fail(`Could not detect env. Current env is ${process.env.AEGIR_RUNNER}`)

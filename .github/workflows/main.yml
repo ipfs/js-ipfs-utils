@@ -11,16 +11,16 @@ jobs:
   check:
     runs-on: ubuntu-latest
     steps:
-    - uses: actions/checkout@v2
-    - run: npm install
-    - run: npx aegir lint
-    - uses: gozala/typescript-error-reporter-action@v1.0.8
-    - run: npx aegir build
-    - run: npx aegir dep-check
-    - uses: ipfs/aegir/actions/bundle-size@master
-      name: size
-      with:
-        github_token: ${{ secrets.GITHUB_TOKEN }}
+      - uses: actions/checkout@v2
+      - run: npm install
+      - run: npx aegir lint
+      - uses: gozala/typescript-error-reporter-action@v1.0.8
+      - run: npx aegir build
+      - run: npx aegir dep-check
+      - uses: ipfs/aegir/actions/bundle-size@master
+        name: size
+        with:
+          github_token: ${{ secrets.GITHUB_TOKEN }}
   test-node:
     needs: check
     runs-on: ${{ matrix.os }}
@@ -65,3 +65,32 @@ jobs:
       - uses: actions/checkout@v2
       - run: npm install
       - run: npx xvfb-maybe aegir test -t electron-renderer --bail
+  test-react-native-android:
+    runs-on: macos-latest
+    steps:
+      - uses: actions/checkout@v2
+      - run: npm install
+      - uses: reactivecircus/android-emulator-runner@v2
+        with:
+          api-level: 28
+          target: default
+          arch: x86_64
+          profile: pixel
+          avd-name: google-pixel
+          script: |
+            npx rn-test --platform android --emulator google-pixel 'test/**/*.spec.js'
+  test-react-native-ios:
+    runs-on: macos-latest
+    steps:
+      - uses: actions/checkout@v2
+      - run: npm install
+      - name: Create and run iOS simulator
+        run: |
+          SIMULATOR_RUNTIME=$(echo "iOS 14.4" | sed 's/[ \.]/-/g')
+          SIMULATOR_ID=$(xcrun simctl create "iPhone 11" com.apple.CoreSimulator.SimDeviceType.iPhone-11 com.apple.CoreSimulator.SimRuntime.$SIMULATOR_RUNTIME)
+          echo "IOS_SIMULATOR=$SIMULATOR_ID" >> $GITHUB_ENV
+          xcrun simctl boot $SIMULATOR_ID &
+      - run: npx rn-test --platform ios --simulator 'iPhone 11 (14.4)' --rn 0.62.0 'test/**/*.spec.js'
+      - name: Shutdown iOS simulator
+        run: |
+          xcrun simctl shutdown $IOS_SIMULATOR

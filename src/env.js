@@ -10,6 +10,7 @@ const IS_NODE = typeof require === 'function' && typeof process !== 'undefined' 
 // @ts-ignore - we either ignore worker scope or dom scope
 const IS_WEBWORKER = typeof importScripts === 'function' && typeof self !== 'undefined' && typeof WorkerGlobalScope !== 'undefined' && self instanceof WorkerGlobalScope
 const IS_TEST = typeof process !== 'undefined' && typeof process.env !== 'undefined' && process.env.NODE_ENV === 'test'
+const IS_REACT_NATIVE = typeof navigator !== 'undefined' && navigator.product === 'ReactNative'
 
 module.exports = {
   isTest: IS_TEST,
@@ -22,5 +23,6 @@ module.exports = {
    */
   isBrowser: IS_BROWSER,
   isWebWorker: IS_WEBWORKER,
-  isEnvWithDom: IS_ENV_WITH_DOM
+  isEnvWithDom: IS_ENV_WITH_DOM,
+  isReactNative: IS_REACT_NATIVE
 }

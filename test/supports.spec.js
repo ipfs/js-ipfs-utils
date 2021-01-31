@@ -46,6 +46,14 @@ describe('supports', function () {
     }
   })
 
+  it('supportsFileReader should return true in React Native', function () {
+    if (env.isReactNative) {
+      expect(supports.supportsFileReader).to.be.true()
+    } else {
+      this.skip()
+    }
+  })
+
   it('supportsWebRTC should return false in node', function () {
     if (env.isNode) {
       expect(supports.supportsWebRTC).to.be.false()
@@ -86,6 +94,14 @@ describe('supports', function () {
     }
   })
 
+  it('supportsWebRTC should return false in React Native', function () {
+    if (env.isReactNative) {
+      expect(supports.supportsWebRTC).to.be.false()
+    } else {
+      this.skip()
+    }
+  })
+
   it('supportsWebRTCDataChannels should return false in node', function () {
     if (env.isNode) {
       expect(supports.supportsWebRTCDataChannels).to.be.false()
@@ -121,6 +137,14 @@ describe('supports', function () {
   it('supportsWebRTCDataChannels should return true in Electron renderer', function () {
     if (env.isElectronRenderer) {
       expect(supports.supportsWebRTCDataChannels).to.be.true()
+    } else {
+      this.skip()
+    }
+  })
+
+  it('supportsWebRTCDataChannels should return true in React Native', function () {
+    if (env.isReactNative) {
+      expect(supports.supportsWebRTCDataChannels).to.be.false()
     } else {
       this.skip()
     }
