@@ -54,7 +54,7 @@
     "it-to-stream": "^0.1.2",
     "merge-options": "^3.0.4",
     "nanoid": "^3.1.20",
-    "native-abort-controller": "^1.0.0",
+    "native-abort-controller": "^1.0.3",
     "native-fetch": "2.0.1",
     "node-fetch": "^2.6.1",
     "stream-to-it": "^0.2.2",
