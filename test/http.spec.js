@@ -6,7 +6,7 @@ const HTTP = require('../src/http')
 // @ts-ignore
 const toStream = require('it-to-stream')
 const delay = require('delay')
-const AbortController = require('native-abort-controller')
+const { AbortController } = require('native-abort-controller')
 const drain = require('it-drain')
 const all = require('it-all')
 const { isBrowser, isWebWorker } = require('../src/env')
