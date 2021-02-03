@@ -1,7 +1,7 @@
 /* eslint-disable no-undef */
 'use strict'
 
-const { fetch, Request, Headers } = require('./http/fetch')
+const { default: fetch, Request, Headers } = require('./http/fetch')
 const { TimeoutError, HTTPError } = require('./http/error')
 const merge = require('merge-options').bind({ ignoreUndefined: true })
 const { URL, URLSearchParams } = require('iso-url')

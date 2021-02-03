@@ -91,7 +91,7 @@ const iterateBodyWithProgress = async function * (body, onUploadProgress) {
 }
 
 module.exports = {
-  fetch,
+  default: fetch,
   Request,
   Headers
 }
