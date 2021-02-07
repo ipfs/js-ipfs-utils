@@ -6,7 +6,7 @@ const { TimeoutError, HTTPError } = require('./http/error')
 const merge = require('merge-options').bind({ ignoreUndefined: true })
 const { URL, URLSearchParams } = require('iso-url')
 const TextDecoder = require('./text-decoder')
-const AbortController = require('native-abort-controller')
+const { AbortController } = require('native-abort-controller')
 const anySignal = require('any-signal')
 
 /**
