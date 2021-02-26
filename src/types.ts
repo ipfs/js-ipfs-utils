@@ -41,7 +41,7 @@ export interface HTTPOptions extends FetchOptions {
   /**
    * Transform search params
    */
-  transformSearchParams?: (params: URLSearchParams) => URLSearchParams
+  transformSearchParams?: (params: URLSearchParams) => string
   /**
    * When iterating the response body, transform each chunk with this function.
    */

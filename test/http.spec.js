@@ -182,4 +182,23 @@ describe('http', function () {
     const rsp = await req.arrayBuffer()
     expect(uint8ArrayEquals(new Uint8Array(rsp), buf)).to.be.true()
   })
+
+  it('allows transforming search params', async function () {
+    const res = await HTTP.post('echo/query', {
+      base: ECHO_SERVER,
+      body: 'hello world',
+      searchParams: new URLSearchParams({
+        foo: 'bar'
+      }),
+      transformSearchParams: (params) => {
+        expect(params.get('foo')).to.equal('bar')
+
+        return 'baz=qux'
+      }
+    })
+
+    const query = JSON.parse(await res.text())
+
+    expect(query).to.have.property('baz', 'qux')
+  })
 })

@@ -111,11 +111,11 @@ class HTTP {
 
     if (searchParams) {
       if (typeof transformSearchParams === 'function') {
-        // @ts-ignore
         url.search = transformSearchParams(new URLSearchParams(opts.searchParams))
+      } else if (searchParams instanceof URLSearchParams) {
+        url.search = searchParams.toString()
       } else {
-        // @ts-ignore
-        url.search = new URLSearchParams(opts.searchParams)
+        url.search = new URLSearchParams(searchParams).toString()
       }
     }
 
