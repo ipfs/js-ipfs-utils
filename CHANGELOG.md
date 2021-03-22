@@ -1,3 +1,12 @@
+## [6.0.4](https://github.com/ipfs/js-ipfs-utils/compare/v6.0.3...v6.0.4) (2021-03-22)
+
+
+### Bug Fixes
+
+* allow all supported unixfs time types ([#111](https://github.com/ipfs/js-ipfs-utils/issues/111)) ([72e0097](https://github.com/ipfs/js-ipfs-utils/commit/72e0097accb58eb01480bb47085edfe25ea7bf9a))
+
+
+
 ## [6.0.3](https://github.com/ipfs/js-ipfs-utils/compare/v6.0.2...v6.0.3) (2021-03-15)
 
 
