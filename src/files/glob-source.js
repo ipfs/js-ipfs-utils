@@ -17,7 +17,7 @@ const errCode = require('err-code')
  * @param {boolean} [options.preserveMode] - preserve mode
  * @param {boolean} [options.preserveMtime] - preserve mtime
  * @param {number} [options.mode] - mode to use - if preserveMode is true this will be ignored
- * @param {Date} [options.mtime] - mtime to use - if preserveMtime is true this will be ignored
+ * @param {import('ipfs-unixfs').MtimeLike} [options.mtime] - mtime to use - if preserveMtime is true this will be ignored
  * @yields {Object} File objects in the form `{ path: String, content: AsyncIterator<Buffer> }`
  */
 module.exports = async function * globSource (paths, options) {

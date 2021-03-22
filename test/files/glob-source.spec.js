@@ -233,4 +233,40 @@ describe('glob-source', () => {
     expect(result).to.have.nested.property('[5].path', '/dir/nested-dir/other.txt')
     expect(result).to.have.deep.nested.property('[5].mtime', new Date(5))
   })
+
+  it('overrides mtime for file with secs/nsecs', async function () {
+    if (!isNode) {
+      return this.skip()
+    }
+
+    const result = await all(globSource(fixture('/dir/file-1.txt'), {
+      mtime: { secs: 5, nsecs: 0 }
+    }))
+
+    expect(result).to.have.deep.nested.property('[0].mtime', { secs: 5, nsecs: 0 })
+  })
+
+  it('overrides mtime for file with hrtime', async function () {
+    if (!isNode) {
+      return this.skip()
+    }
+
+    const result = await all(globSource(fixture('/dir/file-1.txt'), {
+      mtime: [5, 0]
+    }))
+
+    expect(result).to.have.deep.nested.property('[0].mtime', [5, 0])
+  })
+
+  it('overrides mtime for file with UnixFS timespec', async function () {
+    if (!isNode) {
+      return this.skip()
+    }
+
+    const result = await all(globSource(fixture('/dir/file-1.txt'), {
+      mtime: { Seconds: 5, FractionalNanoseconds: 0 }
+    }))
+
+    expect(result).to.have.deep.nested.property('[0].mtime', { Seconds: 5, FractionalNanoseconds: 0 })
+  })
 })
