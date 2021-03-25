@@ -2,6 +2,7 @@
 const isElectron = require('is-electron')
 
 const IS_ENV_WITH_DOM = typeof window === 'object' && typeof document === 'object' && document.nodeType === 9
+// @ts-ignore
 const IS_ELECTRON = isElectron()
 const IS_BROWSER = IS_ENV_WITH_DOM && !IS_ELECTRON
 const IS_ELECTRON_MAIN = IS_ELECTRON && !IS_ENV_WITH_DOM

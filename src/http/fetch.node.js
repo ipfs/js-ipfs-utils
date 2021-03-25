@@ -1,5 +1,4 @@
 'use strict'
-
 const { Request, Response, Headers, default: nativeFetch } = require('../fetch')
 // @ts-ignore
 const toStream = require('it-to-stream')
@@ -46,8 +45,7 @@ const withUploadProgress = (options) => {
 }
 
 /**
- * @param {BodyInit} input
- * @returns {Blob | FormData | URLSearchParams | ReadableStream<Uint8Array> | string | NodeReadableStream | Buffer}
+ * @param {BodyInit | NodeReadableStream} input
  */
 const normalizeBody = (input) => {
   if (input instanceof ArrayBuffer) {

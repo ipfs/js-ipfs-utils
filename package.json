@@ -21,7 +21,8 @@
     "fs": false
   },
   "react-native": {
-    "./src/http/fetch.js": "./src/http/fetch.react-native.js"
+    "./src/fetch.js": "./src/fetch.rn.js",
+    "./src/http/fetch.js": "./src/http/fetch.rn.js"
   },
   "types": "dist/src/index.d.ts",
   "typesVersions": {
