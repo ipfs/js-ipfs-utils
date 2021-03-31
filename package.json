@@ -63,7 +63,7 @@
   "devDependencies": {
     "@types/err-code": "^2.0.0",
     "@types/fs-extra": "^9.0.5",
-    "aegir": "^30.3.0",
+    "aegir": "^32.2.0",
     "delay": "^5.0.0",
     "ipfs-unixfs": "^4.0.1",
     "it-all": "^1.0.4",
