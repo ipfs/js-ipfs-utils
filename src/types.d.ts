@@ -1,4 +1,4 @@
-import type { RequestInit, Response } from 'native-fetch'
+import type { RequestInit, Response } from '../types/native-fetch'
 interface ProgressStatus {
   total: number
   loaded: number
