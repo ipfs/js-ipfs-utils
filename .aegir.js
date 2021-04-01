@@ -2,20 +2,44 @@
 
 const EchoServer = require('aegir/utils/echo-server')
 const { format } =require('iso-url')
+const path = require('path')
 
-let echo = new EchoServer()
+/** @type {import('aegir').Options["build"]["config"]} */
+const esbuild = {
+  //inject: [path.join(__dirname, '../../scripts/node-globals.js')],
+  plugins: [
+    {
+      name: 'node built ins',
+      setup (build) {
+        build.onResolve({ filter: /^stream$/ }, () => {
+          return { path: require.resolve('readable-stream') }
+        })
+      }
+    }
+  ]
+}
 
 module.exports = {
-  hooks: {
-    pre: async () => {
-      const server = await echo.start()
-      const { address, port } = server.server.address()
+  build: {
+    config: esbuild
+  },
+  test: {
+    browser: {
+      config: {
+        buildConfig: esbuild
+      }
+    },
+    before: async () => {
+      let echoServer = new EchoServer()
+      await echoServer.start()
+      const { address, port } = echoServer.server.address()
       return {
+        echoServer,
         env: { ECHO_SERVER : format({ protocol: 'http:', hostname: address, port })}
       }
     },
-    post: async () => {
-      await echo.stop()
+    async after (options, before) {
+      await before.echoServer.stop()
     }
   }
 }
