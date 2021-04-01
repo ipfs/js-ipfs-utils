@@ -10,7 +10,7 @@ const { AbortController } = require('native-abort-controller')
 const anySignal = require('any-signal')
 
 /**
- * @typedef {import('electron-fetch').Response} Response
+ * @typedef {import('native-fetch').Response} Response
  * @typedef {import('stream').Readable} NodeReadableStream
  * @typedef {import('stream').Duplex} NodeDuplexStream
  * @typedef {import('./types').HTTPOptions} HTTPOptions

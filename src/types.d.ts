@@ -1,4 +1,4 @@
-import type { RequestInit, Response } from 'electron-fetch'
+import type { RequestInit, Response } from '../types/native-fetch'
 interface ProgressStatus {
   total: number
   loaded: number
@@ -33,7 +33,7 @@ export interface HTTPOptions extends FetchOptions {
   /**
    * The base URL to use in case url is a relative URL
    */
-  base? : string
+  base?: string
   /**
    * Throw not ok responses as Errors
    */
