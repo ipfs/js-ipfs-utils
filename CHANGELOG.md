@@ -1,3 +1,12 @@
+## [6.0.5](https://github.com/ipfs/js-ipfs-utils/compare/v6.0.4...v6.0.5) (2021-04-01)
+
+
+### Bug Fixes
+
+* do not use electron-fetch types ([#113](https://github.com/ipfs/js-ipfs-utils/issues/113)) ([658a725](https://github.com/ipfs/js-ipfs-utils/commit/658a725148715b3c6e3653e01d8ed6dab53d8401))
+
+
+
 ## [6.0.4](https://github.com/ipfs/js-ipfs-utils/compare/v6.0.3...v6.0.4) (2021-03-22)
 
 
