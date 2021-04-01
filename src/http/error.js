@@ -18,7 +18,7 @@ exports.AbortError = AbortError
 
 class HTTPError extends Error {
   /**
-   * @param {import('electron-fetch').Response} response
+   * @param {import('native-fetch').Response} response
    */
   constructor (response) {
     super(response.statusText)

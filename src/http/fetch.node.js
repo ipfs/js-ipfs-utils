@@ -5,7 +5,7 @@ const { Request, Response, Headers, default: nativeFetch } = require('../fetch')
 const toStream = require('it-to-stream')
 const { Buffer } = require('buffer')
 /**
- * @typedef {import('electron-fetch').BodyInit} BodyInit
+ * @typedef {import('native-fetch').BodyInit} BodyInit
  * @typedef {import('stream').Readable} NodeReadableStream
  *
  * @typedef {import('../types').FetchOptions} FetchOptions
