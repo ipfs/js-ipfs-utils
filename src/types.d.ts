@@ -1,4 +1,4 @@
-import type { RequestInit, Response } from 'electron-fetch'
+import type { RequestInit, Response } from 'native-fetch'
 interface ProgressStatus {
   total: number
   loaded: number
