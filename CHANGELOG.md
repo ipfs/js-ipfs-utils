@@ -1,3 +1,7 @@
+## [6.0.6](https://github.com/ipfs/js-ipfs-utils/compare/v6.0.5...v6.0.6) (2021-04-06)
+
+
+
 ## [6.0.5](https://github.com/ipfs/js-ipfs-utils/compare/v6.0.4...v6.0.5) (2021-04-01)
 
 
