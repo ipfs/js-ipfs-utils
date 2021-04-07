@@ -22,7 +22,10 @@ describe('env', function () {
       case 'webworker':
         expect(env.isElectron).to.be.false()
         break
-      case 'react-native':
+      case 'react-native-android':
+        expect(env.isElectron).to.be.false()
+        break
+      case 'react-native-ios':
         expect(env.isElectron).to.be.false()
         break
       default:
@@ -48,7 +51,10 @@ describe('env', function () {
       case 'webworker':
         expect(env.isElectronMain).to.be.false()
         break
-      case 'react-native':
+      case 'react-native-android':
+        expect(env.isElectronMain).to.be.false()
+        break
+      case 'react-native-ios':
         expect(env.isElectronMain).to.be.false()
         break
       default:
@@ -74,7 +80,10 @@ describe('env', function () {
       case 'webworker':
         expect(env.isElectronRenderer).to.be.false()
         break
-      case 'react-native':
+      case 'react-native-android':
+        expect(env.isElectronRenderer).to.be.false()
+        break
+      case 'react-native-ios':
         expect(env.isElectronRenderer).to.be.false()
         break
       default:
@@ -100,7 +109,10 @@ describe('env', function () {
       case 'webworker':
         expect(env.isNode).to.be.false()
         break
-      case 'react-native':
+      case 'react-native-android':
+        expect(env.isNode).to.be.false()
+        break
+      case 'react-native-ios':
         expect(env.isNode).to.be.false()
         break
       default:
@@ -126,7 +138,10 @@ describe('env', function () {
       case 'webworker':
         expect(env.isBrowser).to.be.false()
         break
-      case 'react-native':
+      case 'react-native-android':
+        expect(env.isBrowser).to.be.false()
+        break
+      case 'react-native-ios':
         expect(env.isBrowser).to.be.false()
         break
       default:
@@ -152,7 +167,10 @@ describe('env', function () {
       case 'webworker':
         expect(env.isWebWorker).to.be.true()
         break
-      case 'react-native':
+      case 'react-native-android':
+        expect(env.isWebWorker).to.be.false()
+        break
+      case 'react-native-ios':
         expect(env.isWebWorker).to.be.false()
         break
       default:
@@ -178,7 +196,10 @@ describe('env', function () {
       case 'webworker':
         expect(env.isReactNative).to.be.false()
         break
-      case 'react-native':
+      case 'react-native-android':
+        expect(env.isReactNative).to.be.true()
+        break
+      case 'react-native-ios':
         expect(env.isReactNative).to.be.true()
         break
       default:
