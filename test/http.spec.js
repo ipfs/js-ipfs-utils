@@ -160,6 +160,9 @@ describe('http', function () {
     const body = new Uint8Array(1000000 / 2)
     const request = await HTTP.post(`${ECHO_SERVER}/echo`, {
       body,
+      headers: {
+        'Content-Type': 'application/octet-stream'
+      },
       onUploadProgress: (progress) => {
         expect(progress).to.have.property('lengthComputable').to.be.a('boolean')
         expect(progress).to.have.property('total', body.byteLength)
