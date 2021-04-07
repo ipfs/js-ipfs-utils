@@ -1,4 +1,4 @@
-'use strict'
+'use strict';
 
 const EchoServer = require('aegir/utils/echo-server')
 const { format } =require('iso-url')

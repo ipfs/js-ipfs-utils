@@ -7,6 +7,9 @@ interface ProgressStatus {
 export interface ProgressFn { (status: ProgressStatus): void }
 
 export interface FetchOptions extends RequestInit {
+  /**
+   * Extended body with support for node readable stream
+   */
   body?: BodyInit | null | NodeReadableStream
   /**
    * Amount of time until request should timeout in ms.
