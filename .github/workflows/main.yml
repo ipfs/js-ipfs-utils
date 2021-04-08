@@ -67,12 +67,13 @@ jobs:
       - run: npx xvfb-maybe aegir test -t electron-renderer --bail
   test-react-native-android:
     runs-on: macos-latest
+    needs: check
     steps:
       - uses: actions/checkout@v2
       - run: npm install
       - uses: reactivecircus/android-emulator-runner@v2
         with:
-          api-level: 28
+          api-level: 29
           target: default
           arch: x86_64
           profile: pixel
