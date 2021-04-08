@@ -79,7 +79,7 @@ jobs:
           profile: pixel
           avd-name: aegir-android-29
           script: |
-            npx aegir test -t react-native-android'
+            npx aegir test -t react-native-android
   # test-react-native-ios:
   #   runs-on: macos-latest
   #   steps:
