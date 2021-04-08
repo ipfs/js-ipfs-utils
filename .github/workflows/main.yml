@@ -71,6 +71,7 @@ jobs:
     steps:
       - uses: actions/checkout@v2
       - run: npm install
+      - run: sdkmanager --update && sdkmanager "emulator"
       - run: npx aegir test -t react-native-android
       # - uses: reactivecircus/android-emulator-runner@v2
       #   with:
