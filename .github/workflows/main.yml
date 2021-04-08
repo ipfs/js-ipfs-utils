@@ -76,21 +76,21 @@ jobs:
           target: default
           arch: x86_64
           profile: pixel
-          avd-name: google-pixel
+          avd-name: aegir-android-29
           script: |
-            npx rn-test --platform android --emulator google-pixel 'test/**/*.spec.js'
-  test-react-native-ios:
-    runs-on: macos-latest
-    steps:
-      - uses: actions/checkout@v2
-      - run: npm install
-      - name: Create and run iOS simulator
-        run: |
-          SIMULATOR_RUNTIME=$(echo "iOS 14.4" | sed 's/[ \.]/-/g')
-          SIMULATOR_ID=$(xcrun simctl create "iPhone 11" com.apple.CoreSimulator.SimDeviceType.iPhone-11 com.apple.CoreSimulator.SimRuntime.$SIMULATOR_RUNTIME)
-          echo "IOS_SIMULATOR=$SIMULATOR_ID" >> $GITHUB_ENV
-          xcrun simctl boot $SIMULATOR_ID &
-      - run: npx rn-test --platform ios --simulator 'iPhone 11 (14.4)' --rn 0.62.0 'test/**/*.spec.js'
-      - name: Shutdown iOS simulator
-        run: |
-          xcrun simctl shutdown $IOS_SIMULATOR
+            npx aegir test -t react-native-android'
+  # test-react-native-ios:
+  #   runs-on: macos-latest
+  #   steps:
+  #     - uses: actions/checkout@v2
+  #     - run: npm install
+  #     - name: Create and run iOS simulator
+  #       run: |
+  #         SIMULATOR_RUNTIME=$(echo "iOS 14.4" | sed 's/[ \.]/-/g')
+  #         SIMULATOR_ID=$(xcrun simctl create "iPhone 11" com.apple.CoreSimulator.SimDeviceType.iPhone-11 com.apple.CoreSimulator.SimRuntime.$SIMULATOR_RUNTIME)
+  #         echo "IOS_SIMULATOR=$SIMULATOR_ID" >> $GITHUB_ENV
+  #         xcrun simctl boot $SIMULATOR_ID &
+  #     - run: npx rn-test --platform ios --simulator 'iPhone 11 (14.4)' --rn 0.62.0 'test/**/*.spec.js'
+  #     - name: Shutdown iOS simulator
+  #       run: |
+  #         xcrun simctl shutdown $IOS_SIMULATOR
