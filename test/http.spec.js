@@ -156,6 +156,7 @@ describe('http', function () {
   })
 
   it('progress events', async function () {
+    this.timeout(10000)
     let upload = 0
     const body = new Uint8Array(1000000 / 2)
     const request = await HTTP.post(`${ECHO_SERVER}/echo`, {
