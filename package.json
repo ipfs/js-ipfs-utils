@@ -53,7 +53,7 @@
     "is-electron": "^2.2.0",
     "iso-url": "^1.0.0",
     "it-glob": "~0.0.11",
-    "it-to-stream": "^0.1.2",
+    "it-to-stream": "^1.0.0",
     "merge-options": "^3.0.4",
     "nanoid": "^3.1.20",
     "native-abort-controller": "^1.0.3",
