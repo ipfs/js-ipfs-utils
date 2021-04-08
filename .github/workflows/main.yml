@@ -71,16 +71,15 @@ jobs:
     steps:
       - uses: actions/checkout@v2
       - run: npm install
-      - run: npx aegir test -t react-native-android
-      # - uses: reactivecircus/android-emulator-runner@v2
-      #   with:
-      #     api-level: 29
-      #     target: default
-      #     arch: x86_64
-      #     profile: pixel
-      #     avd-name: aegir-android-29
-      #     script: |
-      #       npx aegir test -t react-native-android'
+      - uses: reactivecircus/android-emulator-runner@v2
+        with:
+          api-level: 29
+          target: default
+          arch: x86_64
+          profile: pixel
+          avd-name: aegir-android-29
+          script: |
+            npx aegir test -t react-native-android'
   # test-react-native-ios:
   #   runs-on: macos-latest
   #   steps:
