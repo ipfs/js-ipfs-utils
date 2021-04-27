@@ -62,7 +62,7 @@
     "stream-to-it": "^0.2.2"
   },
   "devDependencies": {
-    "@types/err-code": "^2.0.0",
+    "@types/err-code": "^3.0.0",
     "@types/fs-extra": "^9.0.5",
     "aegir": "^33.1.0",
     "delay": "^5.0.0",
