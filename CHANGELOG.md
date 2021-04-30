@@ -1,3 +1,12 @@
+## [6.0.8](https://github.com/ipfs/js-ipfs-utils/compare/v6.0.7...v6.0.8) (2021-04-30)
+
+
+### Bug Fixes
+
+* exclude glob-source.js in browser build ([#121](https://github.com/ipfs/js-ipfs-utils/issues/121)) ([c4071d9](https://github.com/ipfs/js-ipfs-utils/commit/c4071d902d65c7c76e934f43e1f80a209113eac5))
+
+
+
 ## [6.0.7](https://github.com/ipfs/js-ipfs-utils/compare/v6.0.6...v6.0.7) (2021-04-14)
 
 
