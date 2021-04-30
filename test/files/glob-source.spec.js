@@ -8,7 +8,7 @@ const path = require('path')
 const {
   isNode
 } = require('../../src/env')
-const fs = require('fs-extra')
+const fs = require('fs')
 
 /**
  * @param {string} file
