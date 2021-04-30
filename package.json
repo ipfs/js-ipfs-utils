@@ -1,6 +1,6 @@
 {
   "name": "ipfs-utils",
-  "version": "6.0.7",
+  "version": "6.0.8",
   "description": "Package to aggregate shared logic and dependencies for the IPFS ecosystem",
   "main": "src/index.js",
   "author": "Hugo Dias <hugomrdias@gmail.com>",
@@ -80,12 +80,13 @@
   },
   "contributors": [
     "Hugo Dias <hugomrdias@gmail.com>",
-    "Alex Potsides <alex@achingbrain.net>",
+    "achingbrain <alex@achingbrain.net>",
     "Alan Shaw <alan.shaw@protocol.ai>",
     "Irakli Gozalishvili <contact@gozala.io>",
     "Hector Sanjuan <code@hector.link>",
     "bluelovers <codelovers@users.sourceforge.net>",
     "Marcin Rataj <lidel@lidel.org>",
-    "Roderik van der Veer <roderik@settlemint.com>"
+    "Roderik van der Veer <roderik@settlemint.com>",
+    "Stepan Yurtsiv <yurtsiv.stepan@gmail.com>"
   ]
 }
