@@ -28,7 +28,7 @@ export class Response extends globalThis.Response {
   clone: () => Response
 
   // Body interface
-  readonly body: NodeReadableStream | ReadableStream<Uint8Array> | null
+  readonly body: ReadableStream<Uint8Array> | null
   readonly bodyUsed: boolean
   arrayBuffer: () => Promise<ArrayBuffer>
   blob: () => Promise<Blob>
@@ -47,7 +47,7 @@ export class Request extends globalThis.Request {
   constructor (input: RequestInfo, init?: RequestInit)
 
   // Body interface
-  readonly body: NodeReadableStream | ReadableStream<Uint8Array> | null
+  readonly body: ReadableStream<Uint8Array> | null
   readonly bodyUsed: boolean
   arrayBuffer: () => Promise<ArrayBuffer>
   blob: () => Promise<Blob>
