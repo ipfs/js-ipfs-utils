@@ -1,3 +1,17 @@
+# [7.0.0](https://github.com/ipfs/js-ipfs-utils/compare/v6.0.8...v7.0.0) (2021-05-04)
+
+
+### Bug Fixes
+
+* remove retyping of modules with types ([#125](https://github.com/ipfs/js-ipfs-utils/issues/125)) ([f6406c5](https://github.com/ipfs/js-ipfs-utils/commit/f6406c5af4abb83fa11113202f785e8a7c9f6941)), closes [#109](https://github.com/ipfs/js-ipfs-utils/issues/109)
+
+
+### BREAKING CHANGES
+
+* `ResponseWithURL` type is not exported any more as it uses a private name and causes an inconsistency between node and the browser
+
+
+
 ## [6.0.8](https://github.com/ipfs/js-ipfs-utils/compare/v6.0.7...v6.0.8) (2021-04-30)
 
 
