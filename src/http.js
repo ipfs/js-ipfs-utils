@@ -330,35 +330,30 @@ HTTP.streamToAsyncIterator = fromStream
 /**
  * @param {string | Request} resource
  * @param {HTTPOptions} [options]
- * @returns {Promise<Response>}
  */
 HTTP.post = (resource, options) => new HTTP(options).post(resource, options)
 
 /**
  * @param {string | Request} resource
  * @param {HTTPOptions} [options]
- * @returns {Promise<Response>}
  */
 HTTP.get = (resource, options) => new HTTP(options).get(resource, options)
 
 /**
  * @param {string | Request} resource
  * @param {HTTPOptions} [options]
- * @returns {Promise<Response>}
  */
 HTTP.put = (resource, options) => new HTTP(options).put(resource, options)
 
 /**
  * @param {string | Request} resource
  * @param {HTTPOptions} [options]
- * @returns {Promise<Response>}
  */
 HTTP.delete = (resource, options) => new HTTP(options).delete(resource, options)
 
 /**
  * @param {string | Request} resource
  * @param {HTTPOptions} [options]
- * @returns {Promise<Response>}
  */
 HTTP.options = (resource, options) => new HTTP(options).options(resource, options)
 
