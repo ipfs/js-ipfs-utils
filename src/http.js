@@ -9,7 +9,7 @@ const { AbortController } = require('native-abort-controller')
 const anySignal = require('any-signal')
 
 /**
- * @typedef {import('native-fetch').Response} Response
+ * @typedef {import('./types').ExtendedResponse} ExtendedResponse
  * @typedef {import('stream').Readable} NodeReadableStream
  * @typedef {import('stream').Duplex} NodeDuplexStream
  * @typedef {import('./types').HTTPOptions} HTTPOptions
@@ -88,7 +88,7 @@ class HTTP {
    *
    * @param {string | Request} resource
    * @param {HTTPOptions} options
-   * @returns {Promise<Response>}
+   * @returns {Promise<ExtendedResponse>}
    */
   async fetch (resource, options = {}) {
     /** @type {HTTPOptions} */
@@ -168,7 +168,6 @@ class HTTP {
   /**
    * @param {string | Request} resource
    * @param {HTTPOptions} options
-   * @returns {Promise<Response>}
    */
   post (resource, options = {}) {
     return this.fetch(resource, { ...options, method: 'POST' })
@@ -177,7 +176,6 @@ class HTTP {
   /**
    * @param {string | Request} resource
    * @param {HTTPOptions} options
-   * @returns {Promise<Response>}
    */
   get (resource, options = {}) {
     return this.fetch(resource, { ...options, method: 'GET' })
@@ -186,7 +184,6 @@ class HTTP {
   /**
    * @param {string | Request} resource
    * @param {HTTPOptions} options
-   * @returns {Promise<Response>}
    */
   put (resource, options = {}) {
     return this.fetch(resource, { ...options, method: 'PUT' })
@@ -195,7 +192,6 @@ class HTTP {
   /**
    * @param {string | Request} resource
    * @param {HTTPOptions} options
-   * @returns {Promise<Response>}
    */
   delete (resource, options = {}) {
     return this.fetch(resource, { ...options, method: 'DELETE' })
@@ -204,7 +200,6 @@ class HTTP {
   /**
    * @param {string | Request} resource
    * @param {HTTPOptions} options
-   * @returns {Promise<Response>}
    */
   options (resource, options = {}) {
     return this.fetch(resource, { ...options, method: 'OPTIONS' })
@@ -335,35 +330,30 @@ HTTP.streamToAsyncIterator = fromStream
 /**
  * @param {string | Request} resource
  * @param {HTTPOptions} [options]
- * @returns {Promise<Response>}
  */
 HTTP.post = (resource, options) => new HTTP(options).post(resource, options)
 
 /**
  * @param {string | Request} resource
  * @param {HTTPOptions} [options]
- * @returns {Promise<Response>}
  */
 HTTP.get = (resource, options) => new HTTP(options).get(resource, options)
 
 /**
  * @param {string | Request} resource
  * @param {HTTPOptions} [options]
- * @returns {Promise<Response>}
  */
 HTTP.put = (resource, options) => new HTTP(options).put(resource, options)
 
 /**
  * @param {string | Request} resource
  * @param {HTTPOptions} [options]
- * @returns {Promise<Response>}
  */
 HTTP.delete = (resource, options) => new HTTP(options).delete(resource, options)
 
 /**
  * @param {string | Request} resource
  * @param {HTTPOptions} [options]
- * @returns {Promise<Response>}
  */
 HTTP.options = (resource, options) => new HTTP(options).options(resource, options)
 

@@ -136,6 +136,5 @@ class ResponseWithURL extends Response {
 module.exports = {
   fetch: fetchWith,
   Request,
-  Headers,
-  ResponseWithURL
+  Headers
 }

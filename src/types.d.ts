@@ -1,4 +1,3 @@
-import type { RequestInit, Response } from '../types/native-fetch'
 interface ProgressStatus {
   total: number
   loaded: number
@@ -50,4 +49,10 @@ export interface HTTPOptions extends FetchOptions {
    * Handle errors
    */
   handleError?: (rsp: Response) => Promise<void>
+}
+
+export interface ExtendedResponse extends Response {
+  iterator: () => AsyncGenerator<Uint8Array, void, undefined>
+
+  ndjson: () => AsyncGenerator<any, void, undefined>
 }
