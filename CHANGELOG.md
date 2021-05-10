@@ -1,3 +1,17 @@
+# [8.0.0](https://github.com/ipfs/js-ipfs-utils/compare/v7.0.0...v8.0.0) (2021-05-10)
+
+
+### chore
+
+* remove text encoder ([#116](https://github.com/ipfs/js-ipfs-utils/issues/116)) ([686c745](https://github.com/ipfs/js-ipfs-utils/commit/686c745d2c9c00134d72da309825502edb3ea977))
+
+
+### BREAKING CHANGES
+
+* text encoder/decoder files have been removed
+
+
+
 # [7.0.0](https://github.com/ipfs/js-ipfs-utils/compare/v6.0.8...v7.0.0) (2021-05-04)
 
 
