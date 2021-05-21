@@ -1,3 +1,12 @@
+# [8.1.0](https://github.com/ipfs/js-ipfs-utils/compare/v8.0.0...v8.1.0) (2021-05-21)
+
+
+### Features
+
+* add React Native android support ([#91](https://github.com/ipfs/js-ipfs-utils/issues/91)) ([b2b02a5](https://github.com/ipfs/js-ipfs-utils/commit/b2b02a5722f516b24813a54b3184c888935d31da))
+
+
+
 # [8.0.0](https://github.com/ipfs/js-ipfs-utils/compare/v7.0.0...v8.0.0) (2021-05-10)
 
 
