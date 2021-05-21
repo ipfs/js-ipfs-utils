@@ -9,10 +9,9 @@ const { AbortController } = require('native-abort-controller')
 const anySignal = require('any-signal')
 
 /**
- * @typedef {import('./types').ExtendedResponse} ExtendedResponse
  * @typedef {import('stream').Readable} NodeReadableStream
- * @typedef {import('stream').Duplex} NodeDuplexStream
  * @typedef {import('./types').HTTPOptions} HTTPOptions
+ * @typedef {import('./types').ExtendedResponse} ExtendedResponse
  */
 
 /**

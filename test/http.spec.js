@@ -9,7 +9,7 @@ const delay = require('delay')
 const { AbortController } = require('native-abort-controller')
 const drain = require('it-drain')
 const all = require('it-all')
-const { isBrowser, isWebWorker } = require('../src/env')
+const { isBrowser, isWebWorker, isReactNative } = require('../src/env')
 const { Buffer } = require('buffer')
 const uint8ArrayFromString = require('uint8arrays/from-string')
 const uint8ArrayEquals = require('uint8arrays/equals')
@@ -86,7 +86,7 @@ describe('http', function () {
     })
     controller.abort()
 
-    await expect(res).to.eventually.be.rejectedWith(/aborted/)
+    await expect(res).to.eventually.be.rejectedWith(/aborted/i)
   })
 
   it('parses the response as ndjson', async function () {
@@ -111,8 +111,8 @@ describe('http', function () {
   })
 
   it.skip('should handle errors in streaming bodies', async function () {
-    if (isBrowser || isWebWorker) {
-      // streaming bodies not supported by browsers
+    if (isBrowser || isWebWorker || isReactNative) {
+      // streaming bodies not supported by browsers nor by React Native
       return this.skip()
     }
 
@@ -133,8 +133,8 @@ describe('http', function () {
   })
 
   it.skip('should handle errors in streaming bodies when a signal is passed', async function () {
-    if (isBrowser || isWebWorker) {
-      // streaming bodies not supported by browsers
+    if (isBrowser || isWebWorker || isReactNative) {
+      // streaming bodies not supported by browsers nor by React Native
       return this.skip()
     }
 
@@ -155,11 +155,15 @@ describe('http', function () {
     await expect(drain(res.ndjson())).to.eventually.be.rejectedWith(/aborted/)
   })
 
-  it('progress events', async () => {
+  it('progress events', async function () {
+    this.timeout(10000)
     let upload = 0
     const body = new Uint8Array(1000000 / 2)
     const request = await HTTP.post(`${ECHO_SERVER}/echo`, {
       body,
+      headers: {
+        'Content-Type': 'application/octet-stream'
+      },
       onUploadProgress: (progress) => {
         expect(progress).to.have.property('lengthComputable').to.be.a('boolean')
         expect(progress).to.have.property('total', body.byteLength)
