@@ -18,6 +18,7 @@
     "./src/files/glob-source": false,
     "./test/files/glob-source.spec.js": false,
     "electron-fetch": false,
+    "@web-std/fetch": false,
     "fs": false
   },
   "react-native": {
@@ -51,7 +52,7 @@
   "license": "MIT",
   "dependencies": {
     "abort-controller": "^3.0.0",
-    "any-signal": "^2.1.0",
+    "any-signal": "^2.1.2",
     "buffer": "^6.0.1",
     "electron-fetch": "^1.7.2",
     "err-code": "^3.0.1",
@@ -62,8 +63,7 @@
     "merge-options": "^3.0.4",
     "nanoid": "^3.1.20",
     "native-abort-controller": "^1.0.3",
-    "native-fetch": "^3.0.0",
-    "node-fetch": "^2.6.1",
+    "@web-std/fetch": "^2.0.1",
     "react-native-fetch-api": "^1.0.2",
     "stream-to-it": "^0.2.2"
   },

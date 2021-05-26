@@ -29,12 +29,7 @@ const fetch = (url, options = {}) =>
 const withUploadProgress = (options) => {
   const { onUploadProgress, body } = options
   if (onUploadProgress && body) {
-    // This works around the fact that electron-fetch serializes `Uint8Array`s
-  // and `ArrayBuffer`s to strings.
-    const content = normalizeBody(body)
-
-    const rsp = new Response(content)
-    const source = iterateBodyWithProgress(/** @type {NodeReadableStream} */(rsp.body), onUploadProgress)
+    const source = iterateBodyWithProgress(normalizeBody(body), onUploadProgress)
     return {
       ...options,
       body: toStream.readable(source)
@@ -63,9 +58,9 @@ const normalizeBody = (input) => {
  * and returns async iterable that emits body chunks and emits
  * `onUploadProgress`.
  *
- * @param {NodeReadableStream | null} body
+ * @param {Blob | FormData | ReadableStream<Uint8Array> | NodeReadableStream | Buffer} body
  * @param {ProgressFn} onUploadProgress
- * @returns {AsyncIterable<Buffer>}
+ * @returns {AsyncIterable<Uint8Array>}
  */
 const iterateBodyWithProgress = async function * (body, onUploadProgress) {
   if (body == null) {
@@ -76,14 +71,25 @@ const iterateBodyWithProgress = async function * (body, onUploadProgress) {
     yield body
     onUploadProgress({ total, loaded: total, lengthComputable })
   } else {
-    const total = 0
-    const lengthComputable = false
+    const progress = estimateTotal(body)
+
     let loaded = 0
-    for await (const chunk of body) {
+    for await (const chunk of new Response(body).body) {
       loaded += chunk.byteLength
       yield chunk
-      onUploadProgress({ total, loaded, lengthComputable })
+      onUploadProgress({ ...progress, loaded })
     }
+  }
+}
+
+/**
+ * @param {any} value
+ */
+const estimateTotal = (value) => {
+  if (typeof value.size === 'number') {
+    return { total: value.size, lengthComputable: true }
+  } else {
+    return { total: 0, lengthComputable: false }
   }
 }
 

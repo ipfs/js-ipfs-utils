@@ -1,10 +1,13 @@
 'use strict'
 
-const { isElectronMain } = require('./env')
+const { isElectronMain, isNode } = require('./env')
 
 if (isElectronMain) {
   module.exports = require('electron-fetch')
+} else if (isNode) {
+  module.exports = require('@web-std/fetch')
 } else {
-// use window.fetch if it is available, fall back to node-fetch if not
-  module.exports = require('native-fetch')
+  module.exports = {
+    default: fetch, Response, Request, Headers
+  }
 }

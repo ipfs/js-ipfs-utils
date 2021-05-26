@@ -126,7 +126,7 @@ class HTTP {
     // @ts-ignore
     const signal = anySignal([abortController.signal, opts.signal])
 
-    const response = await timeout(
+    const response = /** @type {ExtendedResponse} */ (await timeout(
       fetch(
         url.toString(),
         {
@@ -138,7 +138,7 @@ class HTTP {
       ),
       opts.timeout,
       abortController
-    )
+    ))
 
     if (!response.ok && opts.throwHttpErrors) {
       if (opts.handleError) {
@@ -147,8 +147,8 @@ class HTTP {
       throw new HTTPError(response)
     }
 
-    response.iterator = function () {
-      return fromStream(response.body)
+    response.iterator = async function * () {
+      yield * fromStream(response.body)
     }
 
     response.ndjson = async function * () {
