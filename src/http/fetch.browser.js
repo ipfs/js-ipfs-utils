@@ -13,7 +13,7 @@ const { Response, Request, Headers, default: fetch } = require('../fetch')
  *
  * @param {string | Request} url
  * @param {FetchOptions} [options]
- * @returns {Promise<ResponseWithURL>}
+ * @returns {Promise<Response>}
  */
 const fetchWithProgress = (url, options = {}) => {
   const request = new XMLHttpRequest()

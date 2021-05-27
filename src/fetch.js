@@ -7,7 +7,6 @@ if (isElectronMain) {
 } else if (isNode) {
   module.exports = require('@web-std/fetch')
 } else {
-  module.exports = {
-    default: fetch, Response, Request, Headers
-  }
+  const lib = { default: fetch, Response, Request, Headers }
+  module.exports = lib
 }

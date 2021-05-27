@@ -74,6 +74,7 @@ const iterateBodyWithProgress = async function * (body, onUploadProgress) {
     const progress = estimateTotal(body)
 
     let loaded = 0
+    // @ts-ignore - Response does not take node stream
     for await (const chunk of new Response(body).body) {
       loaded += chunk.byteLength
       yield chunk
