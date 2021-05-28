@@ -1,3 +1,12 @@
+## [8.1.1](https://github.com/ipfs/js-ipfs-utils/compare/v8.1.0...v8.1.1) (2021-05-28)
+
+
+### Bug Fixes
+
+* use node-fetch fork with fix for stream closed prematurely bug ([#127](https://github.com/ipfs/js-ipfs-utils/issues/127)) ([4ad105a](https://github.com/ipfs/js-ipfs-utils/commit/4ad105a14300fe59d3b93c4522a1a67efb3c288f))
+
+
+
 # [8.1.0](https://github.com/ipfs/js-ipfs-utils/compare/v8.0.0...v8.1.0) (2021-05-21)
 
 
