@@ -8,9 +8,9 @@ interface ProgressStatus {
 
 export interface ProgressFn { (status: ProgressStatus): void }
 
-type Modify<T, R> = Omit<T, keyof R> & R
+type Override<T, R> = Omit<T, keyof R> & R
 
-export type FetchOptions = Modify<RequestInit, {
+export type FetchOptions = Override<RequestInit, {
   /**
    * Extended body with support for node readable stream
    */
