@@ -1,3 +1,12 @@
+## [8.1.3](https://github.com/ipfs/js-ipfs-utils/compare/v8.1.2...v8.1.3) (2021-06-18)
+
+
+### Bug Fixes
+
+* request body type ([#129](https://github.com/ipfs/js-ipfs-utils/issues/129)) ([1e8261a](https://github.com/ipfs/js-ipfs-utils/commit/1e8261a001da5e41a66bb14328f031f5f99f9d6b))
+
+
+
 ## [8.1.2](https://github.com/ipfs/js-ipfs-utils/compare/v8.1.1...v8.1.2) (2021-06-01)
 
 
