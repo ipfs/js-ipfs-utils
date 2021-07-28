@@ -34,7 +34,6 @@
   },
   "repository": "github:ipfs/js-ipfs-utils",
   "scripts": {
-    "prepare": "aegir build --no-bundle",
     "test": "aegir test",
     "test:browser": "aegir test -t browser",
     "test:node": "aegir test -t node",
@@ -77,7 +76,7 @@
     "it-last": "^1.0.4",
     "react-native-polyfill-globals": "^3.0.0",
     "readable-stream": "^3.6.0",
-    "uint8arrays": "^2.0.5",
+    "@vascosantos/uint8arrays": "^3.0.3",
     "util": "^0.12.3"
   },
   "eslintConfig": {
