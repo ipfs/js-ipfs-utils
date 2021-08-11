@@ -122,8 +122,6 @@ class HTTP {
       headers.set('content-type', 'application/json')
     }
 
-    /** @type {AbortController} */
-    // @ts-ignore Type 'AbortController | AbortController' is not assignable to type 'AbortController'.
     const abortController = new AbortController()
     // @ts-ignore
     const signal = anySignal([abortController.signal, opts.signal])
