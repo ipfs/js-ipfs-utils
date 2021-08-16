@@ -67,7 +67,7 @@
     "stream-to-it": "^0.2.2"
   },
   "devDependencies": {
-    "aegir": "^34.1.0",
+    "aegir": "^35.0.1",
     "delay": "^5.0.0",
     "events": "^3.3.0",
     "ipfs-unixfs": "^4.0.1",
