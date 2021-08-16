@@ -137,6 +137,7 @@ class HTTP {
         }
       ),
       opts.timeout,
+      // @ts-ignore
       abortController
     )
 
