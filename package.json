@@ -76,7 +76,7 @@
     "it-last": "^1.0.4",
     "react-native-polyfill-globals": "^3.0.0",
     "readable-stream": "^3.6.0",
-    "uint8arrays": "^3.0.0-rc.0",
+    "uint8arrays": "^3.0.0",
     "util": "^0.12.3"
   },
   "eslintConfig": {
