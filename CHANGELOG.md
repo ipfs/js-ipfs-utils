@@ -1,3 +1,7 @@
+## [8.1.5](https://github.com/ipfs/js-ipfs-utils/compare/v8.1.4...v8.1.5) (2021-08-19)
+
+
+
 ## [8.1.4](https://github.com/ipfs/js-ipfs-utils/compare/v8.1.3...v8.1.4) (2021-07-09)
 
 
