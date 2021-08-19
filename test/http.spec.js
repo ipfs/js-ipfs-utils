@@ -11,9 +11,9 @@ const drain = require('it-drain')
 const all = require('it-all')
 const { isBrowser, isWebWorker, isReactNative } = require('../src/env')
 const { Buffer } = require('buffer')
-const uint8ArrayFromString = require('uint8arrays/from-string')
-const uint8ArrayEquals = require('uint8arrays/equals')
-const uint8ArrayConcat = require('uint8arrays/concat')
+const { fromString: uint8ArrayFromString } = require('uint8arrays/from-string')
+const { equals: uint8ArrayEquals } = require('uint8arrays/equals')
+const { concat: uint8ArrayConcat } = require('uint8arrays/concat')
 
 const ECHO_SERVER = process.env.ECHO_SERVER || ''
 
