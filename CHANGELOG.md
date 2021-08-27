@@ -1,3 +1,12 @@
+## [8.1.6](https://github.com/ipfs/js-ipfs-utils/compare/v8.1.5...v8.1.6) (2021-08-27)
+
+
+### Bug Fixes
+
+* change dependency override ([#136](https://github.com/ipfs/js-ipfs-utils/issues/136)) ([7ad2f73](https://github.com/ipfs/js-ipfs-utils/commit/7ad2f73a1e88005d8de6631fbab2693d93d61595))
+
+
+
 ## [8.1.5](https://github.com/ipfs/js-ipfs-utils/compare/v8.1.4...v8.1.5) (2021-08-19)
 
 
