@@ -1,4 +1,4 @@
-import { Readable as NodeReadableStream } from 'stream'
+import type { Readable as NodeReadableStream } from 'stream'
 
 interface ProgressStatus {
   total: number
