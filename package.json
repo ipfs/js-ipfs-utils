@@ -63,7 +63,7 @@
     "native-abort-controller": "^1.0.3",
     "native-fetch": "^3.0.0",
     "node-fetch": "npm:@achingbrain/node-fetch@^2.6.4",
-    "react-native-fetch-api": "^2.0.0",
+    "react-native-fetch-api": "^3.0.0",
     "stream-to-it": "^0.2.2"
   },
   "devDependencies": {
