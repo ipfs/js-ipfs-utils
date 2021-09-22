@@ -71,6 +71,7 @@ jobs:
   test-react-native-android:
     runs-on: macos-latest
     needs: check
+    continue-on-error: true
     steps:
       - uses: actions/checkout@v2
       - run: npm install
