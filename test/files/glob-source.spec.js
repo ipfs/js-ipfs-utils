@@ -79,6 +79,21 @@ describe('glob-source', () => {
     }])
   })
 
+  it('multiple directories', async function () {
+    if (!isNode) {
+      return this.skip()
+    }
+
+    const result = await all(globSource(fixtureDir(), '{dir/nested-dir,another-dir/another-nested-dir}/**/*'))
+
+    expect(result).to.have.lengthOf(2)
+    expect(result).to.containSubset([{
+      path: '/dir/nested-dir/other.txt'
+    }, {
+      path: '/another-dir/another-nested-dir/other.txt'
+    }])
+  })
+
   it('directory, hidden files', async function () {
     if (!isNode) {
       return this.skip()
