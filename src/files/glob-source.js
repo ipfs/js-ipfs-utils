@@ -9,9 +9,9 @@ const errCode = require('err-code')
 /**
  * Create an async iterator that yields paths that match requested glob pattern
  *
+ * @param {string} cwd - The directory to start matching the pattern in
  * @param {string} pattern - Glob pattern to match
  * @param {Object} [options] - Optional options
- * @param {string} [options.cwd] - The directory to start matching the pattern in
  * @param {boolean} [options.hidden] - Include .dot files in matched paths
  * @param {boolean} [options.followSymlinks] - follow symlinks
  * @param {boolean} [options.preserveMode] - preserve mode
@@ -20,7 +20,7 @@ const errCode = require('err-code')
  * @param {import('ipfs-unixfs').MtimeLike} [options.mtime] - mtime to use - if preserveMtime is true this will be ignored
  * @yields {Object} File objects in the form `{ path: String, content: AsyncIterator<Buffer> }`
  */
-module.exports = async function * globSource (pattern, options) {
+module.exports = async function * globSource (cwd, pattern, options) {
   options = options || {}
 
   if (typeof pattern !== 'string') {
@@ -31,23 +31,11 @@ module.exports = async function * globSource (pattern, options) {
     )
   }
 
-  let cwd = options.cwd
-
-  if (!cwd) {
-    if (Path.isAbsolute(pattern)) {
-      cwd = Path.dirname(pattern)
-      pattern = pattern.replace(cwd + Path.sep, '')
-    } else {
-      cwd = process.cwd()
-    }
+  if (!Path.isAbsolute(cwd)) {
+    cwd = Path.resolve(process.cwd(), cwd)
   }
 
-  if (pattern.startsWith('.' + Path.sep)) {
-    pattern = pattern.replace('.' + Path.sep, '')
-  }
-
-  const globOptions = Object.assign({}, pattern, {
-    cwd,
+  const globOptions = Object.assign({}, {
     nodir: false,
     realpath: false,
     absolute: true,

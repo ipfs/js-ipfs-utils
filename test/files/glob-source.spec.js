@@ -10,11 +10,15 @@ const {
 } = require('../../src/env')
 const fs = require('fs')
 
+function fixtureDir () {
+  return path.resolve(path.join(__dirname, '..', 'fixtures'))
+}
+
 /**
  * @param {string} file
  */
 function fixture (file) {
-  return path.resolve(path.join(__dirname, '..', 'fixtures', file))
+  return path.resolve(path.join(fixtureDir(), file))
 }
 
 /**
@@ -37,7 +41,7 @@ describe('glob-source', () => {
       return this.skip()
     }
 
-    const result = await all(globSource(fixture('file-0.html')))
+    const result = await all(globSource('./test/fixtures', 'file-0.html'))
 
     expect(result.length).to.equal(1)
     expect(result[0].path).to.equal('/file-0.html')
@@ -48,7 +52,7 @@ describe('glob-source', () => {
       return this.skip()
     }
 
-    const result = await all(globSource(fixture('file-0.html')))
+    const result = await all(globSource(fixtureDir(), 'file-0.html'))
 
     expect(result.length).to.equal(1)
     expect(result[0].path).to.equal('/file-0.html')
@@ -59,9 +63,7 @@ describe('glob-source', () => {
       return this.skip()
     }
 
-    const result = await all(globSource('dir/**/*', {
-      cwd: fixture('')
-    }))
+    const result = await all(globSource(fixtureDir(), 'dir/**/*'))
 
     expect(result).to.have.lengthOf(5)
     expect(result).to.containSubset([{
@@ -82,8 +84,7 @@ describe('glob-source', () => {
       return this.skip()
     }
 
-    const result = await all(globSource('dir/**/*', {
-      cwd: fixture(''),
+    const result = await all(globSource(fixtureDir(), 'dir/**/*', {
       hidden: true
     }))
 
@@ -98,9 +99,7 @@ describe('glob-source', () => {
       return this.skip()
     }
 
-    const result = await all(globSource('dir/**/!(file-1.txt)*', {
-      cwd: fixture('')
-    }))
+    const result = await all(globSource(fixtureDir(), 'dir/**/!(file-1.txt)*'))
 
     expect(result).to.have.lengthOf(4)
     expect(result).to.not.containSubset([{
@@ -113,9 +112,7 @@ describe('glob-source', () => {
       return this.skip()
     }
 
-    const result = await all(globSource('file-{1,2}.*', {
-      cwd: fixture('/dir')
-    }))
+    const result = await all(globSource(fixture('dir'), 'file-{1,2}.*'))
 
     expect(result).to.have.lengthOf(2)
     expect(result).to.not.containSubset([{
@@ -130,8 +127,7 @@ describe('glob-source', () => {
       return this.skip()
     }
 
-    const result = await all(globSource('{dir,dir/**/*}', {
-      cwd: fixture(''),
+    const result = await all(globSource(fixtureDir(), '{dir,dir/**/*}', {
       preserveMode: true
     }))
 
@@ -162,8 +158,7 @@ describe('glob-source', () => {
       return this.skip()
     }
 
-    const result = await all(globSource('{dir,dir/**/*}', {
-      cwd: fixture(''),
+    const result = await all(globSource(fixtureDir(), '{dir,dir/**/*}', {
       mode: 5
     }))
 
@@ -194,8 +189,7 @@ describe('glob-source', () => {
       return this.skip()
     }
 
-    const result = await all(globSource('{dir,dir/**/*}', {
-      cwd: fixture(''),
+    const result = await all(globSource(fixtureDir(), '{dir,dir/**/*}', {
       preserveMtime: true
     }))
 
@@ -226,8 +220,7 @@ describe('glob-source', () => {
       return this.skip()
     }
 
-    const result = await all(globSource('{dir,dir/**/*}', {
-      cwd: fixture(''),
+    const result = await all(globSource(fixtureDir(), '{dir,dir/**/*}', {
       mtime: new Date(5)
     }))
 
@@ -258,7 +251,7 @@ describe('glob-source', () => {
       return this.skip()
     }
 
-    const result = await all(globSource(fixture('/dir/file-1.txt'), {
+    const result = await all(globSource(fixture('dir'), 'file-1.txt', {
       mtime: { secs: 5, nsecs: 0 }
     }))
 
@@ -270,7 +263,7 @@ describe('glob-source', () => {
       return this.skip()
     }
 
-    const result = await all(globSource(fixture('/dir/file-1.txt'), {
+    const result = await all(globSource(fixture('dir'), 'file-1.txt', {
       mtime: [5, 0]
     }))
 
@@ -282,7 +275,7 @@ describe('glob-source', () => {
       return this.skip()
     }
 
-    const result = await all(globSource(fixture('/dir/file-1.txt'), {
+    const result = await all(globSource(fixture('dir'), 'file-1.txt', {
       mtime: { Seconds: 5, FractionalNanoseconds: 0 }
     }))
 
