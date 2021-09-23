@@ -1,3 +1,17 @@
+# [9.0.0](https://github.com/ipfs/js-ipfs-utils/compare/v8.1.6...v9.0.0) (2021-09-23)
+
+
+### Features
+
+* support glob patterns ([#151](https://github.com/ipfs/js-ipfs-utils/issues/151)) ([d626de1](https://github.com/ipfs/js-ipfs-utils/commit/d626de18baabc91bafafaa8ac5a08ffdf83a3796))
+
+
+### BREAKING CHANGES
+
+* the globSource call signature has changed and no longer supports the recursive or ignore options
+
+
+
 ## [8.1.6](https://github.com/ipfs/js-ipfs-utils/compare/v8.1.5...v8.1.6) (2021-08-27)
 
 
