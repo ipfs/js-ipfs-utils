@@ -50,7 +50,7 @@
   "license": "MIT",
   "dependencies": {
     "abort-controller": "^3.0.0",
-    "any-signal": "^2.1.0",
+    "any-signal": "^3.0.0",
     "buffer": "^6.0.1",
     "electron-fetch": "^1.7.2",
     "err-code": "^3.0.1",
