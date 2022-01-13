@@ -48,8 +48,7 @@
   },
   "license": "MIT",
   "dependencies": {
-    "abort-controller": "^3.0.0",
-    "any-signal": "^2.1.0",
+    "any-signal": "^3.0.0",
     "buffer": "^6.0.1",
     "electron-fetch": "^1.7.2",
     "err-code": "^3.0.1",
@@ -59,14 +58,13 @@
     "it-to-stream": "^1.0.0",
     "merge-options": "^3.0.4",
     "nanoid": "^3.1.20",
-    "native-abort-controller": "^1.0.3",
     "native-fetch": "^3.0.0",
     "node-fetch": "https://registry.npmjs.org/@achingbrain/node-fetch/-/node-fetch-2.6.7.tgz",
     "react-native-fetch-api": "^2.0.0",
     "stream-to-it": "^0.2.2"
   },
   "devDependencies": {
-    "aegir": "^35.0.1",
+    "aegir": "^36.1.1",
     "delay": "^5.0.0",
     "events": "^3.3.0",
     "ipfs-unixfs": "^6.0.4",
