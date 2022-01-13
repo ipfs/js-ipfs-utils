@@ -34,18 +34,17 @@
   },
   "repository": "github:ipfs/js-ipfs-utils",
   "scripts": {
-    "test": "aegir test",
-    "test:browser": "aegir test -t browser",
-    "test:node": "aegir test -t node",
-    "test:electron": "aegir test -t electron-main",
-    "test:electron-renderer": "aegir test -t electron-renderer",
-    "test:react-native:android": "aegir test -t react-native-android",
-    "test:react-native:ios": "aegir test -t react-native-ios",
     "lint": "aegir lint",
-    "release": "aegir release --docs",
-    "release-minor": "aegir release --type minor --docs",
-    "release-major": "aegir release --type major --docs",
-    "build": "aegir build"
+    "dep-check": "aegir dep-check",
+    "build": "aegir build",
+    "test": "aegir test",
+    "test:chrome": "npm run test -- -t browser --cov",
+    "test:chrome-webworker": "npm run test -- -t webworker",
+    "test:firefox": "npm run test -- -t browser -- --browser firefox",
+    "test:firefox-webworker": "npm run test -- -t webworker -- --browser firefox",
+    "test:node": "npm run test -- -t node --cov",
+    "test:electron-main": "npm run test -- -t electron-main",
+    "release": "semantic-release"
   },
   "license": "MIT",
   "dependencies": {
