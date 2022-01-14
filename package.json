@@ -6,7 +6,7 @@
   "author": "Hugo Dias <hugomrdias@gmail.com>",
   "homepage": "https://github.com/ipfs/js-ipfs-utils",
   "bugs": "https://github.com/ipfs/js-ipfs-utils/issues",
-  "leadMaintainer": "Hugo Dias <hugomrdias@gmail.com>",
+  "repository": "github:ipfs/js-ipfs-utils",
   "files": [
     "src",
     "dist"
@@ -32,7 +32,87 @@
       ]
     }
   },
-  "repository": "github:ipfs/js-ipfs-utils",
+  "release": {
+    "branches": [
+      "main"
+    ],
+    "plugins": [
+      [
+        "@semantic-release/commit-analyzer",
+        {
+          "preset": "conventionalcommits",
+          "releaseRules": [
+            {
+              "breaking": true,
+              "release": "major"
+            },
+            {
+              "revert": true,
+              "release": "patch"
+            },
+            {
+              "type": "feat",
+              "release": "minor"
+            },
+            {
+              "type": "fix",
+              "release": "patch"
+            },
+            {
+              "type": "chore",
+              "release": "patch"
+            },
+            {
+              "type": "docs",
+              "release": "patch"
+            },
+            {
+              "type": "test",
+              "release": "patch"
+            },
+            {
+              "scope": "no-release",
+              "release": false
+            }
+          ]
+        }
+      ],
+      [
+        "@semantic-release/release-notes-generator",
+        {
+          "preset": "conventionalcommits",
+          "presetConfig": {
+            "types": [
+              {
+                "type": "feat",
+                "section": "Features"
+              },
+              {
+                "type": "fix",
+                "section": "Bug Fixes"
+              },
+              {
+                "type": "chore",
+                "section": "Trivial Changes"
+              },
+              {
+                "type": "docs",
+                "section": "Trivial Changes"
+              },
+              {
+                "type": "test",
+                "section": "Tests"
+              }
+            ]
+          }
+        }
+      ],
+      "@semantic-release/changelog",
+      "@semantic-release/npm",
+      "@semantic-release/github",
+      "@semantic-release/git"
+    ]
+  },
   "scripts": {
     "lint": "aegir lint",
     "dep-check": "aegir dep-check",
@@ -81,20 +161,5 @@
     "env": {
       "worker": true
     }
-  },
-  "contributors": [
-    "achingbrain <alex@achingbrain.net>",
-    "Hugo Dias <hugomrdias@gmail.com>",
-    "Alan Shaw <alan.shaw@protocol.ai>",
-    "Irakli Gozalishvili <contact@gozala.io>",
-    "Hector Sanjuan <code@hector.link>",
-    "André Costa Lima <andreclima.pt@gmail.com>",
-    "Olivério Sousa <47525443+oliveriosousa@users.noreply.github.com>",
-    "Roderik van der Veer <roderik@settlemint.com>",
-    "Stepan Yurtsiv <yurtsiv.stepan@gmail.com>",
-    "Vasco Santos <vasco.santos@moxy.studio>",
-    "Leo <5376265+leoherzog@users.noreply.github.com>",
-    "bluelovers <codelovers@users.sourceforge.net>",
-    "Marcin Rataj <lidel@lidel.org>"
-  ]
+  }
 }
