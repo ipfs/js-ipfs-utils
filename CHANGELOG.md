@@ -1,3 +1,11 @@
+### [9.0.4](https://github.com/ipfs/js-ipfs-utils/compare/v9.0.3...v9.0.4) (2022-01-14)
+
+
+### Trivial Changes
+
+* add semantic release config ([#167](https://github.com/ipfs/js-ipfs-utils/issues/167)) ([748b6a9](https://github.com/ipfs/js-ipfs-utils/commit/748b6a9a2df01d810350495d00f1acf44a66e366))
+* fix release branch ([#168](https://github.com/ipfs/js-ipfs-utils/issues/168)) ([d91c9f6](https://github.com/ipfs/js-ipfs-utils/commit/d91c9f6b5004690c93fc93bad2724067f4e6bfd9))
+
 ## [9.0.2](https://github.com/ipfs/js-ipfs-utils/compare/v9.0.1...v9.0.2) (2021-09-28)
 
 
@@ -513,6 +521,3 @@ for await (const datum of response.ndjson()) {
 ### Bug Fixes
 
 * use is-buffer ([bbf5baf](https://github.com/ipfs/js-ipfs-utils/commit/bbf5baf))
-
-
-
