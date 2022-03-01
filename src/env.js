@@ -7,10 +7,10 @@ const IS_ELECTRON = isElectron()
 const IS_BROWSER = IS_ENV_WITH_DOM && !IS_ELECTRON
 const IS_ELECTRON_MAIN = IS_ELECTRON && !IS_ENV_WITH_DOM
 const IS_ELECTRON_RENDERER = IS_ELECTRON && IS_ENV_WITH_DOM
-const IS_NODE = typeof require === 'function' && typeof process !== 'undefined' && typeof process.release !== 'undefined' && process.release.name === 'node' && !IS_ELECTRON
+const IS_NODE = typeof require === 'function' && typeof globalThis.process !== 'undefined' && typeof globalThis.process.release !== 'undefined' && globalThis.process.release.name === 'node' && !IS_ELECTRON
 // @ts-ignore - we either ignore worker scope or dom scope
 const IS_WEBWORKER = typeof importScripts === 'function' && typeof self !== 'undefined' && typeof WorkerGlobalScope !== 'undefined' && self instanceof WorkerGlobalScope
-const IS_TEST = typeof process !== 'undefined' && typeof process.env !== 'undefined' && process.env.NODE_ENV === 'test'
+const IS_TEST = typeof globalThis.process !== 'undefined' && typeof globalThis.process.env !== 'undefined' && globalThis.process.env.NODE_ENV === 'test'
 const IS_REACT_NATIVE = typeof navigator !== 'undefined' && navigator.product === 'ReactNative'
 
 module.exports = {
