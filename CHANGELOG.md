@@ -1,3 +1,10 @@
+### [9.0.5](https://github.com/ipfs/js-ipfs-utils/compare/v9.0.4...v9.0.5) (2022-03-01)
+
+
+### Bug Fixes
+
+* detect process before use ([#172](https://github.com/ipfs/js-ipfs-utils/issues/172)) ([7aee4aa](https://github.com/ipfs/js-ipfs-utils/commit/7aee4aa6bb269a938565930a80dc81be5d7a1aef))
+
 ### [9.0.4](https://github.com/ipfs/js-ipfs-utils/compare/v9.0.3...v9.0.4) (2022-01-14)
 
 
