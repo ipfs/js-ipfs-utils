@@ -18,12 +18,12 @@ const errCode = require('err-code')
  * @param {boolean} [options.preserveMtime] - preserve mtime
  * @param {number} [options.mode] - mode to use - if preserveMode is true this will be ignored
  * @param {import('ipfs-unixfs').MtimeLike} [options.mtime] - mtime to use - if preserveMtime is true this will be ignored
- * @return {AsyncIterable<{
+ * @return {AsyncGenerator<{
  *   path: string;
  *   content: AsyncIterable<Buffer> | undefined;
  *   mode: number | undefined;
  *   mtime: import("ipfs-unixfs/types/src/types").MtimeLike | undefined;
- * }>} File objects that match glob
+ * }, void, unknown>} File objects that match glob
  */
 module.exports = async function * globSource (cwd, pattern, options) {
   options = options || {}
