@@ -1,3 +1,10 @@
+### [9.0.6](https://github.com/ipfs/js-ipfs-utils/compare/v9.0.5...v9.0.6) (2022-04-19)
+
+
+### Bug Fixes
+
+* swap [@yields](https://github.com/yields) for [@returns](https://github.com/returns) ([#178](https://github.com/ipfs/js-ipfs-utils/issues/178)) ([13e2c9b](https://github.com/ipfs/js-ipfs-utils/commit/13e2c9ba90f8f34efc13fb2c3ea91affd606c5a3))
+
 ### [9.0.5](https://github.com/ipfs/js-ipfs-utils/compare/v9.0.4...v9.0.5) (2022-03-01)
 
 
