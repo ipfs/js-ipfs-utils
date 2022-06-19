@@ -1,12 +1,18 @@
 'use strict'
 
+/**
+ * @typedef {globalThis.Headers} Headers
+ * @typedef {globalThis.Request} Request
+ * @typedef {globalThis.Response} Response
+ */
+
 const { isElectronMain } = require('./env')
 
 // use window.fetch if it is available, fall back to node-fetch if not
-let fetch = 'native-fetch'
+let impl = 'native-fetch'
 
 if (isElectronMain) {
-  fetch = 'electron-fetch'
+  impl = 'electron-fetch'
 }
 
-module.exports = require(fetch)
+module.exports = require(impl)
