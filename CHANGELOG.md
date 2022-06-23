@@ -1,3 +1,10 @@
+### [9.0.7](https://github.com/ipfs/js-ipfs-utils/compare/v9.0.6...v9.0.7) (2022-06-23)
+
+
+### Bug Fixes
+
+* support vite ([#193](https://github.com/ipfs/js-ipfs-utils/issues/193)) ([c4c2ab1](https://github.com/ipfs/js-ipfs-utils/commit/c4c2ab1ad283b9ca89cc9bf8d03590d5abb6cb5c))
+
 ### [9.0.6](https://github.com/ipfs/js-ipfs-utils/compare/v9.0.5...v9.0.6) (2022-04-19)
 
 
