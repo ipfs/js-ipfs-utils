@@ -22,7 +22,7 @@ const errCode = require('err-code')
  * path: string;
  * content: AsyncIterable<Buffer> | undefined;
  * mode: number | undefined;
- * mtime: import("ipfs-unixfs/types/src/types").MtimeLike | undefined;
+ * mtime: import("ipfs-unixfs").MtimeLike | undefined;
  * }, void, unknown>} File objects that match glob
  */
 module.exports = async function * globSource (cwd, pattern, options) {
