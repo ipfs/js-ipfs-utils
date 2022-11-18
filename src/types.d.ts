@@ -1,4 +1,5 @@
 import type { Readable as NodeReadableStream } from 'stream'
+import type { MtimeLike } from 'ipfs-unixfs'
 
 interface ProgressStatus {
   total: number
@@ -63,4 +64,43 @@ export interface ExtendedResponse extends Response {
   iterator: () => AsyncGenerator<Uint8Array, void, undefined>
 
   ndjson: () => AsyncGenerator<any, void, undefined>
+}
+
+export interface GlobSourceOptions {
+  /**
+   * Include .dot files in matched paths
+   */
+  hidden?: boolean
+
+  /**
+   * follow symlinks
+   */
+  followSymlinks?: boolean
+
+  /**
+   * Preserve mode
+   */
+  preserveMode?: boolean
+
+  /**
+   * Preserve mtime
+   */
+  preserveMtime?: boolean
+
+  /**
+   * mode to use - if preserveMode is true this will be ignored
+   */
+  mode?: number
+
+  /**
+   * mtime to use - if preserveMtime is true this will be ignored
+   */
+  mtime?: MtimeLike
+}
+
+export interface GlobSourceResult {
+  path: string
+  content: AsyncIterable<Uint8Array> | undefined
+  mode: number | undefined
+  mtime: MtimeLike | undefined
 }
