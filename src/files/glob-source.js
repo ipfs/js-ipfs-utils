@@ -7,18 +7,12 @@ const Path = require('path')
 const errCode = require('err-code')
 
 /**
- * @typedef {import('ipfs-unixfs').MtimeLike} MtimeLike
- * @typedef {import('../types').GlobSourceOptions} GlobSourceOptions
- * @typedef {import('../types').GlobSourceResult} GlobSourceResult
- */
-
-/**
  * Create an async iterator that yields paths that match requested glob pattern
  *
  * @param {string} cwd - The directory to start matching the pattern in
  * @param {string} pattern - Glob pattern to match
- * @param {GlobSourceOptions} [options] - Optional options
- * @returns {AsyncGenerator<GlobSourceResult, void, unknown>} File objects that match glob
+ * @param {import('../types').GlobSourceOptions} [options] - Optional options
+ * @returns {AsyncGenerator<import('../types').GlobSourceResult, void, unknown>} File objects that match glob
  */
 module.exports = async function * globSource (cwd, pattern, options) {
   options = options || {}
