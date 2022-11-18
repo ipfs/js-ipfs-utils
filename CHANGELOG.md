@@ -1,3 +1,10 @@
+### [9.0.9](https://github.com/ipfs/js-ipfs-utils/compare/v9.0.8...v9.0.9) (2022-11-18)
+
+
+### Bug Fixes
+
+* only export one thing from glob source ([#223](https://github.com/ipfs/js-ipfs-utils/issues/223)) ([fbbf8f0](https://github.com/ipfs/js-ipfs-utils/commit/fbbf8f06c4660d8280c4d3959ed91a74de3c4475))
+
 ### [9.0.8](https://github.com/ipfs/js-ipfs-utils/compare/v9.0.7...v9.0.8) (2022-11-18)
 
 
