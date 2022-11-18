@@ -1,3 +1,15 @@
+### [9.0.8](https://github.com/ipfs/js-ipfs-utils/compare/v9.0.7...v9.0.8) (2022-11-18)
+
+
+### Bug Fixes
+
+* fix unixfs import ([#222](https://github.com/ipfs/js-ipfs-utils/issues/222)) ([1dc939f](https://github.com/ipfs/js-ipfs-utils/commit/1dc939fc44391542d0594497c17e22eb6f74d2f3))
+
+
+### Trivial Changes
+
+* Update .github/workflows/stale.yml [skip ci] ([9229386](https://github.com/ipfs/js-ipfs-utils/commit/922938670da3de75e75f2122146a5e38802ea5ff))
+
 ### [9.0.7](https://github.com/ipfs/js-ipfs-utils/compare/v9.0.6...v9.0.7) (2022-06-23)
 
 
