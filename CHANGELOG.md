@@ -1,3 +1,15 @@
+### [9.0.10](https://github.com/ipfs/js-ipfs-utils/compare/v9.0.9...v9.0.10) (2023-01-11)
+
+
+### Bug Fixes
+
+* specify duplex option ([#239](https://github.com/ipfs/js-ipfs-utils/issues/239)) ([a1168f9](https://github.com/ipfs/js-ipfs-utils/commit/a1168f9ad12c45f23f5f5e39015377e05fc7c1f7))
+
+
+### Trivial Changes
+
+* use semantic-release for releases ([3267e99](https://github.com/ipfs/js-ipfs-utils/commit/3267e99cd0640210a511a4f3f9c9cc0408f21f45))
+
 ### [9.0.9](https://github.com/ipfs/js-ipfs-utils/compare/v9.0.8...v9.0.9) (2022-11-18)
 
 
