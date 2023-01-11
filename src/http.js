@@ -130,7 +130,7 @@ class HTTP {
     // @ts-ignore
     const signal = anySignal([abortController.signal, opts.signal])
 
-    if (opts.body instanceof ReadableStream && (isBrowser || isWebWorker)) {
+    if (globalThis.ReadableStream != null && opts.body instanceof globalThis.ReadableStream && (isBrowser || isWebWorker)) {
       // https://bugzilla.mozilla.org/show_bug.cgi?id=1387483
       opts.body = new Blob(await all(browserReableStreamToIt(opts.body)))
     }

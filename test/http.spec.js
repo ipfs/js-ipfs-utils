@@ -70,9 +70,13 @@ describe('http', function () {
   })
 
   it('makes a ReadableStream request', async () => {
+    if (globalThis.ReadableStream == null) {
+      return
+    }
+
     const data = 'hello world'
 
-    const body = new ReadableStream({
+    const body = new globalThis.ReadableStream({
       start (controller) {
         controller.enqueue(data)
         controller.close()
