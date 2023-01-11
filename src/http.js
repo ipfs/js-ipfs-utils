@@ -282,7 +282,23 @@ const fromStream = (source) => {
   }
 
   if (isWebReadableStream(source)) {
-    return browserReableStreamToIt(source)
+    const reader = source.getReader()
+    return (async function * () {
+      try {
+        while (true) {
+          // Read from the stream
+          const { done, value } = await reader.read()
+          // Exit if we're done
+          if (done) return
+          // Else yield the chunk
+          if (value) {
+            yield value
+          }
+        }
+      } finally {
+        reader.releaseLock()
+      }
+    })()
   }
 
   throw new TypeError('Body can\'t be converted to AsyncIterable')
