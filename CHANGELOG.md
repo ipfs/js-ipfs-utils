@@ -1,3 +1,10 @@
+### [9.0.12](https://github.com/ipfs/js-ipfs-utils/compare/v9.0.11...v9.0.12) (2023-01-11)
+
+
+### Bug Fixes
+
+* downgrade nanoid ([db87fb5](https://github.com/ipfs/js-ipfs-utils/commit/db87fb51cf791f7b59e5405505fa5430a93a73e0))
+
 ### [9.0.11](https://github.com/ipfs/js-ipfs-utils/compare/v9.0.10...v9.0.11) (2023-01-11)
 
 
