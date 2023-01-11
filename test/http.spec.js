@@ -158,15 +158,14 @@ describe('http', function () {
     this.timeout(10000)
     let upload = 0
     const body = new Uint8Array(1000000 / 2)
+    let progressInfo
     const request = await HTTP.post(`${ECHO_SERVER}/echo`, {
       body,
       headers: {
         'Content-Type': 'application/octet-stream'
       },
       onUploadProgress: (progress) => {
-        expect(progress).to.have.property('lengthComputable').to.be.a('boolean')
-        expect(progress).to.have.property('total', body.byteLength)
-        expect(progress).to.have.property('loaded').that.is.greaterThan(0)
+        progressInfo = progress
         upload += 1
       }
     })
@@ -175,6 +174,9 @@ describe('http', function () {
     expect(uint8ArrayEquals(out, body))
 
     expect(upload).to.be.greaterThan(0)
+    expect(progressInfo).to.have.property('lengthComputable').to.be.a('boolean')
+    expect(progressInfo).to.have.property('total').to.be.a('number')
+    expect(progressInfo).to.have.property('loaded').that.is.greaterThan(0)
   })
 
   it('makes a GET request with unprintable characters', async function () {

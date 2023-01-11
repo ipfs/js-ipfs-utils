@@ -137,7 +137,11 @@ class HTTP {
           signal,
           // @ts-expect-error non-browser fetch implementations may take extra options
           timeout: undefined,
-          headers
+          headers,
+
+          // https://fetch.spec.whatwg.org/#dom-requestinit-duplex
+          // https://github.com/whatwg/fetch/issues/1254
+          duplex: opts.body instanceof ReadableStream ? 'half' : undefined
         }
       ),
       opts.timeout,
