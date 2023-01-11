@@ -6,6 +6,9 @@ const { TimeoutError, HTTPError } = require('./http/error')
 const merge = require('merge-options').bind({ ignoreUndefined: true })
 const { URL, URLSearchParams } = require('iso-url')
 const anySignal = require('any-signal')
+const browserReableStreamToIt = require('browser-readablestream-to-it')
+const { isBrowser, isWebWorker } = require('./env')
+const all = require('it-all')
 
 /**
  * @typedef {import('stream').Readable} NodeReadableStream
@@ -127,6 +130,11 @@ class HTTP {
     // @ts-ignore
     const signal = anySignal([abortController.signal, opts.signal])
 
+    if (globalThis.ReadableStream != null && opts.body instanceof globalThis.ReadableStream && (isBrowser || isWebWorker)) {
+      // https://bugzilla.mozilla.org/show_bug.cgi?id=1387483
+      opts.body = new Blob(await all(browserReableStreamToIt(opts.body)))
+    }
+
     /** @type {ExtendedResponse} */
     // @ts-expect-error additional fields are assigned below
     const response = await timeout(
@@ -137,7 +145,11 @@ class HTTP {
           signal,
           // @ts-expect-error non-browser fetch implementations may take extra options
           timeout: undefined,
-          headers
+          headers,
+
+          // https://fetch.spec.whatwg.org/#dom-requestinit-duplex
+          // https://github.com/whatwg/fetch/issues/1254
+          duplex: 'half'
         }
       ),
       opts.timeout,
@@ -246,6 +258,10 @@ const ndjson = async function * (source) {
  * @returns {AsyncIterable<TChunk>}
  */
 const fromStream = (source) => {
+  if (isAsyncIterable(source)) {
+    return source
+  }
+
   // Workaround for https://github.com/node-fetch/node-fetch/issues/766
   if (isNodeReadableStream(source)) {
     const iter = source[Symbol.asyncIterator]()
@@ -266,27 +282,7 @@ const fromStream = (source) => {
   }
 
   if (isWebReadableStream(source)) {
-    const reader = source.getReader()
-    return (async function * () {
-      try {
-        while (true) {
-          // Read from the stream
-          const { done, value } = await reader.read()
-          // Exit if we're done
-          if (done) return
-          // Else yield the chunk
-          if (value) {
-            yield value
-          }
-        }
-      } finally {
-        reader.releaseLock()
-      }
-    })()
-  }
-
-  if (isAsyncIterable(source)) {
-    return source
+    return browserReableStreamToIt(source)
   }
 
   throw new TypeError('Body can\'t be converted to AsyncIterable')

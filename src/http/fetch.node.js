@@ -1,5 +1,6 @@
 'use strict'
-const { Request, Response, Headers, default: nativeFetch } = require('../fetch')
+// @ts-expect-error Request, Response and Headers are global types but concrete in implementations
+const { Request, Response, Headers, default: defaultFetch, fetch: fetchFetch } = require('../fetch')
 // @ts-ignore
 const toStream = require('it-to-stream')
 const { Buffer } = require('buffer')
@@ -9,6 +10,9 @@ const { Buffer } = require('buffer')
  * @typedef {import('../types').FetchOptions} FetchOptions
  * @typedef {import('../types').ProgressFn} ProgressFn
  */
+
+// undici and node-fetch have different exports
+const nativeFetch = defaultFetch ?? fetchFetch
 
 /**
  * @param {string|Request} url

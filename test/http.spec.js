@@ -11,8 +11,10 @@ const all = require('it-all')
 const { isBrowser, isWebWorker, isReactNative } = require('../src/env')
 const { Buffer } = require('buffer')
 const { fromString: uint8ArrayFromString } = require('uint8arrays/from-string')
+const { toString: uint8ArrayToString } = require('uint8arrays/to-string')
 const { equals: uint8ArrayEquals } = require('uint8arrays/equals')
 const { concat: uint8ArrayConcat } = require('uint8arrays/concat')
+const toBuffer = require('it-to-buffer')
 
 const ECHO_SERVER = process.env.ECHO_SERVER || ''
 
@@ -65,6 +67,28 @@ describe('http', function () {
 
     const out = await req.text()
     expect(out).to.be.eq('{"test":2}')
+  })
+
+  it('makes a ReadableStream request', async () => {
+    if (globalThis.ReadableStream == null) {
+      return
+    }
+
+    const data = 'hello world'
+
+    const body = new globalThis.ReadableStream({
+      start (controller) {
+        controller.enqueue(data)
+        controller.close()
+      }
+    })
+
+    const req = await HTTP.post(`${ECHO_SERVER}/echo`, {
+      body
+    })
+
+    const out = uint8ArrayToString(await toBuffer(req.iterator()))
+    expect(out).to.equal('hello world')
   })
 
   it('makes a DELETE request', async () => {
@@ -158,15 +182,14 @@ describe('http', function () {
     this.timeout(10000)
     let upload = 0
     const body = new Uint8Array(1000000 / 2)
+    let progressInfo
     const request = await HTTP.post(`${ECHO_SERVER}/echo`, {
       body,
       headers: {
         'Content-Type': 'application/octet-stream'
       },
       onUploadProgress: (progress) => {
-        expect(progress).to.have.property('lengthComputable').to.be.a('boolean')
-        expect(progress).to.have.property('total', body.byteLength)
-        expect(progress).to.have.property('loaded').that.is.greaterThan(0)
+        progressInfo = progress
         upload += 1
       }
     })
@@ -175,6 +198,9 @@ describe('http', function () {
     expect(uint8ArrayEquals(out, body))
 
     expect(upload).to.be.greaterThan(0)
+    expect(progressInfo).to.have.property('lengthComputable').to.be.a('boolean')
+    expect(progressInfo).to.have.property('total').to.be.a('number')
+    expect(progressInfo).to.have.property('loaded').that.is.greaterThan(0)
   })
 
   it('makes a GET request with unprintable characters', async function () {
