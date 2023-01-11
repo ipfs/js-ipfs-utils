@@ -154,7 +154,7 @@
     "it-glob": "^1.0.1",
     "it-to-stream": "^1.0.0",
     "merge-options": "^3.0.4",
-    "nanoid": "^4.0.0",
+    "nanoid": "^3.1.20",
     "native-fetch": "^3.0.0",
     "node-fetch": "https://registry.npmjs.org/@achingbrain/node-fetch/-/node-fetch-2.6.7.tgz",
     "react-native-fetch-api": "^3.0.0",
