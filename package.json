@@ -139,7 +139,7 @@
     "test:firefox-webworker": "npm run test -- -t webworker -- --browser firefox",
     "test:node": "npm run test -- -t node --cov",
     "test:electron-main": "npm run test -- -t electron-main",
-    "release": "aegir release",
+    "release": "semantic-release",
     "docs": "aegir docs"
   },
   "dependencies": {
