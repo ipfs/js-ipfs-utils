@@ -11,8 +11,10 @@ const all = require('it-all')
 const { isBrowser, isWebWorker, isReactNative } = require('../src/env')
 const { Buffer } = require('buffer')
 const { fromString: uint8ArrayFromString } = require('uint8arrays/from-string')
+const { toString: uint8ArrayToString } = require('uint8arrays/to-string')
 const { equals: uint8ArrayEquals } = require('uint8arrays/equals')
 const { concat: uint8ArrayConcat } = require('uint8arrays/concat')
+const toBuffer = require('it-to-buffer')
 
 const ECHO_SERVER = process.env.ECHO_SERVER || ''
 
@@ -65,6 +67,24 @@ describe('http', function () {
 
     const out = await req.text()
     expect(out).to.be.eq('{"test":2}')
+  })
+
+  it('makes a ReadableStream request', async () => {
+    const data = 'hello world'
+
+    const body = new ReadableStream({
+      start (controller) {
+        controller.enqueue(data)
+        controller.close()
+      }
+    })
+
+    const req = await HTTP.post(`${ECHO_SERVER}/echo`, {
+      body
+    })
+
+    const out = uint8ArrayToString(await toBuffer(req.iterator()))
+    expect(out).to.equal('hello world')
   })
 
   it('makes a DELETE request', async () => {
