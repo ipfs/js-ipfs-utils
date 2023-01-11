@@ -1,3 +1,10 @@
+### [9.0.13](https://github.com/ipfs/js-ipfs-utils/compare/v9.0.12...v9.0.13) (2023-01-11)
+
+
+### Bug Fixes
+
+* restore old stream conversion ([d7495e4](https://github.com/ipfs/js-ipfs-utils/commit/d7495e4a66714f9e9df0246af7a50f2266b97287))
+
 ### [9.0.12](https://github.com/ipfs/js-ipfs-utils/compare/v9.0.11...v9.0.12) (2023-01-11)
 
 
