@@ -1,3 +1,10 @@
+### [9.0.11](https://github.com/ipfs/js-ipfs-utils/compare/v9.0.10...v9.0.11) (2023-01-11)
+
+
+### Bug Fixes
+
+* add missing it-all dependency ([6679755](https://github.com/ipfs/js-ipfs-utils/commit/66797553c0783b1b9683acf1d6877fe6b72a8ecd))
+
 ### [9.0.10](https://github.com/ipfs/js-ipfs-utils/compare/v9.0.9...v9.0.10) (2023-01-11)
 
 
