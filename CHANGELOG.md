@@ -1,3 +1,10 @@
+### [9.0.14](https://github.com/ipfs/js-ipfs-utils/compare/v9.0.13...v9.0.14) (2023-01-13)
+
+
+### Dependencies
+
+* update node-fetch to 2.6.8 ([#244](https://github.com/ipfs/js-ipfs-utils/issues/244)) ([ebd0f45](https://github.com/ipfs/js-ipfs-utils/commit/ebd0f45d0fc6e9b2a2ac0658cbce1a8aee442f9e))
+
 ### [9.0.13](https://github.com/ipfs/js-ipfs-utils/compare/v9.0.12...v9.0.13) (2023-01-11)
 
 
