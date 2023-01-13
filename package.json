@@ -156,7 +156,7 @@
     "merge-options": "^3.0.4",
     "nanoid": "^3.1.20",
     "native-fetch": "^3.0.0",
-    "node-fetch": "https://registry.npmjs.org/@achingbrain/node-fetch/-/node-fetch-2.6.7.tgz",
+    "node-fetch": "^2.6.8",
     "react-native-fetch-api": "^3.0.0",
     "stream-to-it": "^0.2.2"
   },
