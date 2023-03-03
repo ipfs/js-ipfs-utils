@@ -151,7 +151,7 @@
     "is-electron": "^2.2.0",
     "iso-url": "^1.1.5",
     "it-all": "^1.0.4",
-    "it-glob": "^1.0.1",
+    "it-glob": "^2.0.1",
     "it-to-stream": "^1.0.0",
     "merge-options": "^3.0.4",
     "nanoid": "^3.1.20",
