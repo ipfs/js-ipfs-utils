@@ -1,8 +1,7 @@
-'use strict'
 
 /* eslint-env mocha */
-const { expect } = require('aegir/utils/chai')
-const env = require('../src/env')
+import { expect } from 'aegir/chai'
+import * as env from '../src/env.js'
 
 describe('env', function () {
   it('isElectron should have the correct value in each env', function () {

@@ -2,7 +2,9 @@
     "extends": "aegir/src/config/tsconfig.aegir.json",
     "compilerOptions": {
         "outDir": "dist",
-        "emitDeclarationOnly": true
+        "emitDeclarationOnly": true,
+        "module": "ES2022",
+        "target":"ES2020"
     },
     "include": [
         "test",

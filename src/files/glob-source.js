@@ -1,10 +1,8 @@
-'use strict'
-
-const fsp = require('fs').promises
-const fs = require('fs')
-const glob = require('it-glob')
-const Path = require('path')
-const errCode = require('err-code')
+import fsp from 'fs/promises'
+import fs from 'fs'
+import glob from 'it-glob'
+import Path from 'path'
+import errCode from 'err-code'
 
 /**
  * Create an async iterator that yields paths that match requested glob pattern
@@ -14,7 +12,7 @@ const errCode = require('err-code')
  * @param {import('../types').GlobSourceOptions} [options] - Optional options
  * @returns {AsyncGenerator<import('../types').GlobSourceResult, void, unknown>} File objects that match glob
  */
-module.exports = async function * globSource (cwd, pattern, options) {
+export default async function * globSource (cwd, pattern, options) {
   options = options || {}
 
   if (typeof pattern !== 'string') {

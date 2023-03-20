@@ -1,9 +1,11 @@
-'use strict'
+// in React Native: global === window === self
+export const supportsFileReader = typeof self !== 'undefined' && 'FileReader' in self
 
-module.exports = {
-  // in React Native: global === window === self
-  supportsFileReader: typeof self !== 'undefined' && 'FileReader' in self,
-  supportsWebRTC: 'RTCPeerConnection' in globalThis &&
-  (typeof navigator !== 'undefined' && typeof navigator.mediaDevices !== 'undefined' && 'getUserMedia' in navigator.mediaDevices),
-  supportsWebRTCDataChannels: 'RTCPeerConnection' in globalThis
+export const supportsWebRTC = 'RTCPeerConnection' in globalThis &&
+(typeof navigator !== 'undefined' && typeof navigator.mediaDevices !== 'undefined' && 'getUserMedia' in navigator.mediaDevices)
+
+export const supportsWebRTCDataChannels = 'RTCPeerConnection' in globalThis
+
+export default {
+  supportsFileReader, supportsWebRTC, supportsWebRTCDataChannels
 }

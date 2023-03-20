@@ -1,7 +1,5 @@
-'use strict';
-
-const EchoServer = require('aegir/utils/echo-server')
-const { format } =require('iso-url')
+import EchoServer from 'aegir/echo-server'
+import { format } from 'iso-url'
 
 /** @type {import('aegir').Options["build"]["config"]} */
 const esbuild = {
@@ -18,7 +16,7 @@ const esbuild = {
 }
 
 /** @type {import('aegir').PartialOptions} */
-module.exports = {
+export default {
   build: {
     config: esbuild
   },

@@ -1,14 +1,14 @@
-'use strict'
 
 /* eslint-env mocha */
-const { expect } = require('aegir/utils/chai')
-const globSource = require('../../src/files/glob-source')
-const all = require('it-all')
-const path = require('path')
-const {
-  isNode
-} = require('../../src/env')
-const fs = require('fs')
+import { expect } from 'aegir/chai'
+import globSource from '../../src/files/glob-source.js'
+import all from 'it-all'
+import path from 'path'
+import { isNode } from '../../src/env.js'
+import fs from 'fs'
+import { fileURLToPath } from 'url'
+
+const __dirname = path.dirname(fileURLToPath(import.meta.url))
 
 function fixtureDir () {
   return path.resolve(path.join(__dirname, '..', 'fixtures'))
