@@ -1,14 +1,22 @@
 import EchoServer from 'aegir/echo-server'
 import { format } from 'iso-url'
+import url from 'url'
+import { createRequire } from 'module'
+
+const require = createRequire(import.meta.url)
 
 /** @type {import('aegir').Options["build"]["config"]} */
 const esbuild = {
+  format: 'esm',
   plugins: [
     {
       name: 'node built ins',
       setup (build) {
         build.onResolve({ filter: /^stream$/ }, () => {
-          return { path: require.resolve('readable-stream') }
+          return { path: require.resolve('readable-stream')  }
+        })
+        build.onResolve({filter: /^url$/}, () => {
+          return { path: require.resolve('url/') }
         })
       }
     }
