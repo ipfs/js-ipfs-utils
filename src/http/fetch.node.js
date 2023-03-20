@@ -20,7 +20,6 @@ import defaultFetch, { Request, Response, Headers, fetch as fetchFetch } from '.
 // undici and node-fetch have different exports
 const nativeFetch = defaultFetch ?? fetchFetch
 
-
 /**
  * @param {string|Request} url
  * @param {FetchOptions} [options]
