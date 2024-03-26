@@ -1,6 +1,4 @@
-'use strict'
-
-const HTTP = require('../http')
+import HTTP from '../http.js'
 
 /**
  *
@@ -28,4 +26,4 @@ async function * readURLContent (url, options) {
   yield * response.iterator()
 }
 
-module.exports = urlSource
+export default urlSource

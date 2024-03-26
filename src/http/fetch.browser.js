@@ -1,8 +1,5 @@
-'use strict'
-
-const { TimeoutError, AbortError } = require('./error')
-// @ts-expect-error
-const { Response, Request, Headers, default: fetch } = require('../fetch')
+import { TimeoutError, AbortError } from './error.js'
+import fetch, { Response, Request, Headers } from '../fetch.js'
 
 /**
  * @typedef {import('../types').FetchOptions} FetchOptions
@@ -102,9 +99,8 @@ const fetchWithStreaming = fetch
  * @param {FetchOptions} options
  */
 const fetchWith = (url, options = {}) =>
-  (options.onUploadProgress != null)
-    ? fetchWithProgress(url, options)
-    : fetchWithStreaming(url, options)
+// @ts-ignore native-fetch uses different types for Request and RequestInit
+  options.onUploadProgress != null ? fetchWithProgress(url, options) : fetchWithStreaming(url, options)
 
 /**
  * Parse Headers from a XMLHttpRequest
@@ -136,8 +132,8 @@ class ResponseWithURL extends Response {
   }
 }
 
-module.exports = {
-  fetch: fetchWith,
+export {
+  fetchWith as fetch,
   Request,
   Headers
 }

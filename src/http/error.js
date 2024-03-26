@@ -1,22 +1,18 @@
-'use strict'
-
-class TimeoutError extends Error {
+export class TimeoutError extends Error {
   constructor (message = 'Request timed out') {
     super(message)
     this.name = 'TimeoutError'
   }
 }
-exports.TimeoutError = TimeoutError
 
-class AbortError extends Error {
+export class AbortError extends Error {
   constructor (message = 'The operation was aborted.') {
     super(message)
     this.name = 'AbortError'
   }
 }
-exports.AbortError = AbortError
 
-class HTTPError extends Error {
+export class HTTPError extends Error {
   /**
    * @param {Response} response
    */
@@ -26,4 +22,3 @@ class HTTPError extends Error {
     this.response = response
   }
 }
-exports.HTTPError = HTTPError
