@@ -156,7 +156,7 @@
     "any-signal": "^3.0.0",
     "browser-readablestream-to-it": "^1.0.0",
     "buffer": "^6.0.1",
-    "electron-fetch": "^1.7.2",
+    "electron-fetch": "^1.9.1",
     "err-code": "^3.0.1",
     "is-electron": "^2.2.0",
     "iso-url": "^1.1.5",
@@ -166,13 +166,11 @@
     "merge-options": "^3.0.4",
     "nanoid": "^3.1.20",
     "native-fetch": "^4.0.2",
-    "node-fetch": "^2.6.8",
-    "react-native-fetch-api": "^3.0.0",
-    "stream-to-it": "^0.2.2",
-    "undici": "^5.21.0"
+    "stream-to-it": "^0.2.2"
   },
   "devDependencies": {
-    "aegir": "^38.1.7",
+    "@types/mocha": "^10.0.10",
+    "aegir": "^45.0.9",
     "delay": "^5.0.0",
     "eslint-plugin-n": "^15.6.1",
     "events": "^3.3.0",
@@ -197,8 +195,5 @@
     "node-fetch": false,
     "fs": false
   },
-  "react-native": {
-    "./src/fetch.js": "./src/fetch.rn.js",
-    "./src/http/fetch.js": "./src/http/fetch.rn.js"
-  }
+  "packageManager": "pnpm@10.1.0+sha512.c89847b0667ddab50396bbbd008a2a43cf3b581efd59cf5d9aa8923ea1fb4b8106c041d540d08acb095037594d73ebc51e1ec89ee40c88b30b8a66c0fae0ac1b"
 }

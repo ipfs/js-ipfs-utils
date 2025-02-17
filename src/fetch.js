@@ -6,16 +6,17 @@
 
 import { isElectronMain } from './env.js'
 // use window.fetch if it is available, fall back to node-fetch if not
-let impl = 'native-fetch'
-
-if (isElectronMain) {
-  impl = 'electron-fetch'
+const fetchImpl = isElectronMain ? await import('electron-fetch') : {
+  default: globalThis.fetch,
+  Request: globalThis.Request,
+  Response: globalThis.Response,
+  Headers: globalThis.Headers,
 }
 
-const fetchImpl = await import(impl)
-
-export const fetch = fetchImpl.fetch
+export const fetch = fetchImpl.default
 export const Request = fetchImpl.Request
+/** @type {typeof globalThis.Response} */
+// @ts-expect-error
 export const Response = fetchImpl.Response
 export const Headers = fetchImpl.Headers
 

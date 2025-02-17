@@ -1,4 +1,4 @@
-import type { Readable as NodeReadableStream } from 'stream'
+
 import type { MtimeLike } from 'ipfs-unixfs'
 
 interface ProgressStatus {
@@ -12,10 +12,6 @@ export interface ProgressFn { (status: ProgressStatus): void }
 type Override<T, R> = Omit<T, keyof R> & R
 
 export type FetchOptions = Override<RequestInit, {
-  /**
-   * Extended body with support for node readable stream
-   */
-  body?: BodyInit | null | NodeReadableStream
   /**
    * Amount of time until request should timeout in ms.
    */

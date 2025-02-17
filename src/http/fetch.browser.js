@@ -1,5 +1,5 @@
 import { TimeoutError, AbortError } from './error.js'
-import fetch, { Response, Request, Headers } from '../fetch.js'
+import fetch, { Response, Request } from '../fetch.js'
 
 /**
  * @typedef {import('../types').FetchOptions} FetchOptions
@@ -116,7 +116,7 @@ const parseHeaders = (input) => {
       headers.set(line.slice(0, index), line.slice(index + 1))
     }
   }
-
+  /** @type {globalThis.Headers} */
   return headers
 }
 
@@ -135,5 +135,4 @@ class ResponseWithURL extends Response {
 export {
   fetchWith as fetch,
   Request,
-  Headers
 }

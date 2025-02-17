@@ -6,9 +6,8 @@
  *
  **/
 // @ts-ignore
-import toStream from 'it-to-stream'
-import { Buffer } from 'buffer'
-import defaultFetch, { Request, Response, Headers, fetch as fetchFetch } from '../fetch.js'
+import { Request, Response, Headers } from '../fetch.js'
+import { Readable } from 'node:stream'
 // @ts-ignore
 /**
  * @typedef {import('stream').Readable} NodeReadableStream
@@ -17,17 +16,13 @@ import defaultFetch, { Request, Response, Headers, fetch as fetchFetch } from '.
  * @typedef {import('../types').ProgressFn} ProgressFn
  */
 
-// undici and node-fetch have different exports
-const nativeFetch = defaultFetch ?? fetchFetch
-
 /**
  * @param {string|Request} url
  * @param {FetchOptions} [options]
  * @returns {Promise<Response>}
  */
 const fetch = (url, options = {}) =>
-  // @ts-ignore
-  nativeFetch(url, withUploadProgress(options))
+  globalThis.fetch(url, withUploadProgress(options))
 
 /**
  * Takes fetch options and wraps request body to track upload progress if
@@ -44,10 +39,11 @@ const withUploadProgress = (options) => {
     const content = normalizeBody(body)
 
     const rsp = new Response(content)
-    const source = iterateBodyWithProgress(/** @type {NodeReadableStream} */(rsp.body), onUploadProgress)
+    const source = iterateBodyWithProgress(rsp.body, onUploadProgress)
+    const stream = Readable.from(source)
     return {
       ...options,
-      body: toStream.readable(source)
+      body: Readable.toWeb(stream)
     }
   } else {
     return options
@@ -55,17 +51,18 @@ const withUploadProgress = (options) => {
 }
 
 /**
- * @param {BodyInit | NodeReadableStream} input
+ * @param {BodyInit} input
+ * @returns {BodyInit}
  */
 const normalizeBody = (input) => {
   if (input instanceof ArrayBuffer) {
-    return Buffer.from(input)
+    return input
   } else if (ArrayBuffer.isView(input)) {
-    return Buffer.from(input.buffer, input.byteOffset, input.byteLength)
-  } else if (typeof input === 'string') {
-    return Buffer.from(input)
+    const arrayBuffer = new ArrayBuffer(input.byteLength);
+    new Uint8Array(arrayBuffer).set(new Uint8Array(input.buffer, input.byteOffset, input.byteLength));
+    return arrayBuffer;
   }
-  return input
+  else return input
 }
 
 /**
@@ -73,29 +70,38 @@ const normalizeBody = (input) => {
  * and returns async iterable that emits body chunks and emits
  * `onUploadProgress`.
  *
- * @param {NodeReadableStream | null} body
+ * @param {ReadableStream | ArrayBuffer | ArrayBufferView | null} body
  * @param {ProgressFn} onUploadProgress
- * @returns {AsyncIterable<Buffer>}
+ * @returns {AsyncIterable<Uint8Array>}
  */
-const iterateBodyWithProgress = async function * (body, onUploadProgress) {
+const iterateBodyWithProgress = async function* (body, onUploadProgress) {
   if (body == null) {
-    onUploadProgress({ total: 0, loaded: 0, lengthComputable: true })
-  } else if (Buffer.isBuffer(body)) {
-    const total = body.byteLength
-    const lengthComputable = true
-    yield body
-    onUploadProgress({ total, loaded: total, lengthComputable })
-  } else {
-    const total = 0
-    const lengthComputable = false
-    let loaded = 0
-    for await (const chunk of body) {
-      loaded += chunk.byteLength
-      yield chunk
-      onUploadProgress({ total, loaded, lengthComputable })
-    }
+      onUploadProgress({ total: 0, loaded: 0, lengthComputable: true });
+  } else if (ArrayBuffer.isView(body)) {
+      const total = body.byteLength;
+      const lengthComputable = true;
+      yield new Uint8Array(body.buffer, body.byteOffset, body.byteLength);
+      onUploadProgress({ total, loaded: total, lengthComputable });
+  } else if ('getReader' in body) {
+      const reader = body.getReader();
+      const total = 0; // If the total size is unknown
+      const lengthComputable = false;
+      let loaded = 0;
+
+      try {
+          while (true) {
+              const { done, value } = await reader.read();
+              if (done) break;
+
+              loaded += value.byteLength;
+              yield value; // Yield the chunk
+              onUploadProgress({ total, loaded, lengthComputable });
+          }
+      } finally {
+          reader.releaseLock(); // Ensure the reader lock is released
+      }
   }
-}
+};
 
 export default {
   fetch,
