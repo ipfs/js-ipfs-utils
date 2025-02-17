@@ -3,7 +3,6 @@
  * This file is generated following the conversion of
  *
  * @see [./src/temp-dir.browser.js]{@link ./src/temp-dir.browser.js}
- *
  **/
 import { nanoid } from 'nanoid'
 

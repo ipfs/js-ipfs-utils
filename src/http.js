@@ -3,16 +3,15 @@
  * This file is generated following the conversion of
  *
  * @see [./src/http.js]{@link ./src/http.js}
- *
  **/
-import { fetch, Request, Headers } from './http/fetch.js'
-import { TimeoutError, HTTPError } from './http/error.js'
-import _toesmTemp1 from 'merge-options'
-import { URL, URLSearchParams } from 'iso-url'
 import anySignal from 'any-signal'
 import browserReableStreamToIt from 'browser-readablestream-to-it'
-import { isBrowser, isWebWorker } from './env.js'
+import { URL, URLSearchParams } from 'iso-url'
 import all from 'it-all'
+import _toesmTemp1 from 'merge-options'
+import { isBrowser, isWebWorker } from './env.js'
+import { TimeoutError, HTTPError } from './http/error.js'
+import { fetch, Request, Headers } from './http/fetch.js'
 /* eslint-disable no-undef */
 
 const merge = _toesmTemp1.bind({ ignoreUndefined: true })

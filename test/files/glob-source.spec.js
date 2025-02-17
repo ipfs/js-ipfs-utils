@@ -1,11 +1,10 @@
-
 /* eslint-env mocha */
-import { expect } from 'aegir/chai'
-import globSource from '../../src/files/glob-source.js'
-import all from 'it-all'
-import path from 'path'
-import { isNode } from '../../src/env.js'
 import fs from 'fs'
+import path from 'path'
+import { expect } from 'aegir/chai'
+import all from 'it-all'
+import { isNode } from '../../src/env.js'
+import globSource from '../../src/files/glob-source.js'
 const __dirname = import.meta.dirname
 
 function fixtureDir () {

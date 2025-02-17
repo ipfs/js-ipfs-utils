@@ -1,4 +1,3 @@
-
 module.exports = {
   require: require.resolve('./rn-test.require.js'),
   runner: 'mocha',

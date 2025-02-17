@@ -1,4 +1,3 @@
-
 import type { MtimeLike } from 'ipfs-unixfs'
 
 interface ProgressStatus {
@@ -45,21 +44,21 @@ export interface HTTPOptions extends FetchOptions {
   /**
    * Transform search params
    */
-  transformSearchParams?: (params: URLSearchParams) => URLSearchParams
+  transformSearchParams?(params: URLSearchParams): URLSearchParams
   /**
    * When iterating the response body, transform each chunk with this function.
    */
-  transform?: (chunk: any) => any
+  transform?(chunk: any): any
   /**
    * Handle errors
    */
-  handleError?: (rsp: Response) => Promise<void>
+  handleError?(rsp: Response): Promise<void>
 }
 
 export interface ExtendedResponse extends Response {
-  iterator: () => AsyncGenerator<Uint8Array, void, undefined>
+  iterator(): AsyncGenerator<Uint8Array, void, undefined>
 
-  ndjson: () => AsyncGenerator<any, void, undefined>
+  ndjson(): AsyncGenerator<any, void, undefined>
 }
 
 export interface GlobSourceOptions {

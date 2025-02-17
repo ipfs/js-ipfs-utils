@@ -1,8 +1,8 @@
-import fsp from 'fs/promises'
 import fs from 'fs'
-import glob from 'it-glob'
+import fsp from 'fs/promises'
 import Path from 'path'
 import errCode from 'err-code'
+import glob from 'it-glob'
 
 /**
  * Create an async iterator that yields paths that match requested glob pattern

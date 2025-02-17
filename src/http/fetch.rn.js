@@ -1,7 +1,7 @@
 // @ts-nocheck
 
-import { TimeoutError, AbortError } from './error.js'
 import fetch, { Response, Request, Headers } from '../fetch.js'
+import { TimeoutError, AbortError } from './error.js'
 
 /**
  * @typedef {import('../types').FetchOptions} FetchOptions

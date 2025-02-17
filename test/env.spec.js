@@ -1,4 +1,3 @@
-
 /* eslint-env mocha */
 import { expect } from 'aegir/chai'
 import * as env from '../src/env.js'

@@ -3,22 +3,21 @@
  * This file is generated following the conversion of
  *
  * @see [./test/http.spec.js]{@link ./test/http.spec.js}
- *
  **/
 /* eslint-env mocha */
-import { expect } from 'aegir/chai'
-import HTTP from '../src/http.js'
-import delay from 'delay'
-import drain from 'it-drain'
-import all from 'it-all'
-import { isBrowser, isWebWorker, isReactNative } from '../src/env.js'
 import { Buffer } from 'buffer'
+import { Readable } from 'stream'
+import { expect } from 'aegir/chai'
+import delay from 'delay'
+import all from 'it-all'
+import drain from 'it-drain'
 import toBuffer from 'it-to-buffer'
+import { concat as uint8ArrayConcat } from 'uint8arrays/concat'
+import { equals as uint8ArrayEquals } from 'uint8arrays/equals'
 import { fromString as uint8ArrayFromString } from 'uint8arrays/from-string'
 import { toString as uint8ArrayToString } from 'uint8arrays/to-string'
-import { equals as uint8ArrayEquals } from 'uint8arrays/equals'
-import { concat as uint8ArrayConcat } from 'uint8arrays/concat'
-import { Readable } from 'stream'
+import { isBrowser, isWebWorker, isReactNative } from '../src/env.js'
+import HTTP from '../src/http.js'
 
 const ECHO_SERVER = process.env.ECHO_SERVER || ''
 

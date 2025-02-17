@@ -3,12 +3,11 @@
  * This file is generated following the conversion of
  *
  * @see [./src/http/fetch.node.js]{@link ./src/http/fetch.node.js}
- *
  **/
 // @ts-ignore
-import { Request, Response, Headers } from '../fetch.js'
-import { Readable } from 'node:stream'
 import { Buffer } from 'buffer'
+import { Readable } from 'node:stream'
+import { Request, Response, Headers } from '../fetch.js'
 // @ts-ignore
 /**
  * @typedef {import('node:stream').Readable} NodeReadableStream
@@ -64,18 +63,18 @@ const normalizeBody = (input) => {
   return input
 }
 /**
- * 
- * @param {ArrayBuffer} arrayBuffer 
- * @returns 
+ *
+ * @param {ArrayBuffer} arrayBuffer
+ * @returns
  */
-function arrayBufferToStream(arrayBuffer) {
+function arrayBufferToStream (arrayBuffer) {
   return new ReadableStream({
-    start(controller) {
+    start (controller) {
       const ui = new Uint8Array(arrayBuffer)
-      controller.enqueue(ui); // Create a Uint8Array view
-      controller.close();
-    },
-  });
+      controller.enqueue(ui) // Create a Uint8Array view
+      controller.close()
+    }
+  })
 }
 
 /**
@@ -87,36 +86,34 @@ function arrayBufferToStream(arrayBuffer) {
  * @param {ProgressFn} onUploadProgress
  * @returns {AsyncIterable<Uint8Array>}
  */
-const iterateBodyWithProgress = async function* (body, onUploadProgress) {
+const iterateBodyWithProgress = async function * (body, onUploadProgress) {
   if (body == null) {
-      onUploadProgress({ total: 0, loaded: 0, lengthComputable: true });
+    onUploadProgress({ total: 0, loaded: 0, lengthComputable: true })
   } else if (ArrayBuffer.isView(body)) {
-      const total = body.byteLength;
-      const lengthComputable = true;
-      yield new Uint8Array(body.buffer, body.byteOffset, body.byteLength);
-      onUploadProgress({ total, loaded: total, lengthComputable });
+    const total = body.byteLength
+    const lengthComputable = true
+    yield new Uint8Array(body.buffer, body.byteOffset, body.byteLength)
+    onUploadProgress({ total, loaded: total, lengthComputable })
   } else if (body instanceof ReadableStream || body.toString() === '[object ArrayBuffer]') {
- 
-      const reader = body instanceof ReadableStream ? body.getReader() : arrayBufferToStream(body).getReader();
-      console.log('here!!', reader)
-      const total = 0; // If the total size is unknown
-      const lengthComputable = false;
-      let loaded = 0;
+    const reader = body instanceof ReadableStream ? body.getReader() : arrayBufferToStream(body).getReader()
+    const total = 0 // If the total size is unknown
+    const lengthComputable = false
+    let loaded = 0
 
-      try {
-          while (true) {
-              const { done, value } = await reader.read();
-              if (done) break;
+    try {
+      while (true) {
+        const { done, value } = await reader.read()
+        if (done) break
 
-              loaded += value.byteLength;
-              yield value; // Yield the chunk
-              onUploadProgress({ total, loaded, lengthComputable });
-          }
-      } finally {
-          reader.releaseLock(); // Ensure the reader lock is released
+        loaded += value.byteLength
+        yield value // Yield the chunk
+        onUploadProgress({ total, loaded, lengthComputable })
       }
+    } finally {
+      reader.releaseLock() // Ensure the reader lock is released
+    }
   }
-};
+}
 
 export default {
   fetch,

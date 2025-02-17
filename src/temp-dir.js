@@ -3,7 +3,6 @@
  * This file is generated following the conversion of
  *
  * @see [./src/temp-dir.js]{@link ./src/temp-dir.js}
- *
  **/
 import fs from 'fs'
 import os from 'os'

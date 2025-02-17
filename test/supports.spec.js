@@ -1,8 +1,7 @@
-
 /* eslint-env mocha */
-import supports from '../src/supports.js'
 import { expect } from 'aegir/chai'
 import env from '../src/env.js'
+import supports from '../src/supports.js'
 
 describe('supports', function () {
   it('supportsFileReader should return false in node', function () {

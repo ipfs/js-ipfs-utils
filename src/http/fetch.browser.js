@@ -1,5 +1,5 @@
+import fetch, { Response, Request, Headers } from '../fetch.js'
 import { TimeoutError, AbortError } from './error.js'
-import fetch, { Response, Request,Headers } from '../fetch.js'
 
 /**
  * @typedef {import('../types').FetchOptions} FetchOptions
@@ -134,5 +134,5 @@ class ResponseWithURL extends Response {
 
 export {
   fetchWith as fetch,
-  Request,Headers
+  Request, Headers
 }

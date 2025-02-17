@@ -3,12 +3,11 @@
  * This file is generated following the conversion of
  *
  * @see [./test/files/url-source.spec.js]{@link ./test/files/url-source.spec.js}
- *
  **/
+import { Buffer } from 'buffer'
 import { expect } from 'aegir/chai'
 import all from 'it-all'
 import urlSource from '../../src/files/url-source.js'
-import { Buffer } from 'buffer'
 /* eslint-env mocha */
 
 describe('url-source', function () {
