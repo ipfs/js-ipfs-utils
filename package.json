@@ -163,7 +163,6 @@
     "it-glob": "^1.0.1",
     "merge-options": "^3.0.4",
     "nanoid": "^3.1.20",
-    "native-fetch": "^4.0.2",
     "stream-to-it": "^0.2.2"
   },
   "devDependencies": {

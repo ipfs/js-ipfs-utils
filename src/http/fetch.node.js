@@ -79,7 +79,7 @@ function arrayBufferToStream(arrayBuffer) {
 }
 
 /**
- * Takes body from native-fetch response as body and `onUploadProgress` handler
+ * Takes body from fetch response as body and `onUploadProgress` handler
  * and returns async iterable that emits body chunks and emits
  * `onUploadProgress`.
  *
