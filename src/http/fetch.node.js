@@ -37,7 +37,6 @@ const withUploadProgress = (options) => {
     // This works around the fact that electron-fetch serializes `Uint8Array`s
   // and `ArrayBuffer`s to strings.
     const content = normalizeBody(body)
-
     const rsp = new Response(content)
     const source = iterateBodyWithProgress(rsp.body, onUploadProgress)
     const stream = Readable.from(source)
@@ -52,17 +51,30 @@ const withUploadProgress = (options) => {
 
 /**
  * @param {BodyInit} input
- * @returns {BodyInit}
  */
 const normalizeBody = (input) => {
   if (input instanceof ArrayBuffer) {
-    return input
+    return Buffer.from(input)
   } else if (ArrayBuffer.isView(input)) {
-    const arrayBuffer = new ArrayBuffer(input.byteLength);
-    new Uint8Array(arrayBuffer).set(new Uint8Array(input.buffer, input.byteOffset, input.byteLength));
-    return arrayBuffer;
+    return Buffer.from(input.buffer, input.byteOffset, input.byteLength)
+  } else if (typeof input === 'string') {
+    return Buffer.from(input)
   }
-  else return input
+  return input
+}
+/**
+ * 
+ * @param {ArrayBuffer} arrayBuffer 
+ * @returns 
+ */
+function arrayBufferToStream(arrayBuffer) {
+  return new ReadableStream({
+    start(controller) {
+      const ui = new Uint8Array(arrayBuffer)
+      controller.enqueue(ui); // Create a Uint8Array view
+      controller.close();
+    },
+  });
 }
 
 /**
@@ -82,8 +94,10 @@ const iterateBodyWithProgress = async function* (body, onUploadProgress) {
       const lengthComputable = true;
       yield new Uint8Array(body.buffer, body.byteOffset, body.byteLength);
       onUploadProgress({ total, loaded: total, lengthComputable });
-  } else if ('getReader' in body) {
-      const reader = body.getReader();
+  } else if (body instanceof ReadableStream || body.toString() === '[object ArrayBuffer]') {
+ 
+      const reader = body instanceof ReadableStream ? body.getReader() : arrayBufferToStream(body).getReader();
+      console.log('here!!', reader)
       const total = 0; // If the total size is unknown
       const lengthComputable = false;
       let loaded = 0;
