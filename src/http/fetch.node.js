@@ -8,6 +8,7 @@
 // @ts-ignore
 import { Request, Response, Headers } from '../fetch.js'
 import { Readable } from 'node:stream'
+import { Buffer } from 'buffer'
 // @ts-ignore
 /**
  * @typedef {import('stream').Readable} NodeReadableStream
