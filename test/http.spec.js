@@ -8,8 +8,6 @@
 /* eslint-env mocha */
 import { expect } from 'aegir/chai'
 import HTTP from '../src/http.js'
-// @ts-ignore
-import toStream from 'it-to-stream'
 import delay from 'delay'
 import drain from 'it-drain'
 import all from 'it-all'
@@ -20,6 +18,7 @@ import { fromString as uint8ArrayFromString } from 'uint8arrays/from-string'
 import { toString as uint8ArrayToString } from 'uint8arrays/to-string'
 import { equals as uint8ArrayEquals } from 'uint8arrays/equals'
 import { concat as uint8ArrayConcat } from 'uint8arrays/concat'
+import { Readable } from 'stream'
 
 const ECHO_SERVER = process.env.ECHO_SERVER || ''
 
@@ -154,7 +153,7 @@ describe('http', function () {
     }())
 
     const res = await HTTP.post(ECHO_SERVER, {
-      body: toStream.readable(body)
+      body: Readable.toWeb(Readable.from(body))
     })
 
     await expect(drain(res.ndjson())).to.eventually.be.rejectedWith(/aborted/)
@@ -176,7 +175,7 @@ describe('http', function () {
       throw err
     }())
     const res = await HTTP.post(ECHO_SERVER, {
-      body: toStream.readable(body),
+      body: Readable.toWeb(Readable.from(body)),
       signal: controller.signal
     })
 
