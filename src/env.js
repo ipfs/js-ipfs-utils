@@ -17,6 +17,4 @@ export {
   isBrowser, isWebWorker, isEnvWithDom, isReactNative
 }
 
-export default {
-  isTest, isElectron, isElectronMain, isElectronRenderer, isNode, isBrowser, isWebWorker, isEnvWithDom, isReactNative
 }
