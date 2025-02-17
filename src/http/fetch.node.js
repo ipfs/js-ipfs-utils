@@ -11,7 +11,7 @@ import { Readable } from 'node:stream'
 import { Buffer } from 'buffer'
 // @ts-ignore
 /**
- * @typedef {import('stream').Readable} NodeReadableStream
+ * @typedef {import('node:stream').Readable} NodeReadableStream
  *
  * @typedef {import('../types').FetchOptions} FetchOptions
  * @typedef {import('../types').ProgressFn} ProgressFn

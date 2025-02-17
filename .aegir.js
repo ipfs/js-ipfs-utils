@@ -1,6 +1,5 @@
 import EchoServer from 'aegir/echo-server'
 import { format } from 'iso-url'
-import url from 'url'
 import { createRequire } from 'module'
 
 const require = createRequire(import.meta.url)
@@ -8,6 +7,7 @@ const require = createRequire(import.meta.url)
 /** @type {import('aegir').Options["build"]["config"]} */
 const esbuild = {
   format: 'esm',
+  inject: ['./buffer-shim.js'],
   plugins: [
     {
       name: 'node built ins',

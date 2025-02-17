@@ -6,9 +6,7 @@ import all from 'it-all'
 import path from 'path'
 import { isNode } from '../../src/env.js'
 import fs from 'fs'
-import { fileURLToPath } from 'url'
-
-const __dirname = path.dirname(fileURLToPath(import.meta.url))
+const __dirname = import.meta.dirname
 
 function fixtureDir () {
   return path.resolve(path.join(__dirname, '..', 'fixtures'))
