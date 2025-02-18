@@ -16,3 +16,4 @@ export {
    */
   isBrowser, isWebWorker, isEnvWithDom, isReactNative
 }
+
