@@ -13,7 +13,7 @@
     "url": "https://github.com/ipfs/js-ipfs-utils/issues"
   },
   "engines": {
-    "node": ">=18"
+    "node": ">=20"
   },
   "type": "module",
   "exports": {
@@ -167,7 +167,7 @@
   "devDependencies": {
     "@types/mocha": "^10.0.10",
     "aegir": "^45.0.9",
-    "delay": "^5.0.0",
+    "delay": "^6.0.0",
     "eslint-plugin-n": "^15.6.1",
     "events": "^3.3.0",
     "ipfs-unixfs": "^6.0.4",

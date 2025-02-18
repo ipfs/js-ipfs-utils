@@ -1,6 +1,6 @@
-import fs from 'fs'
-import fsp from 'fs/promises'
-import Path from 'path'
+import fs from 'node:fs'
+import fsp from 'node:fs/promises'
+import Path from 'node:path'
 import errCode from 'err-code'
 import glob from 'it-glob'
 

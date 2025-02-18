@@ -1,6 +1,6 @@
 /* eslint-env mocha */
 import { expect } from 'aegir/chai'
-import env from '../src/env.js'
+import * as env from '../src/env.js'
 import supports from '../src/supports.js'
 
 describe('supports', function () {

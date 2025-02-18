@@ -8,13 +8,13 @@ import anySignal from 'any-signal'
 import browserReableStreamToIt from 'browser-readablestream-to-it'
 import { URL, URLSearchParams } from 'iso-url'
 import all from 'it-all'
-import _toesmTemp1 from 'merge-options'
+import mergeOptions from 'merge-options'
 import { isBrowser, isWebWorker } from './env.js'
 import { TimeoutError, HTTPError } from './http/error.js'
 import { fetch, Request, Headers } from './http/fetch.js'
 /* eslint-disable no-undef */
 
-const merge = _toesmTemp1.bind({ ignoreUndefined: true })
+const merge = mergeOptions.bind({ ignoreUndefined: true })
 
 /**
  * @typedef {import('stream').Readable} NodeReadableStream
