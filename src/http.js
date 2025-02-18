@@ -4,7 +4,7 @@
  *
  * @see [./src/http.js]{@link ./src/http.js}
  **/
-import anySignal from 'any-signal'
+import { anySignal } from 'any-signal'
 import browserReableStreamToIt from 'browser-readablestream-to-it'
 import { URL, URLSearchParams } from 'iso-url'
 import all from 'it-all'
