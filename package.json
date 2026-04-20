@@ -170,7 +170,7 @@
     "it-to-buffer": "^2.0.0",
     "react-native-polyfill-globals": "^3.0.0",
     "readable-stream": "^4.3.0",
-    "uint8arrays": "^3.0.0",
+    "uint8arrays": "^4.0.3",
     "util": "^0.12.3"
   },
   "browser": {
