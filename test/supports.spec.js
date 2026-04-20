@@ -2,8 +2,8 @@
 
 /* eslint-env mocha */
 const { expect } = require('aegir/utils/chai')
-const supports = require('../src/supports')
-const env = require('../src/env')
+const supports = require('../src/supports.js')
+const env = require('../src/env.js')
 
 describe('supports', function () {
   it('supportsFileReader should return false in node', function () {

@@ -1,11 +1,11 @@
 'use strict'
 
-const HTTP = require('../http')
+const HTTP = require('../http.js')
 
 /**
  *
  * @param {string} url
- * @param {import("../types").HTTPOptions} [options]
+ * @param {import('../types.d.ts').HTTPOptions} [options]
  * @returns {{ path: string; content?: AsyncIterable<Uint8Array> }}
  */
 const urlSource = (url, options) => {
@@ -18,7 +18,7 @@ const urlSource = (url, options) => {
 /**
  *
  * @param {string} url
- * @param {import("../types").HTTPOptions} [options]
+ * @param {import('../types.d.ts').HTTPOptions} [options]
  * @returns {AsyncIterable<Uint8Array>}
  */
 async function * readURLContent (url, options) {

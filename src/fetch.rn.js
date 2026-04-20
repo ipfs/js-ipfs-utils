@@ -1,18 +1,20 @@
 // @ts-nocheck
 'use strict'
 // @ts-ignore
-const { Headers, Request, Response, fetch } = require('react-native-fetch-api')
+const { Headers: rnHeaders, Request: rnRequest, Response: rnResponse, fetch: rnFetch } = require('react-native-fetch-api')
 
 /** @type {import('electron-fetch').default} */
-const rnFetch = fetch
+const fetch = rnFetch
 /** @type {import('electron-fetch').Headers} */
-const rnHeaders = Headers
+const Headers = rnHeaders
 /** @type {import('electron-fetch').Request} */
-const rnRequest = Request
+const Request = rnRequest
 /** @type {import('electron-fetch').Response} */
-const rnResponse = Response
-module.exports = rnFetch
-module.exports.Headers = rnHeaders
-module.exports.Request = rnRequest
-module.exports.Response = rnResponse
-module.exports.default = rnFetch
+const Response = rnResponse
+
+module.exports = {
+  Headers,
+  Request,
+  Response,
+  default: fetch
+}

@@ -2,13 +2,13 @@
 
 /* eslint-env mocha */
 const { expect } = require('aegir/utils/chai')
-const HTTP = require('../src/http')
+const HTTP = require('../src/http.js')
 // @ts-ignore
 const toStream = require('it-to-stream')
 const delay = require('delay')
 const drain = require('it-drain')
 const all = require('it-all')
-const { isBrowser, isWebWorker, isReactNative } = require('../src/env')
+const { isBrowser, isWebWorker, isReactNative } = require('../src/env.js')
 const { Buffer } = require('buffer')
 const { fromString: uint8ArrayFromString } = require('uint8arrays/from-string')
 const { toString: uint8ArrayToString } = require('uint8arrays/to-string')

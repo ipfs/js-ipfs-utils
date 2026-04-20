@@ -1,7 +1,7 @@
 'use strict'
 
 module.exports = {
-  require: require.resolve('./rn-test.require.js'),
+  require: require.resolve('./rn-test.require.cjs'),
   runner: 'mocha',
   modules: [
     'react-native-url-polyfill',

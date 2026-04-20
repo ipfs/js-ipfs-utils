@@ -4,7 +4,7 @@
 
 const { expect } = require('aegir/utils/chai')
 const all = require('it-all')
-const urlSource = require('../../src/files/url-source')
+const urlSource = require('../../src/files/url-source.js')
 const { Buffer } = require('buffer')
 
 describe('url-source', function () {

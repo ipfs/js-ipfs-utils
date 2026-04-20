@@ -6,7 +6,6 @@ class TimeoutError extends Error {
     this.name = 'TimeoutError'
   }
 }
-exports.TimeoutError = TimeoutError
 
 class AbortError extends Error {
   constructor (message = 'The operation was aborted.') {
@@ -14,7 +13,6 @@ class AbortError extends Error {
     this.name = 'AbortError'
   }
 }
-exports.AbortError = AbortError
 
 class HTTPError extends Error {
   /**
@@ -26,4 +24,9 @@ class HTTPError extends Error {
     this.response = response
   }
 }
-exports.HTTPError = HTTPError
+
+module.exports = {
+  AbortError,
+  HTTPError,
+  TimeoutError
+}

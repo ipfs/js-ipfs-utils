@@ -6,13 +6,9 @@
  * @typedef {globalThis.Response} Response
  */
 
-const { isElectronMain } = require('./env')
-
-// use window.fetch if it is available, fall back to node-fetch if not
-let impl = 'native-fetch'
-
-if (isElectronMain) {
-  impl = 'electron-fetch'
+module.exports = {
+    Headers: globalThis.Headers,
+    Request: globalThis.Request,
+    Response: globalThis.Response,
+    default: globalThis.fetch
 }
-
-module.exports = require(impl)

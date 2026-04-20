@@ -2,12 +2,12 @@
 
 /* eslint-env mocha */
 const { expect } = require('aegir/utils/chai')
-const globSource = require('../../src/files/glob-source')
+const globSource = require('../../src/files/glob-source.js')
 const all = require('it-all')
 const path = require('path')
 const {
   isNode
-} = require('../../src/env')
+} = require('../../src/env.js')
 const fs = require('fs')
 
 function fixtureDir () {

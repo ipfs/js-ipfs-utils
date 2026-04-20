@@ -146,17 +146,13 @@
     "any-signal": "^3.0.0",
     "browser-readablestream-to-it": "^1.0.0",
     "buffer": "^6.0.1",
-    "electron-fetch": "^1.7.2",
     "err-code": "^3.0.1",
     "is-electron": "^2.2.0",
     "iso-url": "^1.1.5",
     "it-all": "^1.0.4",
     "it-glob": "^1.0.1",
-    "it-to-stream": "^1.0.0",
     "merge-options": "^3.0.4",
     "nanoid": "^3.1.20",
-    "native-fetch": "^3.0.0",
-    "node-fetch": "^2.6.8",
     "react-native-fetch-api": "^3.0.0",
     "stream-to-it": "^0.2.2"
   },
@@ -174,10 +170,8 @@
     "util": "^0.12.3"
   },
   "browser": {
-    "./src/http/fetch.js": "./src/http/fetch.browser.js",
     "./src/temp-dir.js": "./src/temp-dir.browser.js",
     "./src/path-join.js": "./src/path-join.browser.js",
-    "./src/fetch.js": "./src/fetch.browser.js",
     "./src/files/glob-source.js": false,
     "./test/files/glob-source.spec.js": false,
     "electron-fetch": false,
