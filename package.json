@@ -144,7 +144,7 @@
   },
   "dependencies": {
     "any-signal": "^3.0.0",
-    "browser-readablestream-to-it": "^1.0.0",
+    "browser-readablestream-to-it": "^2.0.2",
     "buffer": "^6.0.1",
     "electron-fetch": "^1.7.2",
     "err-code": "^3.0.1",
